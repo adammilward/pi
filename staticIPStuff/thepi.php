@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * this file gos on a remote server, and is called from ip.php with the current ip address
+ */
 // do new ip stuff
 if (isset($_GET['new-ip']) && strlen($_GET['new-ip']) > 8 && strlen($_GET['new-ip']) < 20) {
   if (checkIP($_GET['new-ip'])) {
