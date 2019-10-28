@@ -25,7 +25,7 @@ exit();
 function checkIP($ip)
 {
   return true;
-  $code = rand(10000, 1000000000);i
+  $code = rand(10000, 1000000000);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, "http://$ip:3142/ip/confirm.php?code=$code");
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
