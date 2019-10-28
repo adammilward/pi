@@ -1,10 +1,13 @@
 <?php
 
-$ip = file_get_contents('http://checkip.dyndns.com/');
-echo $ip . '<br>';
-echo str_replace('Current IP Address: ', '', $ip) . '<br>';
+$newIP = file_get_contents("http://ipecho.net/plain");
+echo $newIP . '<br>';
 
-$ip = file_get_contents("http://ipecho.net/plain");
-echo $ip . '<br>';
+$oldIP = file_get_contents("myip.txt");
+echo $oldIP;
 
-file_get_contents("http://localhost/thepi.php?new-ip=$ip");
+if ($oldIP !== $newIP) {
+    file_put_contents('myip.txt', $newIP);
+    echo file_get_contents("https://adammilward.co.uk/thepi.php?new-ip=$newIP");
+    file_put_contents('lastUpdate.txt', time() . ' - ' . $newIP . "\n", FILE_APPEND);
+}
