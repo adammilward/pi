@@ -11,5 +11,5 @@ if ($oldIP !== $newIP) {
     echo file_get_contents("https://adammilward.co.uk/thepi.php?new-ip=$newIP");
     file_put_contents('lastUpdate.txt', time() . ' - ' . $newIP . "\n", FILE_APPEND);
 } else {
-  file_put_contents('lastUpdate.txt', time() . ' - no change' . "\n", FILE_APPEND);
+  file_put_contents('lastUpdate.txt', time() . ' - ' . getcwd() . "\n", FILE_APPEND);
 }
