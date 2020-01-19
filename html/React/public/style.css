@@ -28,10 +28,12 @@ body {
 
 .fade-mode input {
 
-    width: 0px;
-    height: 0px;
+    width: 20px;
+    height: 20px;
     display: inline;
-    margin: 0px 10px 0px 0px;
+    margin: 0px 10px 0px 2px;
+    top: 4px;
+    position: relative;
 }
 
 /* The switch - the box around the slider */

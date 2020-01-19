@@ -21,14 +21,11 @@ export default class Radio extends React.Component{
 
   radio = (mode) => {
     console.log('radio');
-    console.log('mode', mode);
+    console.log('mode, thing, this', mode, this);
     this.setState({fadeMode: mode})
   };
 
   toggle = (fade) => {
-    console.log('toggle, fade', fade);
-    console.log(this.state);
-    console.log(this.props);
     this.setState({fadeOn: !this.state.fadeOn})
   };
 
@@ -42,13 +39,15 @@ export default class Radio extends React.Component{
   fadeButtons() {
     return this.fadeModes.map((mode) => {
       return (
-        <FadeButton
-          key={mode.value}
-          name={mode.name}
-          value={mode.value}
-          checked={this.state.fadeMode === mode.value}
-          radio={this.radio}
-        />
+        <span>
+          {mode.name}
+          <input name='fadeMode'
+                 key={mode.value}
+                 onChange={() => this.radio(mode.value)}
+                 checked={this.state.fadeMode === mode.value}
+                 type="radio"
+          />
+        </span>
       )
     })
   }
