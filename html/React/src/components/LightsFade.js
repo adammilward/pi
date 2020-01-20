@@ -9,9 +9,9 @@ export default class LightsFade extends React.Component{
     this.state = {
       fadeOn: this.props.fadeOn,
       fadeMode: this.props.fadeMode,
-      delay: 10,
-      top: 10,
-      bottom: 10,
+      delay: 16,
+      top: 100,
+      bottom: 0,
     };
   }
 
@@ -60,6 +60,11 @@ export default class LightsFade extends React.Component{
     console.log('bottomSlid', value);
   };
 
+  displayValue = (value) => {
+    console.log('displayValue', value);
+    return Math.pow(2, value/100*12).toFixed(0);
+  };
+
   render() {
     console.log(this);
     return (
@@ -87,14 +92,16 @@ export default class LightsFade extends React.Component{
           <div className="fade-sliders" >
             <Slider
               name={'delay'}
-              value={4}
+              value={this.state.delay}
               color={'#333'}
               getColor={() => 'rgb(100, 100, 100)'}
+              min={16}
+              displayValue={this.displayValue}
               slid={this.delaySlid}
             />
             <Slider
               name={'top'}
-              value={20}
+              value={this.state.top}
               color={'#999'}
               getColor={() => 'rgb(250, 250, 250)'}
               max={100}

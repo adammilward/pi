@@ -109,7 +109,10 @@ class Slider extends React.Component {
           )}
         />
         <output className="right" style={{margin: "0px 0px 0px 10px"}} id="output">
-          {this.state.values[0].toFixed(1)}
+          {this.props.displayValue ?
+            this.props.displayValue(this.state.values[0]) :
+            this.state.values[0].toFixed(1)
+          }
         </output>
       </div>
     );
