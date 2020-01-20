@@ -47,7 +47,9 @@ console.log(hours);
           <span className="right">Good {this.timeOfDay}</span>
         </p>
         <Lights/>
-        <Footer/>
+        <div>
+          <Footer/>
+        </div>
       </div>
     );
   }

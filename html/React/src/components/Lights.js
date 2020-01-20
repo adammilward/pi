@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from './Slider'
 import Footer from './Footer'
-import Radio from './Radio'
+import LightsFade from './LightsFade'
 import Moment from 'react-moment';
 import moment from 'moment';
 
@@ -39,19 +39,21 @@ export default class Lights extends React.Component{
   }
 
   slid = (value, name) =>  {
-    console.log('Lights slid, value name', value, name);
-    console.log(this);
-    this.setState((state, props) => {
+    //console.log('Lights slid, value name', value, name);
+    //console.log(this);
+/*    this.setState((state, props) => {
       console.log('Lights::slid setState, state, props', state, props);
       return state ;
-    })
+    })*/
   };
 
   func = function () {
     console.log('func, this', this);
-
   };
 
+  bottomSlid = (value, name) => {
+    console.log('bottomSlid, value', value, name);
+  };
 
   render() {
     return (
@@ -83,9 +85,10 @@ export default class Lights extends React.Component{
           }}
           slid={this.slid}
         />
-        <Radio
+        <LightsFade
           fadeOn={this.state.fadeOn}
           fadeMode={this.state.fadeMode}
+          bottomSlid={this.bottomSlid}
         />
       </div>
     );

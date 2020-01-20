@@ -24,9 +24,16 @@ class Slider extends React.Component {
     // use this to run something when the component is updated
   }
 
-  slid(values) {
-    this.props.slid(values[0], this.props.name);
-    this.setState({values});
+  slid(value) {
+    if ('undefined' !== this.props.max && value > this.props.max) {
+      value = this.props.max;
+    }
+    if (this.props.min && value < this.props.min) {
+      value = this.props.min;
+    }
+    console.log(value);
+    this.props.slid(value, this.props.name);
+    this.setState({values: [value]});
   }
 
   render() {
@@ -45,7 +52,7 @@ class Slider extends React.Component {
           step={STEP}
           min={MIN}
           max={MAX}
-          onChange={values => this.slid(values, this.props.name)}
+          onChange={values => this.slid(values[0], this.props.name)}
           renderTrack={({props, children}) => (
             <div
               onMouseDown={props.onMouseDown}

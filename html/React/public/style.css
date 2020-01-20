@@ -10,8 +10,7 @@ body {
 }
 
 .container {
-//font-size: 40px;
-    padding: 3px 10px;
+    margin: 3px 10px;
 }
 
 .fade-type {
@@ -19,20 +18,31 @@ body {
 }
 
 .lights {
-    margin: 30px 0px;
+    margin: 30px 0px 60px;
 }
 
 .lights-fade {
-    height: 34px;
+    text-align: center;
+    width: 60px;
+    height: 4em;
+    display: inline-block;
+}
+
+.fade-settings {
+    display: inline-block;
+}
+
+.fade-mode {
+    display: inline-block;
+    height: 3em;
 }
 
 .fade-mode input {
-
     width: 20px;
     height: 20px;
-    display: inline;
-    margin: 0px 10px 0px 2px;
-    top: 4px;
+    display: inline-block;
+    top: 2em;
+    left: -2em;
     position: relative;
 }
 
@@ -42,7 +52,6 @@ body {
     display: inline-block;
     width: 60px;
     height: 34px;
-    margin: 10px;
 }
 
 /* Hide default HTML checkbox */
