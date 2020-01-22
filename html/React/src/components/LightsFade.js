@@ -36,7 +36,7 @@ export default class LightsFade extends React.Component{
     return this.fadeModes.map((mode) => {
       return (
         <label>
-          {mode.name}
+          {mode.name} <br/>
           <input name='fadeMode'
                  key={mode.value}
                  onChange={() => this.radio(mode.value)}
@@ -90,6 +90,7 @@ export default class LightsFade extends React.Component{
 
 
           <div className="fade-sliders" >
+            Delay &nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
               name={'delay'}
               value={this.state.delay}
@@ -99,6 +100,7 @@ export default class LightsFade extends React.Component{
               displayValue={this.displayValue}
               slid={this.delaySlid}
             />
+            Range&nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
               name={'top'}
               value={this.state.top}
@@ -108,6 +110,7 @@ export default class LightsFade extends React.Component{
               min={20}
               slid={this.topSlid}
             />
+            Bottom&nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
               name={'bottom'}
               value={this.state.bottom}

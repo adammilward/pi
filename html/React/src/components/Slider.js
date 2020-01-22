@@ -37,6 +37,7 @@ class Slider extends React.Component {
   }
 
   render() {
+    console.log(MIN);
     //console.log('slider render state', this.state, this.props);
     return (
     <div
@@ -61,7 +62,7 @@ class Slider extends React.Component {
                 ...props.style,
                 height: "12px",
                 display: "flex",
-                width: "80%"
+                width: "calc(100% - 5em)"
               }}
             >
               <div
@@ -108,7 +109,11 @@ class Slider extends React.Component {
             </div>
           )}
         />
-        <output className="right" style={{margin: "0px 0px 0px 10px"}} id="output">
+        <output className="right"
+            style={{
+              margin: "0px 0px 0px 10px",
+              width: '4em',
+          }} id="output">
           {this.props.displayValue ?
             this.props.displayValue(this.state.values[0]) :
             this.state.values[0].toFixed(1)

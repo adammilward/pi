@@ -30,20 +30,30 @@ body {
 
 .fade-settings {
     display: inline-block;
+    width: calc(100% - 70px);
+}
+
+.fade-sliders {
+    text-align: center;
 }
 
 .fade-mode {
     display: inline-block;
     height: 3em;
+    width: 100%;
+    margin: 0px calc(100% / 10);
+}
+
+.fade-mode label {
+    display: inline-block;
+    width: calc(100% / 5);
 }
 
 .fade-mode input {
+    clear: both;
     width: 20px;
     height: 20px;
     display: inline-block;
-    top: 2em;
-    left: -2em;
-    position: relative;
 }
 
 /* The switch - the box around the slider */

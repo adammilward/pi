@@ -1,22 +1,22 @@
 import React from "react";
 import Lights from './Lights';
 import Footer from './Footer';
-import Moment from 'react-moment';
 import moment from 'moment';
 
 export default class App extends React.Component{
 
   constructor(props) {
     super(props);
-    const date = new Date();
+
+
 
     /**
-     * @type {Moment}
+     * @type {moment.Moment}
      */
-    this.moment = new moment(date);
-    this.timeString = moment.toLocaleString();
-    const hours = date.getHours();
-console.log(hours);
+    const time = moment();
+    this.state = {time: time};
+
+    const hours = time.format('H');
     this.timeOfDay = 'day';
     if (hours < 12) {
       this.timeOfDay = 'morning';
@@ -28,12 +28,36 @@ console.log(hours);
   }
 
   componentDidMount() {
-    //funct is only called once when the component is mounted
-    // and not called on reRendering, ie when updating state
+    this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
+    this.interval = setInterval(this.getData, 1000);
   }
 
+  getData = () => {
+    // todo add the api
+    fetch("van_data.php")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  };
+
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    // return true or false
+    return true
   }
 
   componentWillUnmount() {
@@ -43,7 +67,7 @@ console.log(hours);
   render() {
     return (
       <div className="container" id='container'>
-        <p><span>{this.moment.format('ddd Do MMM HH:mm:ss')}</span>
+        <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
           <span className="right">Good {this.timeOfDay}</span>
         </p>
         <Lights/>
