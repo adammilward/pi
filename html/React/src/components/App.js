@@ -29,7 +29,7 @@ export default class App extends React.Component{
 
   componentDidMount() {
     //this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
-    this.interval = setTimeout(this.getData, 1000);
+    this.interval = setInterval(this.getData, 1000);
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
