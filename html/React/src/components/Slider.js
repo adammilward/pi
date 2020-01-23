@@ -9,7 +9,6 @@ class Slider extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('Lights props', props);
 
     this.state = {
       values: [this.props.value]

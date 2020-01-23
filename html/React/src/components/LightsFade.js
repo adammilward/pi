@@ -35,7 +35,7 @@ export default class LightsFade extends React.Component{
   fadeButtons(props) {
     return this.fadeModes.map((mode) => {
       return (
-        <label>
+        <label key={mode.name}>
           {mode.name} <br/>
           <input name='fadeMode'
                  key={mode.value}
@@ -66,7 +66,6 @@ export default class LightsFade extends React.Component{
   };
 
   render() {
-    console.log(this);
     return (
       <div>
         <div className="lights-fade">
@@ -83,15 +82,14 @@ export default class LightsFade extends React.Component{
         {this.state.fadeOn &&
         <div className="fade-settings right">
           <div className="fade-mode">
-
             {this.fadeButtons()}
-
           </div>
 
 
           <div className="fade-sliders" >
             Delay &nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
+              key={'delay'}
               name={'delay'}
               value={this.state.delay}
               color={'#333'}
@@ -102,6 +100,7 @@ export default class LightsFade extends React.Component{
             />
             Range&nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
+              key={'top'}
               name={'top'}
               value={this.state.top}
               color={'#999'}
@@ -112,6 +111,7 @@ export default class LightsFade extends React.Component{
             />
             Bottom&nbsp; &nbsp; &nbsp; &nbsp;
             <Slider
+              key={'bottom'}
               name={'bottom'}
               value={this.state.bottom}
               color={'#aaa'}

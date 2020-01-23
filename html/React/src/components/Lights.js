@@ -1,15 +1,11 @@
 import React from "react";
 import Slider from './Slider'
-import Footer from './Footer'
 import LightsFade from './LightsFade'
-import Moment from 'react-moment';
-import moment from 'moment';
 
 export default class Lights extends React.Component{
 
   constructor(props) {
     super(props);
-    console.log('Lights::constroctor props, this', props, this);
     this.state = {
       power: {
         r: 0,
