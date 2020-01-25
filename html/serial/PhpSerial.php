@@ -145,7 +145,7 @@ class PhpSerial
         }
       }
 
-      trigger_error("Specified serial port is not valid", E_USER_WARNING);
+      trigger_error("Specified serial port '$device' is not valid", E_USER_WARNING);
       return false;
     }
     else

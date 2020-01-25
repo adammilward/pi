@@ -2,12 +2,11 @@
 
 require_once ('serial/PhpSerial.php');
 
-$open = fopen('/dev/ttyACM0', 'w+');
-
 $serial = new PhpSerial();
 
 //this is the port where my Arduino is. Check from the Arduino IDE to see yours!
-$serial->deviceSet("/dev/ttyACM0");
+$c = 0;
+while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
 $serial->confBaudRate(9600);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
@@ -27,7 +26,9 @@ $serial->sendMessage($value . "\n");
 sleep(1);
 }*/
 
-$serial->sendMessage('1');
+echo $serial->readPort(100);
+//$serial->sendMessage(1);
+$serial->sendMessage((string) $_GET['msg']);
 echo $serial->readPort(100);
 
 echo "DONE\n";
