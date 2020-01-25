@@ -26,9 +26,37 @@ $serial->sendMessage($value . "\n");
 sleep(1);
 }*/
 
-echo $serial->readPort(100);
-//$serial->sendMessage(1);
-$serial->sendMessage((string) $_GET['msg']);
-echo $serial->readPort(100);
+echo "<pre>";
+$tStart = microtime(1);
+$tStart = getTime($tStart);
+$s = 1000 * 1000;
 
-echo "DONE\n";
+//usleep($s);
+//$tStart = getTime($tStart, "sleep $s");
+usleep($s);
+echo htmlentities($serial->readPort() . "\n");
+//$tStart = getTime($tStart, 'read 1');
+
+$s = 1000 * 1000;
+
+
+usleep($s);
+//$tStart = getTime($tStart, "sleep $s");
+$serial->sendMessage((string) $_GET['msg']);
+//$tStart = getTime($tStart, 'write');
+
+usleep($s);
+//$tStart = getTime($tStart, "sleep $s");
+
+echo htmlentities($serial->readPort() . "\n");
+//$tStart = getTime($tStart, 'read 2');
+
+
+echo "\nDONE\n";
+echo "</ pre>";
+
+function getTime($tStart, $msg = " ") {
+  $tNow = microtime(1);
+  echo "\n $msg: " . round(($tNow - $tStart), 4) . "\n";
+  return $tNow;
+}
