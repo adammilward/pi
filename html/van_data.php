@@ -6,4 +6,7 @@
  */
 header("Access-Control-Allow-Origin: http://localhost:3000");
 
-echo json_encode(['ooo']);
+phpinfo();
+for ($i =1; $i < 10; $i++) {
+  echo json_encode(['ooo']);
+}
