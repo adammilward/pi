@@ -28,7 +28,6 @@ sleep(1);
 
 echo "<pre>";
 $tStart = microtime(1);
-$tStart = getTime($tStart);
 $s = 1000 * 1000;
 
 //usleep($s);
@@ -55,8 +54,3 @@ echo htmlentities($serial->readPort() . "\n");
 echo "\nDONE\n";
 echo "</ pre>";
 
-function getTime($tStart, $msg = " ") {
-  $tNow = microtime(1);
-  echo "\n $msg: " . round(($tNow - $tStart), 4) . "\n";
-  return $tNow;
-}
