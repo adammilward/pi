@@ -6,7 +6,8 @@ $serial = new PhpSerial();
 
 //this is the port where my Arduino is. Check from the Arduino IDE to see yours!
 $c = 0;
-while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
+//while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
+while (! $serial->deviceSet("/dev/ttyAMA0" . $c++) && $c < 5)
 $serial->confBaudRate(9600);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
