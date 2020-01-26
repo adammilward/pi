@@ -28,7 +28,8 @@ sleep(1);
 
 echo "<pre>";
 $tStart = microtime(1);
-$s = 1000 * 1000;
+$s =  (isset($_GET['s'])) ? $_GET['s'] : 1000;
+$s *= 1000;
 
 //usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
