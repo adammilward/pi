@@ -7,7 +7,7 @@ $serial = new PhpSerial();
 //this is the port where my Arduino is. Check from the Arduino IDE to see yours!
 $c = 0;
 //while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
-while (! $serial->deviceSet("/dev/ttyAMA0" . $c++) && $c < 5)
+$serial->deviceSet("/dev/serial0");
 $serial->confBaudRate(9600);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
@@ -34,22 +34,25 @@ $s *= 1000;
 
 //usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
-usleep($s);
-echo htmlentities($serial->readPort() . "\n");
+//usleep($s);
+echo htmlentities($serial->readPort(500) . "\n");
 //$tStart = getTime($tStart, 'read 1');
 
-$s = 1000 * 1000;
-
-
-usleep($s);
+//usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
-$serial->sendMessage((string) $_GET['msg']);
+//$serial->sendMessage((string) 'hello');
+foreach (str_split($_GET['msg']) as $letter) {
+	//echo ($letter);
+	$serial->sendMessage($letter,  0.003);
+}
+$serial->sendMessage("\n");
+//$serial->sendMessage((string) $_GET['msg'] . "     \n", 1);
 //$tStart = getTime($tStart, 'write');
 
-usleep($s);
+//usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
 
-echo htmlentities($serial->readPort() . "\n");
+echo htmlentities($serial->readPort(4) . "\n");
 //$tStart = getTime($tStart, 'read 2');
 
 
