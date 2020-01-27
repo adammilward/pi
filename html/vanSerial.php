@@ -35,7 +35,7 @@ $s *= 1000;
 //usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
 //usleep($s);
-echo htmlentities($serial->readPort(500) . "\n");
+echo htmlentities($serial->readPort() . "\n");
 //$tStart = getTime($tStart, 'read 1');
 
 //usleep($s);
@@ -45,14 +45,15 @@ foreach (str_split($_GET['msg']) as $letter) {
 	//echo ($letter);
 	$serial->sendMessage($letter,  0.003);
 }
-$serial->sendMessage("\n");
+$serial->sendMessage("\n" . $_GET['msg'] . "\n", 2);
+$serial->sendMessage("012345678901234567890\n");
 //$serial->sendMessage((string) $_GET['msg'] . "     \n", 1);
 //$tStart = getTime($tStart, 'write');
 
 //usleep($s);
 //$tStart = getTime($tStart, "sleep $s");
 
-echo htmlentities($serial->readPort(4) . "\n");
+echo htmlentities($serial->readPort() . "\n");
 //$tStart = getTime($tStart, 'read 2');
 
 
