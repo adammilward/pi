@@ -28,14 +28,13 @@ export default class App extends React.Component{
   }
 
   componentDidMount() {
-    //this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
+    this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
     this.interval = setInterval(this.getData, 1000);
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
 
   getData = () => {
-    console.log('getData', this);
     //let url = "van_data.php";
     let url = "http://thx1138-dev/van_data.php";
     fetch(url)

@@ -5,7 +5,6 @@ export default class LightsFade extends React.Component{
 
   constructor(props) {
     super(props);
-
     this.state = {
       fadeOn: this.props.fadeOn,
       fadeMode: this.props.fadeMode,
