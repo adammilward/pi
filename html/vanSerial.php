@@ -18,7 +18,7 @@ $serial = new PhpSerial();
 $c = 0;
 //while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
 $serial->deviceSet($config['port']);
-$serial->confBaudRate(9600);
+$serial->confBaudRate(57600);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
 $serial->confStopBits(1);
@@ -36,18 +36,25 @@ echo htmlentities($serial->readPort() . "\n");
 
 echo "\n Writting message \n";
 $message = $_POST['message'] ?? '' ;
+echo "$message \n";
 if ($message) {
-  foreach (str_split($message) as $letter) {
-    echo "letter: ", $letter, "\n";
-    $serial->sendMessage($letter, 0.0001);
-echo	$serial->readPort(), "\n" ;
-  }
-
-  $serial->sendMessage("\r", 0.001);
+$serial->sendMessage($message, 0.00001);
+  // perhaps we need to send single letters if we are sending output?
+  //foreach (str_split($message) as $letter) {
+    //$serial->sendMessage($letter, 0.002);
+  //}
+  $serial->sendMessage("\r", 0.002);
+}
+usleep (200000);
+echo "\n reading message \n";
+while ($output = $serial->readPort()) {
+	echo $output;
+	//usleep(100);
 }
 
-echo "\n reading message \n";
-echo htmlentities($serial->readPort() . "\n");
+
+
+
 
 echo "\nDONE\n";
 echo "</ pre>";
