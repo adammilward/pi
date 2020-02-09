@@ -39,11 +39,11 @@ $message = $_POST['message'] ?? '' ;
 if ($message) {
   foreach (str_split($message) as $letter) {
     echo "letter: ", $letter, "\n";
-    $serial->sendMessage($letter, 1);
+    $serial->sendMessage($letter, 0.0001);
 echo	$serial->readPort(), "\n" ;
   }
 
-  $serial->sendMessage("\r", 1);
+  $serial->sendMessage("\r", 0.001);
 }
 
 echo "\n reading message \n";
