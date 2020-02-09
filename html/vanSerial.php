@@ -31,7 +31,7 @@ $s *= 1000;
 
 echo htmlentities($serial->readPort() . "\n");
 
-foreach (str_split($_post['message']) as $letter) {
+foreach (str_split($_POST['message']) as $letter) {
   $serial->sendMessage($letter,  0.003);
 }
 
