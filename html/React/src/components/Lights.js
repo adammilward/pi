@@ -1,6 +1,4 @@
 import React from "react";
-import Slider from './Slider'
-import LightsFade from './LightsFade'
 import LightsOn from "./LightsOn";
 
 export default class Lights extends React.Component{

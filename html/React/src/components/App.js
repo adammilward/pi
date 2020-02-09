@@ -2,13 +2,14 @@ import React from "react";
 import Lights from './Lights';
 import Footer from './Footer';
 import moment from 'moment';
+import Api from '../utils/Api.js'
 
 export default class App extends React.Component{
 
+  api = new Api();
+
   constructor(props) {
     super(props);
-
-
 
     /**
      * @type {moment.Moment}
@@ -29,35 +30,10 @@ export default class App extends React.Component{
 
   componentDidMount() {
     this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
-    this.interval = setInterval(this.getData, 1000);
+    //this.interval = setInterval(this.api.getData(), 1000);
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
-
-  getData = () => {
-    //let url = "van_data.php";
-    let url = "http://thx1138-dev/van_data.php";
-    fetch(url)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log(result);
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  };
 
   whereIsThis() {
     console.log('it is here', this)

@@ -1,11 +1,15 @@
 import React from 'react';
 import {Range, getTrackBackground} from "react-range";
+import Api from '../utils/Api'
 
 const STEP = 0.1;
 const MIN = 0;
 const MAX = 100;
 
 class Slider extends React.Component {
+
+  wasDragged = false;
+  api = new Api();
 
   constructor(props) {
     super(props);
@@ -23,6 +27,19 @@ class Slider extends React.Component {
     // use this to run something when the component is updated
   }
 
+  actionDragged(isDragged, one, two) {
+    console.log(isDragged);
+    // send the data when finished dragging
+    // when isDragged becomes false, and was dragged is true
+    if (! isDragged) {
+      if (this.wasDragged) {
+        console.log('sending', this);
+        this.api.getData();
+      }
+    }
+    this.wasDragged = isDragged;
+  };
+
   slid(value) {
     if ('undefined' !== this.props.max && value > this.props.max) {
       value = this.props.max;
@@ -31,13 +48,13 @@ class Slider extends React.Component {
       value = this.props.min;
     }
     console.log(value);
-    this.props.slid(value, this.props.name);
+    //this.props.slid(value, this.props.name);
     this.setState({values: [value]});
   }
 
   render() {
-    console.log(MIN);
-    //console.log('slider render state', this.state, this.props);
+    //console.log(MIN);
+    //console.log('slider render state', this);
     return (
     <div
         style={{
@@ -55,8 +72,8 @@ class Slider extends React.Component {
           onChange={values => this.slid(values[0], this.props.name)}
           renderTrack={({props, children}) => (
             <div
-              onMouseDown={props.onMouseDown}
-              onTouchStart={props.onTouchStart}
+              //onMouseDown={props.onMouseDown}
+              //onTouchStart={props.onTouchStart}
               style={{
                 ...props.style,
                 height: "12px",
@@ -85,7 +102,9 @@ class Slider extends React.Component {
           )}
           renderThumb={({props, isDragged}) => (
             <div
+
               {...props}
+              onTouchEnd={this.actionDragged(isDragged)}
               style={{
                 ...props.style,
                 height: "30px",
@@ -99,6 +118,7 @@ class Slider extends React.Component {
               }}
             >
               <div
+
                 style={{
                   height: "50%",
                   width: "40%",
