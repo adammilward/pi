@@ -12,7 +12,7 @@ if (isset($_GET['new-ip']) && strlen($_GET['new-ip']) > 8 && strlen($_GET['new-i
   $ip = file_get_contents('piip.txt');
   if (strlen($ip) > 8 && strlen($ip) < 20) {
     if (checkIP($ip)) {
-      header("Location: http://$ip:3142");
+      header("Location: http://$ip:" . $config['port']);
     } else {
       echo 'ip failed check';
     }

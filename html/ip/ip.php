@@ -1,5 +1,7 @@
 <?php
 
+require_once '../config.php';
+
 $lastUpdateFile = '/var/www/html/ip/lastUpdate.txt';
 $myIPFile = '/var/www/html/ip/myIP.txt';
 
@@ -16,7 +18,7 @@ if (!$newIP) {
     file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - no ip \n", FILE_APPEND);
 } elseif ($oldIP !== $newIP) {
     file_put_contents($myIPFile, $newIP);
-    echo file_get_contents("https://adammilward.co.uk/thepi.php?new-ip=$newIP");
+    echo file_get_contents($config['remoteAddress'] . "?new-ip=$newIP");
     file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg  $arg - newIP: $newIP \n", FILE_APPEND);
 } else {
     file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - no change \n", FILE_APPEND);
