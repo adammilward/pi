@@ -16,7 +16,7 @@ $serial = new PhpSerial();
 $c = 0;
 //while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
 $serial->deviceSet("/dev/serial0");
-$serial->confBaudRate(9600);
+$serial->confBaudRate(115200);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
 $serial->confStopBits(1);
@@ -30,17 +30,20 @@ $tStart = microtime(1);
 $s =  (isset($_GET['s'])) ? $_GET['s'] : 1000;
 $s *= 1000;
 
+echo "\n reading message \n";
 echo htmlentities($serial->readPort() . "\n");
 
+echo "\n Writting message \n";
 $message = isset($_POST['message']) ?? '' ;
 if ($message) {
   foreach (str_split($message) as $letter) {
+	echo $letter;
     $serial->sendMessage($letter, 0.003);
   }
   $serial->sendMessage("\n", 0.003);
 }
 
-
+echo "\n reading message \n";
 echo htmlentities($serial->readPort() . "\n");
 
 echo "\nDONE\n";
