@@ -28,8 +28,7 @@ $serial->deviceOpen();
 
 echo "<pre>";
 $tStart = microtime(1);
-$s =  (isset($_GET['s'])) ? $_GET['s'] : 1000;
-$s *= 1000;
+
 
 echo "\n reading message \n";
 echo htmlentities($serial->readPort() . "\n");
