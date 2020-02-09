@@ -5,7 +5,7 @@ require_once ('serial/PhpSerial.php');
 ?>
 <form action="" method="post">
     <label for="message">Message</label>
-  <input id="message" type="text" name="message" value="<?php echo isset($_POST['message']) ?? '' ; ?>">
+  <input id="message" type="text" name="message" value="<?php echo $_POST['message'] ?? '' ; ?>">
     <button type="submit" value="submit">Send</button>
 </form>
 <?php
@@ -34,7 +34,7 @@ echo "\n reading message \n";
 echo htmlentities($serial->readPort() . "\n");
 
 echo "\n Writting message \n";
-$message = isset($_POST['message']) ?? '' ;
+$message = $_POST['message'] ?? '' ;
 if ($message) {
   foreach (str_split($message) as $letter) {
     echo $letter;
