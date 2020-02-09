@@ -4,7 +4,8 @@ require_once ('serial/PhpSerial.php');
 
 ?>
 <form action="" method="post">
-  <input type="text" name="message" value="<?php isset($_POST['message']) ?? '' ; ?>">
+    <label for="message">Message</label>
+  <input id="message" type="text" name="message" value="<?php echo isset($_POST['message']) ?? '' ; ?>">
     <button type="submit" value="submit">Send</button>
 </form>
 <?php
