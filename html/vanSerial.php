@@ -32,7 +32,7 @@ $s *= 1000;
 
 echo htmlentities($serial->readPort() . "\n");
 
-$message = isset($_POST['message'] ?? '' ;
+$message = isset($_POST['message']) ?? '' ;
 if ($message) {
   foreach (str_split($message) as $letter) {
     $serial->sendMessage($letter, 0.003);
