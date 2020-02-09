@@ -4,7 +4,8 @@ require_once ('serial/PhpSerial.php');
 
 ?>
 <form action="" method="post">
-  <input type="text" name="message" value="<?php isset($_POST['message']) ?? '' ; ?>">
+    <label for="message">Message</label>
+  <input id="message" type="text" name="message" value="<?php echo isset($_POST['message']) ?? '' ; ?>">
     <button type="submit" value="submit">Send</button>
 </form>
 <?php
@@ -16,7 +17,7 @@ $serial = new PhpSerial();
 $c = 0;
 //while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
 $serial->deviceSet("/dev/serial0");
-$serial->confBaudRate(9600);
+$serial->confBaudRate(115200);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
 $serial->confStopBits(1);
