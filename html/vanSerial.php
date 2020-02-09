@@ -1,6 +1,7 @@
 <?php
 
 require_once ('serial/PhpSerial.php');
+require_once('./config.php');
 
 ?>
 <form action="" method="post">
@@ -16,8 +17,8 @@ $serial = new PhpSerial();
 //this is the port where my Arduino is. Check from the Arduino IDE to see yours!
 $c = 0;
 //while (! $serial->deviceSet("/dev/ttyACM" . $c++) && $c < 5)
-$serial->deviceSet("/dev/serial0");
-$serial->confBaudRate(115200);
+$serial->deviceSet($config['port']);
+$serial->confBaudRate(9600);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
 $serial->confStopBits(1);
