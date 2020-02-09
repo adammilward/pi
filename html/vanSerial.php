@@ -37,10 +37,12 @@ echo "\n Writting message \n";
 $message = $_POST['message'] ?? '' ;
 if ($message) {
   foreach (str_split($message) as $letter) {
-    echo $letter;
-    $serial->sendMessage($letter, 0.003);
+    echo "letter: ", $letter, "\n";
+    $serial->sendMessage($letter, 1);
+echo	$serial->readPort(), "\n" ;
   }
-  $serial->sendMessage("\n", 0.003);
+
+  $serial->sendMessage("\r", 1);
 }
 
 echo "\n reading message \n";
