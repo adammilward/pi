@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 
 $message = $_POST['message'] ?? 'report';
 
-$command = './sendReceiveSerial.py ' . $message;
+$command = 'python3 ./sendReceiveSerial.py ' . $message;
 $output = exec($command, $response, $return);
 
 var_dump($response);
@@ -19,6 +19,6 @@ preg_match_all('/\<(.*?)\>/s', $output, $matches);
 
 $result = '[' . implode(',', $matches[1]) . ']';
 
-$all=json_decode(str_replace("'", '"', $result), true);
+$all = json_decode(str_replace("'", '"', $result), true);
 
-echo $all;
+var_dump($all);
