@@ -8,9 +8,10 @@ $status = '';
 $command = './sendReceiveSerial.py ' . $message;
 $output = exec($command, $status);
 
-echo $output;
+var_dump($output);
 
-echo $output;
+var_dump($output);
+
 $matches = [];
 
 preg_match_all('/\<(.*?)\>/s', $output, $matches);
