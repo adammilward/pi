@@ -4,14 +4,16 @@ header("Access-Control-Allow-Origin: http://localhost:3000");
 
 $message = $_POST['message'] ?? 'report';
 
-$command = 'python3 ./sendReceiveSerial.py ' . $message;
-$output = exec($command, $response, $return);
+//$command = 'python3 ./sendReceiveSerial.py ' . $message . ' 1>&2';
+//$output = exec($command, $response, $return);
 
-var_dump($response);
+//var_dump($response);
 
-var_dump($return);
+//var_dump($return);
 
-var_dump($output);
+$output = shell_exec ('python3 ./sendReceiveSerial.py ' . $message);
+
+//var_dump($output);
 
 $matches = [];
 

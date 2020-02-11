@@ -5,7 +5,7 @@ import time
 
 output = ""
 
-ser = serial.Serial('/dev/ttyACM0', 57600, timeout = 0.1)
+ser = serial.Serial('/dev/serial0', 57600, timeout = 0.1)
 ser.write("lights ru\n".encode())
 
 response = ser.readlines()
@@ -14,5 +14,4 @@ for line in response:
     print(line.decode('utf-8'))
 
 ser.close()
-print("done")
-exit(output)
+exit()
