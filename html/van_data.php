@@ -3,12 +3,11 @@
 header("Access-Control-Allow-Origin: http://localhost:3000");
 
 $message = $_POST['message'] ?? 'report';
-$status = '';
 
 $command = './sendReceiveSerial.py ' . $message;
-$output = exec($command, $status);
+$output = exec($command, $response);
 
-var_dump($output);
+var_dump($response);
 
 var_dump($output);
 
