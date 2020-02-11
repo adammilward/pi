@@ -14,4 +14,5 @@ for line in response:
     print(line.decode('utf-8'))
 
 ser.close()
+print("done")
 exit(output)

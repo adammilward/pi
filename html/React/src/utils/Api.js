@@ -1,17 +1,16 @@
 export default class Api {
-  getData = () => {
+  getData = (message) => {
     //let url = "van_data.php";
     let url = "http://thx1138-dev/van_data.php";
     fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        // 'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({
-      //   firstParam: 'yourValue',
-      //   secondParam: 'yourOtherValue',
-      // }),
+      body: JSON.stringify({
+        message: message
+      }),
     })
       .then(res => res.json())
       .then(
