@@ -5,7 +5,7 @@ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 $message = $_GET['message'] ?? 'report';
 
-$output = shell_exec ('python3 ./sendReceiveSerial.py ' . $message);
+$output = shell_exec ('python3 ./sendReceiveSerial.py "' . $message . '"');
 
 $matches = [];
 

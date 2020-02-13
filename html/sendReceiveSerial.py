@@ -2,11 +2,12 @@
 
 import serial
 import time
+import sys
 
 output = ""
 
 ser = serial.Serial('/dev/serial0', 57600, timeout = 0.1)
-ser.write("lights ru\n".encode())
+ser.write((sys.argv[1] + "\n").encode())
 
 response = ser.readlines()
 for line in response:
