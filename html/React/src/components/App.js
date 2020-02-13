@@ -15,7 +15,10 @@ export default class App extends React.Component{
      * @type {moment.Moment}
      */
     const time = moment();
-    this.state = {time: time};
+    this.state = {
+      time: time,
+      lights: {}
+    };
 
     const hours = time.format('H');
     this.timeOfDay = 'day';
@@ -27,32 +30,47 @@ export default class App extends React.Component{
       this.timeOfDay = 'night';
     }
 
-    this.getData = this.getData.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
+    this.processResponse = this.processResponse.bind(this)
   }
 
   componentDidMount() {
     console.log('componentDitMount');
-    //this.interval = setInterval(() => this.getData('report'), 1000);
-    this.getData('lights on')
+    //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
+
+    this.sendRequest('lights report')
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
 
-  getData(request = 'report') {
+  sendRequest(request = 'lights report', callback = this.processResponse) {
     console.log('getData');
     if (!this.api.isBusy) {
-      console.log(this.api.getData(request));
+      console.log(this.api.getData(request, callback));
+    } else {
+      this.setState({time: moment()})
     }
-    this.setState({ time: moment() })
+  }
+
+  processResponse(success, response) {
+    console.log(this, success, response);
+    console.log(response.find((data) => data.mode === 'lights'));
+    this.setState({
+      lights: response.find((data) => data.mode === 'lights'),
+    });
   }
 
   render() {
+    console.log('App::render', this.props, this.state);
     return (
       <div className="container" id='container'>
         <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
           <span className="right">Good {this.timeOfDay}</span>
         </p>
-        <Lights/>
+        <Lights
+          {...this.state.lights}
+          sendRequest={this.sendRequest}
+        />
         <div>
           <Footer/>
         </div>

@@ -6,10 +6,10 @@ export default class Api {
     this.apiUrl = config.apiUrl;
   }
 
-  getData = (message) => {
+  getData = (message, callBack) => {
     console.log(message);
     console.log(this.apiUrl);
-    fetch(
+    let request = fetch(
       this.apiUrl + '?message=' + encodeURI(message),
       {
         method: 'GET',
@@ -19,8 +19,7 @@ export default class Api {
       })
       .then(
         (result) => {
-          console.log(result);
-          return(result)
+          callBack('success', result)
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -29,5 +28,6 @@ export default class Api {
           console.warn(error);
           return(error)
         });
+    console.log(request);
   };
 }

@@ -34,7 +34,7 @@ export default class LightsOn extends React.Component{
       <div className="lights" id='lights'>
         <Slider
           name={'r'}
-          value={this.props.power.r}
+          value={this.props.r}
           color={'#f00'}
           getColor={function (power) {
             return 'rgb(' + Math.round(power * 2.55) + ', 0, 0)';
@@ -42,7 +42,7 @@ export default class LightsOn extends React.Component{
         />
         <Slider
           name={'g'}
-          value={this.props.power.g}
+          value={this.props.g}
           color={'#0f0'}
           getColor={function (power) {
             return 'rgb(0, ' + Math.round(power * 2.55) + ', 0)';
@@ -51,7 +51,7 @@ export default class LightsOn extends React.Component{
         />
         <Slider
           name={'b'}
-          value={this.props.power.b}
+          value={this.props.b}
           color={'#00f'}
           getColor={function (power) {
             return 'rgb(0, 0, ' + Math.round(power * 2.55) + ')';
