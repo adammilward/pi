@@ -1,18 +1,22 @@
+import config from './config.json'
 export default class Api {
+
+  constructor() {
+    //console.log(jsonTest);
+    this.apiUrl = config.apiUrl;
+  }
+
   getData = (message) => {
-    //let url = "van_data.php";
-    let url = "http://thx1138-dev/van_data.php";
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: message
-      }),
+    console.log(message);
+    console.log(this.apiUrl);
+    fetch(
+      this.apiUrl + '?message=' + encodeURI(message),
+      {
+        method: 'GET',
     })
-      .then(res => res.json())
+      .then((res) => {
+        return res.json()
+      })
       .then(
         (result) => {
           console.log(result);

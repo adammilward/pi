@@ -26,25 +26,24 @@ export default class App extends React.Component{
     } else {
       this.timeOfDay = 'night';
     }
+
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.setState({ time: moment() }), 1000);
-    //this.interval = setInterval(this.api.getData(), 1000);
+    console.log('componentDitMount');
+    //this.interval = setInterval(() => this.getData('report'), 1000);
+    this.getData('lights on')
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
 
-  whereIsThis() {
-    console.log('it is here', this)
-  };
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return true
-  }
-
-  componentWillUnmount() {
-    //tare down or clean up code, eg remove event listeners
+  getData(request = 'report') {
+    console.log('getData');
+    if (!this.api.isBusy) {
+      console.log(this.api.getData(request));
+    }
+    this.setState({ time: moment() })
   }
 
   render() {

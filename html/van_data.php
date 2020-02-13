@@ -1,19 +1,11 @@
 <?php
 //error_reporting(0);
 header("Access-Control-Allow-Origin: http://localhost:3000");
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
-$message = $_POST['message'] ?? 'report';
-
-//$command = 'python3 ./sendReceiveSerial.py ' . $message . ' 1>&2';
-//$output = exec($command, $response, $return);
-
-//var_dump($response);
-
-//var_dump($return);
+$message = $_GET['message'] ?? 'report';
 
 $output = shell_exec ('python3 ./sendReceiveSerial.py ' . $message);
-
-//var_dump($output);
 
 $matches = [];
 
@@ -21,6 +13,4 @@ preg_match_all('/\<(.*?)\>/s', $output, $matches);
 
 $result = '[' . implode(',', $matches[1]) . ']';
 
-$all = json_decode(str_replace("'", '"', $result), true);
-
-var_dump($all);
+echo str_replace("'", '"', $result);
