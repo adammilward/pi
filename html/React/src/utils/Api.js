@@ -9,7 +9,7 @@ export default class Api {
   }
 
   getData = (message, callBack) => {
-    //console.log('getData');
+    console.log(this.apiUrl);
     if (this.isBusy) {
       console.log('busy');
       return;
