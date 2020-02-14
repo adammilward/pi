@@ -4,23 +4,6 @@ import LightsFade from './LightsFade'
 
 export default class LightsOn extends React.Component{
 
-  componentDidMount() {
-    //funct is only called once when the component is mounted
-    // and not called on reRendering, ie when updating state
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-  }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    // return true or false
-    return false;
-  }
-
-  componentWillUnmount() {
-    //tare down or clean up code, eg remove event listeners
-  }
-
   func = function () {
     console.log('func, this', this);
   };
@@ -30,6 +13,7 @@ export default class LightsOn extends React.Component{
   };
 
   render() {
+    console.log('LightsOn::render, props', this.props);
     return (
       <div className="lights" id='lights'>
         <Slider
@@ -39,6 +23,8 @@ export default class LightsOn extends React.Component{
           getColor={function (power) {
             return 'rgb(' + Math.round(power * 2.55) + ', 0, 0)';
           }}
+          slid={this.slid}
+          sendRequest={this.props.sendRequest}
         />
         <Slider
           name={'g'}
@@ -48,6 +34,7 @@ export default class LightsOn extends React.Component{
             return 'rgb(0, ' + Math.round(power * 2.55) + ', 0)';
           }}
           slid={this.slid}
+          sendRequest={this.props.sendRequest}
         />
         <Slider
           name={'b'}
@@ -57,10 +44,10 @@ export default class LightsOn extends React.Component{
             return 'rgb(0, 0, ' + Math.round(power * 2.55) + ')';
           }}
           slid={this.slid}
+          sendRequest={this.props.sendRequest}
         />
         <LightsFade
-          fadeOn={this.props.fadeOn}
-          fadeMode={this.props.fadeMode}
+          {...this.props}
           bottomSlid={this.bottomSlid}
         />
       </div>

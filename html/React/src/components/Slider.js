@@ -19,42 +19,32 @@ class Slider extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // use this function to do an api call get the initial state
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // use this to run something when the component is updated
-  }
-
   actionDragged(isDragged, one, two) {
-    console.log(isDragged);
     // send the data when finished dragging
     // when isDragged becomes false, and was dragged is true
     if (! isDragged) {
       if (this.wasDragged) {
         console.log('sending', this);
-        this.api.getData();
+        this.props.sendRequest('lights ' + this.props.name + ' ' + this.state.values[0])
       }
     }
     this.wasDragged = isDragged;
   };
 
   slid(value) {
-    if ('undefined' !== this.props.max && value > this.props.max) {
-      value = this.props.max;
+    console.log('slider::slid, values', value);
+    if ('undefined' !== this.props.allowedmax && value > this.props.allowedmax) {
+      value = this.props.allowedmax;
     }
-    if (this.props.min && value < this.props.min) {
-      value = this.props.min;
+    if (this.props.allowedmin && value < this.props.allowedmin) {
+      value = this.props.allowedmin;
     }
-    console.log(value);
-    //this.props.slid(value, this.props.name);
     this.setState({values: [value]});
   }
 
   render() {
     //console.log(MIN);
-    //console.log('slider render state', this);
+    console.log('slider render state', this.props.name, this);
     return (
     <div
         style={{
@@ -68,7 +58,7 @@ class Slider extends React.Component {
           values={this.state.values}
           step={STEP}
           min={MIN}
-          max={MAX}
+          max={this.props.rangemax || MAX}
           onChange={values => this.slid(values[0], this.props.name)}
           renderTrack={({props, children}) => (
             <div
@@ -91,7 +81,7 @@ class Slider extends React.Component {
                     values: this.state.values,
                     colors: [this.props.color, "#999"],
                     min: MIN,
-                    max: MAX
+                    max: this.props.rangemax || MAX
                   }),
                   alignSelf: "center"
                 }}

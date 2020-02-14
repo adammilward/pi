@@ -3,43 +3,45 @@ import Slider from "./Slider";
 
 export default class LightsFade extends React.Component{
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      fadeOn: this.props.fadeOn,
-      fadeMode: this.props.fadeMode,
-      delay: 16,
-      top: 100,
-      bottom: 0,
-    };
-  }
-
   radio = (mode) => {
     console.log('radio');
-    console.log('mode, thing, this', mode, this);
-    this.setState({fadeMode: mode})
+    this.props.sendRequest(
+      'lights ' + mode,
+    );
   };
 
   toggle = (fade) => {
-    this.setState({fadeOn: !this.state.fadeOn})
+    console.log('LightsOn::toggle, this', this);
+    let requestMode = this.slideModes[this.props.lightMode[1]].value;
+    if (Boolean(this.props.delay)) {
+      this.props.sendRequest(
+        'lights static',
+      );
+    } else {
+      this.props.sendRequest(
+        'lights ' + requestMode
+      );
+    }
   };
 
-  fadeModes = [
+  slideModes = [
     {name: 'LIN', value: 'lin'},
     {name: 'SIN', value: 'sin'},
     {name: 'EXP', value: 'exp'},
     {name: 'S+E', value: 'sinexp'},
   ];
 
-  fadeButtons(props) {
-    return this.fadeModes.map((mode) => {
+  fadeButtons() {
+    console.log('slide mode isL ', this.props.lightMode[1]);
+    return this.slideModes.map((mode, index) => {
+      let checked = (index === this.props.lightMode[1]);
       return (
         <label key={mode.name}>
           {mode.name} <br/>
           <input name='fadeMode'
                  key={mode.value}
                  onChange={() => this.radio(mode.value)}
-                 checked={this.state.fadeMode === mode.value}
+                 checked={checked}
                  type="radio"
           />
         </label>
@@ -65,6 +67,7 @@ export default class LightsFade extends React.Component{
   };
 
   render() {
+    console.log('lightsFade::render, props', this.props);
     return (
       <div>
         <div className="lights-fade">
@@ -72,54 +75,58 @@ export default class LightsFade extends React.Component{
           <label className="switch float">
             <input
               type="checkbox"
-              checked={this.state.fadeOn}
+              checked={Boolean(this.props.delay)}
               onChange={this.toggle}
             />
             <span className="switch-slider round right" />
           </label>
         </div>
-        {this.state.fadeOn &&
-        <div className="fade-settings right">
-          <div className="fade-mode">
-            {this.fadeButtons()}
-          </div>
+        {Boolean(this.props.delay) &&
+          <div className="fade-settings right">
+            <div className="fade-mode">
+              {this.fadeButtons()}
+            </div>
 
 
-          <div className="fade-sliders" >
-            Delay &nbsp; &nbsp; &nbsp; &nbsp;
-            <Slider
-              key={'delay'}
-              name={'delay'}
-              value={this.state.delay}
-              color={'#333'}
-              getColor={() => 'rgb(100, 100, 100)'}
-              min={16}
-              displayValue={this.displayValue}
-              slid={this.delaySlid}
-            />
-            Range&nbsp; &nbsp; &nbsp; &nbsp;
-            <Slider
-              key={'top'}
-              name={'top'}
-              value={this.state.top}
-              color={'#999'}
-              getColor={() => 'rgb(250, 250, 250)'}
-              max={100}
-              min={20}
-              slid={this.topSlid}
-            />
-            Bottom&nbsp; &nbsp; &nbsp; &nbsp;
-            <Slider
-              key={'bottom'}
-              name={'bottom'}
-              value={this.state.bottom}
-              color={'#aaa'}
-              getColor={() => 'rgb(50, 50, 50)'}
-              max={80}
-              min={0}
-              slid={this.bottomSlid}
-            />
-          </div>
+            <div className="fade-sliders" >
+              Delay &nbsp; &nbsp; &nbsp; &nbsp;
+              <Slider
+                key={'delay'}
+                name={'delay'}
+                value={this.props.delay}
+                color={'#333'}
+                getColor={() => 'rgb(100, 100, 100)'}
+                allowedmin={1}
+                rangemax={10000}
+                //displayValue={this.displayValue}
+                slid={this.delaySlid}
+                sendRequest={this.props.sendRequest}
+              />
+              Range &nbsp; &nbsp; &nbsp; &nbsp;
+              <Slider
+                key={'u'}
+                name={'u'}
+                value={this.props.u}
+                color={'#999'}
+                getColor={() => 'rgb(250, 250, 250)'}
+                allowedmax={100}
+                allowedmin={20}
+                slid={this.topSlid}
+                sendRequest={this.props.sendRequest}
+              />
+              Bottom &nbsp; &nbsp; &nbsp; &nbsp;
+              <Slider
+                key={'l'}
+                name={'l'}
+                value={this.props.l}
+                color={'#aaa'}
+                getColor={() => 'rgb(50, 50, 50)'}
+                allowedmax={80}
+                allowedmin={0}
+                slid={this.bottomSlid}
+                sendRequest={this.props.sendRequest}
+              />
+            </div>
         </div>
         }
       </div>

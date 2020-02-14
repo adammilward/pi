@@ -3,6 +3,8 @@ import Lights from './Lights';
 import Footer from './Footer';
 import moment from 'moment';
 import Api from '../utils/Api.js'
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
 
 export default class App extends React.Component{
 
@@ -17,7 +19,6 @@ export default class App extends React.Component{
     const time = moment();
     this.state = {
       time: time,
-      lights: {}
     };
 
     const hours = time.format('H');
@@ -29,52 +30,39 @@ export default class App extends React.Component{
     } else {
       this.timeOfDay = 'night';
     }
-
-    this.sendRequest = this.sendRequest.bind(this);
-    this.processResponse = this.processResponse.bind(this)
   }
 
   componentDidMount() {
     console.log('componentDitMount');
     //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
-
-    this.sendRequest('lights report')
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
   }
 
-  sendRequest(request = 'lights report', callback = this.processResponse) {
-    console.log('getData');
-    if (!this.api.isBusy) {
-      console.log(this.api.getData(request, callback));
-    } else {
-      this.setState({time: moment()})
-    }
-  }
-
-  processResponse(success, response) {
-    console.log(this, success, response);
-    console.log(response.find((data) => data.mode === 'lights'));
-    this.setState({
-      lights: response.find((data) => data.mode === 'lights'),
-    });
-  }
-
   render() {
+    const options = {
+      // you can also just use 'bottom center'
+      position: positions.BOTTOM_CENTER,
+      timeout: 5000,
+      offset: '30px',
+      // you can also just use 'scale'
+      transition: transitions.SCALE
+    };
     console.log('App::render', this.props, this.state);
     return (
-      <div className="container" id='container'>
-        <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
-          <span className="right">Good {this.timeOfDay}</span>
-        </p>
-        <Lights
-          {...this.state.lights}
-          sendRequest={this.sendRequest}
-        />
-        <div>
-          <Footer/>
+      <AlertProvider template={AlertTemplate} {...options}>
+        <div className="container" id='container'>
+          <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
+            <span className="right">Good {this.timeOfDay}</span>
+          </p>
+          <Lights
+            api={this.api}
+          />
+          <div>
+            <Footer/>
+          </div>
         </div>
-      </div>
+      </AlertProvider>
     );
   }
 }
