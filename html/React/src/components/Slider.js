@@ -13,7 +13,6 @@ class Slider extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       values: [this.props.value]
     };
@@ -24,7 +23,6 @@ class Slider extends React.Component {
     // when isDragged becomes false, and was dragged is true
     if (! isDragged) {
       if (this.wasDragged) {
-        console.log('sending', this);
         this.props.sendRequest('lights ' + this.props.name + ' ' + this.state.values[0])
       }
     }
@@ -32,7 +30,6 @@ class Slider extends React.Component {
   };
 
   slid(value) {
-    console.log('slider::slid, values', value);
     if ('undefined' !== this.props.allowedmax && value > this.props.allowedmax) {
       value = this.props.allowedmax;
     }
@@ -44,7 +41,6 @@ class Slider extends React.Component {
 
   render() {
     //console.log(MIN);
-    console.log('slider render state', this.props.name, this);
     return (
     <div
         style={{

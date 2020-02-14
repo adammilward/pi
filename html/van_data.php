@@ -1,6 +1,6 @@
 <?php
 //error_reporting(0);
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000, http://thx1138 , http://thx1138-dev");
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 $message = $_GET['message'] ?? 'report';

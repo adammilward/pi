@@ -9,14 +9,12 @@ export default class Api {
   }
 
   getData = (message, callBack) => {
-    console.log(message);
-    console.log(callBack);
-    console.log(this.apiUrl);
-
+    //console.log('getData');
     if (this.isBusy) {
+      console.log('busy');
       return;
     }
-
+    console.log(message);
     this.isBusy = true;
     let request = fetch(
       this.apiUrl + '?message=' + encodeURI(message),
@@ -28,7 +26,6 @@ export default class Api {
       })
       .then(
         (result) => {
-          console.log('api Success, result', result, callBack);
           this.isBusy = false;
           callBack('success', result)
         },
@@ -40,6 +37,5 @@ export default class Api {
           console.warn(error);
           return(error)
         });
-    console.log(request);
   };
 }

@@ -9,7 +9,6 @@ export default class Lights extends React.Component{
   pendingOff = false;
 
   constructor(props) {
-    console.log('Lights.Constructor', props);
     super(props);
     this.state = {
       on: false
@@ -29,15 +28,14 @@ export default class Lights extends React.Component{
   }
 
   sendRequest(request = 'lights report', callback = this.receiveResponse) {
-    console.log('getData');
     if (!this.props.api.isBusy) {
       this.props.api.getData(request, this.receiveResponse);
+    } else {
+      console.log('is busy');
     }
   }
 
   receiveResponse = (success, response) => {
-    console.log('recieveResponse', this, success, response);
-    console.log(response.find((data) => data.mode === 'lights'));
     this.processResponse(response.find((data) => data.mode === 'lights'));
   };
 
@@ -62,7 +60,6 @@ export default class Lights extends React.Component{
 
     clearTimeout(this.timer);
 
-    console.log('processResponse ', data);
     let newState = {
       r: data.r < 0 ? 0 : data.r > 100 ? 100 : data.r,
       g: data.g < 0 ? 0 : data.g > 100 ? 100 : data.g,
@@ -81,12 +78,14 @@ export default class Lights extends React.Component{
     });
 
     if (newState.fadeDelay || newState.delay) {
-      //this.timer = setTimeout(() => this.sendRequest(), 1000)
+      //console.log('f, s ',newState.fadeDelay, newState.delay);
+      let time = (newState.fadeDelay > newState.delay) ? newState.fadeDelay : newState.delay;
+      //console.log(time);
+      this.timer = setTimeout(() => this.sendRequest(), time * 50)
     }
   }
 
   render() {
-    console.log('Lights::render', this);
     return (
       <div>
         <label className="switch float">

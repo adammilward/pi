@@ -5,18 +5,16 @@ import LightsFade from './LightsFade'
 export default class LightsOn extends React.Component{
 
   func = function () {
-    console.log('func, this', this);
   };
 
   bottomSlid = (value, name) => {
-    console.log('bottomSlid, value', value, name);
   };
 
   render() {
-    console.log('LightsOn::render, props', this.props);
     return (
       <div className="lights" id='lights'>
         <Slider
+          key={'r' + this.props.r}
           name={'r'}
           value={this.props.r}
           color={'#f00'}
@@ -27,16 +25,18 @@ export default class LightsOn extends React.Component{
           sendRequest={this.props.sendRequest}
         />
         <Slider
+          key={'g' + this.props.g}
           name={'g'}
           value={this.props.g}
           color={'#0f0'}
           getColor={function (power) {
             return 'rgb(0, ' + Math.round(power * 2.55) + ', 0)';
-          }}
+          }}n
           slid={this.slid}
           sendRequest={this.props.sendRequest}
         />
         <Slider
+          key={'b' + this.props.b}
           name={'b'}
           value={this.props.b}
           color={'#00f'}
