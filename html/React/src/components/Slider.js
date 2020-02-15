@@ -4,7 +4,7 @@ import Api from '../utils/Api'
 
 const STEP = 0.1;
 const MIN = 0;
-const MAX = 100;
+const MAX = 255;
 
 class Slider extends React.Component {
 

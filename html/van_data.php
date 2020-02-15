@@ -11,6 +11,14 @@ $matches = [];
 
 preg_match_all('/\<(.*?)\>/s', $output, $matches);
 
+
+$remainder = $output;
+foreach ($matches[1] as $matce) {
+  $remainder = str_replace($match, '', $remainder);
+}
+$matches[1][] = "{'info': '$remainder'}";
+
 $result = '[' . implode(',', $matches[1]) . ']';
 
+// the output from arduino contains single quotes
 echo str_replace("'", '"', $result);

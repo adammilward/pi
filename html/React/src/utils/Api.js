@@ -9,11 +9,11 @@ export default class Api {
   }
 
   getData = (message, callBack) => {
-    console.log(this.apiUrl);
     if (this.isBusy) {
-      console.log('busy');
+      console.warn('busy');
       return;
     }
+    console.log(this.apiUrl);
     console.log(message);
     this.isBusy = true;
     let request = fetch(
@@ -27,6 +27,7 @@ export default class Api {
       .then(
         (result) => {
           this.isBusy = false;
+          console.log(result);
           callBack('success', result)
         },
         // Note: it's important to handle errors here

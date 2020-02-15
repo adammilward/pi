@@ -1,7 +1,6 @@
 import React from "react";
 import LightsOn from "./LightsOn";
 import Alert from "./Alert";
-import {useAlert} from "react-alert";
 
 export default class Lights extends React.Component{
 
@@ -53,10 +52,17 @@ export default class Lights extends React.Component{
     }
 
     if (data.err) {
-      //alert.show(data.errMsg);
-      this.setState({errMsg: data.err});
+      console.warn(data.errMsg);
+      this.setState({alert: {message: data.message, type: 'error'}});
       return;
     }
+
+    if (data.info) {
+      console.warn(data.errMsg);
+      this.setState({alert: {message: data.message, type: 'info'}});
+      return;
+    }
+
 
     clearTimeout(this.timer);
 
@@ -78,10 +84,14 @@ export default class Lights extends React.Component{
     });
 
     if (newState.fadeDelay || newState.delay) {
-      //console.log('f, s ',newState.fadeDelay, newState.delay);
-      let time = (newState.fadeDelay > newState.delay) ? newState.fadeDelay : newState.delay;
-      //console.log(time);
-      this.timer = setTimeout(() => this.sendRequest(), time * 50)
+      console.log('f, s ',newState.fadeDelay, newState.delay);
+      let time = (newState.fadeDelay > newState.delay) ?
+        newState.fadeDelay / 20
+        : newState.delay * 50;
+      //console.log(time * 50);
+      this.timer = setTimeout(() => this.sendRequest(), time)
+    } else {
+      this.timer = setTimeout(() => this.sendRequest(), 1000 * 30)
     }
   }
 
@@ -102,7 +112,7 @@ export default class Lights extends React.Component{
             sendRequest={this.sendRequest}
           />
         }
-        {this.state.errMsg && <Alert errMsg={this.state.errMsg}/>}
+        {this.state.alert && <Alert alert={this.state.alert}/>}
       </div>
     );
   }
