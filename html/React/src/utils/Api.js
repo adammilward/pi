@@ -22,21 +22,30 @@ export default class Api {
         method: 'GET',
     })
       .then((res) => {
-        return res.json()
+        const contentType = res.headers.get("content-type");
+        console.log(contentType);
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return res.json().then(
+            (result) => {
+              this.isBusy = false;
+              console.log(result);
+              callBack('success', result)
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              this.isBusy = false;
+              console.warn(error);
+              return(error)
+            });
+        } else {
+          return res.text().then(text => {
+            this.isBusy = false;
+            console.log(text);
+          });
+        }
       })
-      .then(
-        (result) => {
-          this.isBusy = false;
-          console.log(result);
-          callBack('success', result)
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.isBusy = false;
-          console.warn(error);
-          return(error)
-        });
+
   };
 }
