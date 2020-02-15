@@ -31,7 +31,7 @@ export default class LightsOn extends React.Component{
           color={'#0f0'}
           getColor={function (power) {
             return 'rgb(0, ' + Math.round(power * 2.55) + ', 0)';
-          }}n
+          }}
           slid={this.slid}
           sendRequest={this.props.sendRequest}
         />
