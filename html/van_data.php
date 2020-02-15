@@ -14,9 +14,9 @@ preg_match_all('/\<(.*?)\>/s', $output, $matches);
 
 $remainder = $output;
 foreach ($matches[1] as $match) {
-  $remainder = str_replace($match, '', $remainder);
+  $remainder = str_replace($match, '', "<$remainder>");
 }
-$matches[1][] = "{'info': '<$remainder>'}";
+$matches[1][] = "{'info': '$remainder'}";
 
 $result = '[' . implode(',', $matches[1]) . ']';
 
