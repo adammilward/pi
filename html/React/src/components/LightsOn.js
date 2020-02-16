@@ -30,6 +30,7 @@ export default class LightsOn extends React.Component{
           slid={this.slid}
           sendRequest={this.props.sendRequest}
           actionDragged={this.actionDragged}
+          dragHold={this.props.dragHold}
         />
         <Slider
           key={'g' + this.props.count}
@@ -44,6 +45,7 @@ export default class LightsOn extends React.Component{
           slid={this.slid}
           sendRequest={this.props.sendRequest}
           actionDragged={this.actionDragged}
+          dragHold={this.props.dragHold}
         />
         <Slider
           key={'b' + this.props.count}
@@ -58,6 +60,7 @@ export default class LightsOn extends React.Component{
           slid={this.slid}
           sendRequest={this.props.sendRequest}
           actionDragged={this.actionDragged}
+          dragHold={this.props.dragHold}
         />
         <LightsFade
           {...this.props}

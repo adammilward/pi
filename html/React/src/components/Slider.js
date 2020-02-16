@@ -8,7 +8,7 @@ const MAX = 255;
 
 class Slider extends React.Component {
 
-  wasDragged = false;
+  isDragged = false;
   api = new Api();
 
   constructor(props) {
@@ -22,11 +22,12 @@ class Slider extends React.Component {
     // send the data when finished dragging
     // when isDragged becomes false, and was dragged is true
     if (! isDragged) {
-      if (this.wasDragged) {
+      if (this.isDragged) {
         this.props.actionDragged(this.state.values[0], this.props.name);
       }
     }
-    this.wasDragged = isDragged;
+    this.isDragged = isDragged;
+    this.props.dragHold(isDragged);
   };
 
   slid(value) {

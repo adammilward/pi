@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from "./Slider";
+import LightsOn from "./LightsOn";
 
 const MAX_POW = 8;
 
@@ -95,6 +96,7 @@ export default class LightsFade extends React.Component{
                 rangemax={MAX_POW}
                 sendRequest={this.props.sendRequest}
                 actionDragged={this.actionDragged}
+                dragHold={this.props.dragHold}
               />
               Upper &nbsp; &nbsp; &nbsp; &nbsp;
               <Slider
@@ -108,6 +110,7 @@ export default class LightsFade extends React.Component{
                 allowedmin={0}
                 sendRequest={this.props.sendRequest}
                 actionDragged={this.actionDragged}
+                dragHold={this.props.dragHold}
               />
               Lower &nbsp; &nbsp; &nbsp; &nbsp;
               <Slider
@@ -121,6 +124,7 @@ export default class LightsFade extends React.Component{
                 allowedmin={0}
                 sendRequest={this.props.sendRequest}
                 actionDragged={this.actionDragged}
+                dragHold={this.props.dragHold}
               />
             </div>
         </div>
