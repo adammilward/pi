@@ -31,7 +31,7 @@ body {
 
 .fade-settings {
     display: inline-block;
-    width: calc(100% - 70px);
+    width: calc(100%);
 }
 
 .fade-sliders {

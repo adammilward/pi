@@ -2,19 +2,31 @@ import config from './config.json'
 export default class Api {
 
   isBusy = false;
+  errorCallBack;
+  queue = [];
 
-  constructor() {
-    //console.log(jsonTest);
+  constructor(errorCallBack) {
+    this.errorCallBack = errorCallBack;
     this.apiUrl = config.apiUrl;
+
+    //this.processQueue = this.processQueue.bind(this);
   }
 
-  getData = (message, callBack) => {
+  processQueue() {
+    if (this.queue.length) {
+      let next = this.queue.pop();
+      this.getData(next.message, next.callBack, next.priority);
+    }
+  }
+
+  getData = (message, callBack, priority = 0) => {
     if (this.isBusy) {
-      console.warn('busy');
+      if (priority) {
+        this.queue.push({message: message, callBack: callBack, priority});
+      }
       return;
     }
-    console.log(this.apiUrl);
-    console.log(message);
+
     this.isBusy = true;
     let request = fetch(
       this.apiUrl + '?message=' + encodeURI(message),
@@ -27,17 +39,25 @@ export default class Api {
       .then(
         (result) => {
           this.isBusy = false;
-          console.log(result);
-          console.log(JSON.parse(result));
-          callBack('success', result)
+          this.processQueue();
+          let json;
+          try {
+            json = JSON.parse(result);
+            callBack('success', json);
+          } catch (err) {
+            console.warn(err);
+            console.warn(result);
+            this.errorCallBack('error', [err.toString(), result]);
+          }
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (error) => {
           this.isBusy = false;
+          this.processQueue();
           console.warn(error);
-          return(error)
+          this.errorCallBack('error', [error]);
         });
   };
 }

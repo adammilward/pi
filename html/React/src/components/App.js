@@ -5,10 +5,11 @@ import moment from 'moment';
 import Api from '../utils/Api.js'
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
+import Alert from "./Alert";
 
 export default class App extends React.Component{
 
-  api = new Api();
+  api;
 
   constructor(props) {
     super(props);
@@ -30,13 +31,22 @@ export default class App extends React.Component{
     } else {
       this.timeOfDay = 'night';
     }
+
+    this.displayErrors = this.displayErrors.bind(this);
+
+    this.api = new Api(this.displayErrors)
   }
 
   componentDidMount() {
-    console.log('componentDitMount');
     //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
     //this.interval = setInterval(console.log(this), 1000);
     //this.whereIsThis();
+  }
+
+  displayErrors(type, errorsArray) {
+    errorsArray.forEach((message) => {
+      this.setState({alert: {message: message, type: type}});
+    });
   }
 
   render() {
@@ -48,7 +58,6 @@ export default class App extends React.Component{
       // you can also just use 'scale'
       transition: transitions.SCALE
     };
-    console.log('App::render', this.props, this.state);
     return (
       <AlertProvider template={AlertTemplate} {...options}>
         <div className="container" id='container'>
@@ -58,10 +67,8 @@ export default class App extends React.Component{
           <Lights
             api={this.api}
           />
-          <div>
-            <Footer/>
-          </div>
         </div>
+        {this.state.alert && <Alert alert={this.state.alert}/>}
       </AlertProvider>
     );
   }

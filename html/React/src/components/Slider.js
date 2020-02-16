@@ -2,7 +2,7 @@ import React from 'react';
 import {Range, getTrackBackground} from "react-range";
 import Api from '../utils/Api'
 
-const STEP = 0.1;
+const STEP = 0.01;
 const MIN = 0;
 const MAX = 255;
 
@@ -23,7 +23,7 @@ class Slider extends React.Component {
     // when isDragged becomes false, and was dragged is true
     if (! isDragged) {
       if (this.wasDragged) {
-        this.props.sendRequest('lights ' + this.props.name + ' ' + this.state.values[0])
+        this.props.actionDragged(this.state.values[0], this.props.name);
       }
     }
     this.wasDragged = isDragged;
@@ -58,8 +58,6 @@ class Slider extends React.Component {
           onChange={values => this.slid(values[0], this.props.name)}
           renderTrack={({props, children}) => (
             <div
-              //onMouseDown={props.onMouseDown}
-              //onTouchStart={props.onTouchStart}
               style={{
                 ...props.style,
                 height: "12px",
@@ -119,8 +117,7 @@ class Slider extends React.Component {
               margin: "0px 0px 0px 10px",
               width: '4em',
           }} id="output">
-          {this.props.displayValue ?
-            this.props.displayValue(this.state.values[0]) :
+          {
             this.state.values[0].toFixed(1)
           }
         </output>

@@ -1,11 +1,16 @@
 import React from 'react';
 import Slider from "./Slider";
 
+const MAX_POW = 8;
+
 export default class LightsFade extends React.Component{
+
+  wasDragged = false;
 
   radio = (mode) => {
     this.props.sendRequest(
       'lights ' + mode,
+      1
     );
   };
 
@@ -14,10 +19,12 @@ export default class LightsFade extends React.Component{
     if (Boolean(this.props.delay)) {
       this.props.sendRequest(
         'lights static',
+        1
       );
     } else {
       this.props.sendRequest(
-        'lights ' + requestMode
+        'lights ' + requestMode,
+        1
       );
     }
   };
@@ -46,8 +53,12 @@ export default class LightsFade extends React.Component{
     })
   }
 
-  displayValue = (value) => {
-    return Math.pow(2, value/100*12).toFixed(0);
+  actionDragged = (value, name) => {
+    console.log(value, name);
+    this.props.sendRequest(
+      this.props.sendRequest('lights ' + name + ' ' + (Math.pow(2, value).toFixed() - 1 )),
+      1
+    );
   };
 
   render() {
@@ -74,40 +85,42 @@ export default class LightsFade extends React.Component{
             <div className="fade-sliders" >
               Delay &nbsp; &nbsp; &nbsp; &nbsp;
               <Slider
-                key={'delay' + this.props.delay}
+                key={'delay' + this.props.count}
                 name={'delay'}
                 value={this.props.delay}
                 color={'#333'}
                 getColor={() => 'rgb(100, 100, 100)'}
                 allowedmin={0}
-                rangemax={255}
-                //displayValue={this.displayValue}
-                slid={this.delaySlid}
+                allowedmax={MAX_POW}
+                rangemax={MAX_POW}
                 sendRequest={this.props.sendRequest}
+                actionDragged={this.actionDragged}
               />
               Upper &nbsp; &nbsp; &nbsp; &nbsp;
               <Slider
-                key={'u' + this.props.u}
+                key={'u' + this.props.count}
                 name={'u'}
                 value={this.props.u}
                 color={'#999'}
                 getColor={() => 'rgb(250, 250, 250)'}
-                allowedmax={100}
-                allowedmin={20}
-                slid={this.topSlid}
+                allowedmax={MAX_POW}
+                rangemax={MAX_POW}
+                allowedmin={0}
                 sendRequest={this.props.sendRequest}
+                actionDragged={this.actionDragged}
               />
               Lower &nbsp; &nbsp; &nbsp; &nbsp;
               <Slider
-                key={'l' + this.props.l}
+                key={'l' + this.props.count}
                 name={'l'}
                 value={this.props.l}
                 color={'#aaa'}
                 getColor={() => 'rgb(50, 50, 50)'}
-                allowedmax={80}
+                allowedmax={MAX_POW}
+                rangemax={MAX_POW}
                 allowedmin={0}
-                slid={this.bottomSlid}
                 sendRequest={this.props.sendRequest}
+                actionDragged={this.actionDragged}
               />
             </div>
         </div>

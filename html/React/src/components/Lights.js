@@ -2,6 +2,8 @@ import React from "react";
 import LightsOn from "./LightsOn";
 import Alert from "./Alert";
 
+const MAX_POW = 255;
+
 export default class Lights extends React.Component{
 
   timer;
@@ -15,68 +17,74 @@ export default class Lights extends React.Component{
       , g: 0
       , b: 0
       , l: 1
-      , u: 100
+      , u: MAX_POW
       , lightMode: [0, 3]
       , delay: 0
       , fadeDelay: 0
       , reportDelay: 0
+      , count: 0
     };
     this.sendRequest('lights report');
 
     this.sendRequest = this.sendRequest.bind(this);
   }
 
-  sendRequest(request = 'lights report', callback = this.receiveResponse) {
-    if (!this.props.api.isBusy) {
-      this.props.api.getData(request, this.receiveResponse);
-    } else {
-      console.log('is busy');
-    }
+  sendRequest(
+    request = 'lights report',
+    priority = 0,
+    callback = this.receiveResponse
+  ) {
+    console.log(request);
+    this.props.api.getData(request, this.receiveResponse, priority);
   }
 
+
   receiveResponse = (success, response) => {
-    this.processResponse(response.find((data) => data.mode === 'lights'));
+    response.forEach((data) =>{
+      if (Array.isArray(data)) {
+        this.receiveResponse(success, data)
+      } else if ('object' === typeof data) {
+        if ('lights' === data.mode) {
+          this.processLightsData(data);
+        } else if (data.info) {
+          //this.setState({alert: {message: data.info, type: 'info'}});
+        } else if (data.err) {
+          this.setState({alert: {message: data.err, type: 'error'}});
+        }
+      }
+    });
   };
 
   toggle = (fade) => {
     this.pendingOff = (this.state.on);
     this.sendRequest(
       this.state.on ? 'lights off' : 'lights on',
-      () => this.receiveResponse
+      () => this.receiveResponse,
+      1
     );
   };
 
-  processResponse(data) {
+  processLightsData(data) {
+    clearTimeout(this.timer);
     if (typeof data !== "object") {
       return;
     }
-
-    if (data.err) {
-      console.warn(data.errMsg);
-      this.setState({alert: {message: data.message, type: 'error'}});
-      return;
-    }
-
-    if (data.info) {
-      console.warn(data.errMsg);
-      this.setState({alert: {message: data.message, type: 'info'}});
-      return;
-    }
-
-
-    clearTimeout(this.timer);
+    console.log(data);
 
     let newState = {
-      r: data.r < 0 ? 0 : data.r > 100 ? 100 : data.r,
-      g: data.g < 0 ? 0 : data.g > 100 ? 100 : data.g,
-      b: data.b < 0 ? 0 : data.b > 100 ? 100 : data.b,
-      l: data.l < 0 ? 0 : data.l > 100 ? 100 : data.l,
-      u: data.u < 0 ? 0 : data.u > 100 ? 100 : data.u,
+      r: data.r < 0 ? 0 : data.r > MAX_POW ? MAX_POW : data.r,
+      g: data.g < 0 ? 0 : data.g > MAX_POW ? MAX_POW : data.g,
+      b: data.b < 0 ? 0 : data.b > MAX_POW ? MAX_POW : data.b,
+      l: Math.log2(1 + (data.l < 0 ? 0 : data.l > MAX_POW ? MAX_POW : data.l)),
+      u: Math.log2(1 + (data.u < 0 ? 0 : data.u > MAX_POW ? MAX_POW : data.u)),
       lightMode: data.lightMode,
-      delay: data.delay,
+      delay: Math.log2(data.delay + 1),
       fadeDelay: data.fadeDelay,
       reportDelay: data.reportDelay,
+      count: this.state.count + 1
     };
+
+    console.log(newState);
 
     this.setState({
       ...newState,
@@ -84,10 +92,9 @@ export default class Lights extends React.Component{
     });
 
     if (newState.fadeDelay || newState.delay) {
-      console.log('f, s ',newState.fadeDelay, newState.delay);
       let time = (newState.fadeDelay > newState.delay) ?
         newState.fadeDelay / 20
-        : newState.delay * 50;
+        : newState.delay * 500;
       //console.log(time * 50);
       this.timer = setTimeout(() => this.sendRequest(), time)
     } else {
