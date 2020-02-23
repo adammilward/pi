@@ -6,8 +6,10 @@ const MAX_POW = 255;
 
 export default class Lights extends React.Component{
 
-  timer;
+  requestTime;
+  processHold;
   pendingOff = false;
+  isDragged = false;
 
   constructor(props) {
     super(props);
@@ -26,6 +28,7 @@ export default class Lights extends React.Component{
     };
     this.sendRequest('lights report');
 
+    this.dragHold = this.dragHold.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
   }
 
@@ -64,11 +67,23 @@ export default class Lights extends React.Component{
     );
   };
 
+  dragHold(isDragged) {
+    console.log('dragHold', isDragged);
+    this.isDragged = isDragged;
+  }
+
   processLightsData(data) {
-    clearTimeout(this.timer);
+    clearTimeout(this.requestTime);
     if (typeof data !== "object") {
       return;
     }
+
+    // postpone update if dragging;
+    if (this.isDragged) {
+      //this.processHold = setTimeout(() => this.processLightsData(data), 10);
+      return;
+    }
+
     console.log(data);
 
     let newState = {
@@ -95,10 +110,9 @@ export default class Lights extends React.Component{
       let time = (newState.fadeDelay > newState.delay) ?
         newState.fadeDelay / 20
         : newState.delay * 500;
-      //console.log(time * 50);
-      this.timer = setTimeout(() => this.sendRequest(), time)
+      this.requestTime = setTimeout(() => this.sendRequest(), time)
     } else {
-      this.timer = setTimeout(() => this.sendRequest(), 1000 * 30)
+      this.requestTime = setTimeout(() => this.sendRequest(), 1000 * 30)
     }
   }
 
@@ -117,6 +131,7 @@ export default class Lights extends React.Component{
           <LightsOn
             {...this.state}
             sendRequest={this.sendRequest}
+            dragHold={this.dragHold}
           />
         }
         {this.state.alert && <Alert alert={this.state.alert}/>}
