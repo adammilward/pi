@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config.php';
+require_once '/var/www/html/config.php';
 
 $lastUpdateFile = '/var/www/html/ip/lastUpdate.txt';
 $myIPFile = '/var/www/html/ip/myIP.txt';
