@@ -16,8 +16,12 @@ if (stripos( $wifiMode, 'ap') !== false) {
   // between 3 and 5 past we shut down and attempt wifi mode
   // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
   if ((int)$time->format('H') === 17 && (int)$time->format('i') < 15) {
+    file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - switch to wifi mode \n",
+      FILE_APPEND);
+
     shell_exec($webRoute . '/ip/wifi.sh');
   }
+  file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - ap mode \n", FILE_APPEND);
   // no point in continuing if we are an access point
   exit();
 }
