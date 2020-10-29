@@ -1,6 +1,11 @@
 <?php
 
-require_once '/var/www/html/config.php';
+// need a better solution than hard coding this
+if ($_SERVER['PHP_SELF'] === '/var/www/thx1138-dev/html/ip/ip.php') {
+  require_once '/var/www/thx1138-dev/html/config.php';
+} else {
+  require_once '/var/www/html/config.php';
+}
 
 $webRoute = $config['web_route'] ?? '/var/www/html';
 $lastUpdateFile = $webRoute . '/ip/lastUpdate.txt';
