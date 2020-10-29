@@ -15,7 +15,7 @@ if (stripos( $wifiMode, 'ap') !== false) {
   $time = new DateTimeImmutable('NOW');
   // between 3 and 5 past we shut down and attempt wifi mode
   // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
-  if ((int)$time->format('H') === 17 && (int)$time->format('i') < 15) {
+  if ((int)$time->format('H') === 3 && (int)$time->format('i') < 5) {
     file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - switch to wifi mode \n",
       FILE_APPEND);
 
