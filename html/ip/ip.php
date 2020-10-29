@@ -13,23 +13,9 @@ $myIPFile = $webRoute . '/ip/myIP.txt';
 
 //$newIP = file_get_contents("http://ipecho.net/plain");
 $newIP = false;
-echo $newIP . '<br>';
 
-$wifiMode = file_get_contents($webRoute . '/ip/mode.txt');
-if (stripos( $wifiMode, 'ap') !== false) {
-  $time = new DateTimeImmutable('NOW');
-  // between 3 and 5 past we shut down and attempt wifi mode
-  // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
-  if ((int)$time->format('H') === 3 && (int)$time->format('i') < 5) {
-    file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - switch to wifi mode \n",
-      FILE_APPEND);
-
-    shell_exec($webRoute . '/ip/wifi.sh');
-  }
-  file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - ap mode \n", FILE_APPEND);
-  // no point in continuing if we are an access point
-  exit();
-}
+// get the args that the script was called with
+$arg = (isset($argc) && isset($argv[1])) ? $argv[1] : '';
 
 $ipData = json_decode(file_get_contents($myIPFile), true);
 if (! $ipData) {
@@ -40,10 +26,29 @@ if (! $ipData) {
 }
 $oldIP = $ipData['ip'];
 
-// get the args that the script was called with
-$arg = (isset($argc) && isset($argv[1])) ? $argv[1] : '';
+$wifiMode = file_get_contents($webRoute . '/ip/mode.txt');
 
 
+
+// ap mode processes
+if (stripos( $wifiMode, 'ap') !== false) {
+  $time = new DateTimeImmutable('NOW');
+  // between 3 and 5 past we shut down and attempt wifi mode
+  // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
+  if ((int)$time->format('H') === 3 && (int)$time->format('i') < 5) {
+    file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - switch to wifi mode \n",
+      FILE_APPEND);
+
+    shell_exec($webRoute . '/ip/wifi.sh');
+    // this should have automatically exited;
+    exit();
+  }
+  file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - ap mode \n", FILE_APPEND);
+  // no point in continuing if we are an access point
+  exit();
+}
+
+// wifi mode processes
 if (! $newIP) {
     $ipData['failed_attempts'] += 1;
     file_put_contents($lastUpdateFile, date('Y/m/d h:i:s', time()) . " | arg: $arg - no ip \n", FILE_APPEND);
