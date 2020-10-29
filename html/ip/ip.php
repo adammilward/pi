@@ -1,6 +1,6 @@
 <?php
 
-require_once '../config.php';
+require_once '/var/www/html/config.php';
 
 $webRoute = $config['web_route'] ?? '/var/www/html';
 $lastUpdateFile = $webRoute . '/ip/lastUpdate.txt';
@@ -12,7 +12,7 @@ echo $newIP . '<br>';
 
 $wifiMode = file_get_contents($webRoute . '/ip/mode.txt');
 if (stripos( $wifiMode, 'ap') !== false) {
-  $time = new \DateTimeImmutable('NOW');
+  $time = new DateTimeImmutable('NOW');
   // between 3 and 5 past we shut down and attempt wifi mode
   // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
   if ((int)$time->format('H') === 3 && (int)$time->format('i') < 5) {
