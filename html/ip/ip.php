@@ -11,8 +11,7 @@ $webRoute = $config['web_route'] ?? '/var/www/html';
 $lastUpdateFile = $webRoute . '/ip/lastUpdate.txt';
 $myIPFile = $webRoute . '/ip/myIP.txt';
 
-//$newIP = file_get_contents("http://ipecho.net/plain");
-$newIP = false;
+$newIP = file_get_contents("http://ipecho.net/plain");
 
 // get the args that the script was called with
 $arg = (isset($argc) && isset($argv[1])) ? $argv[1] : '';
@@ -27,7 +26,6 @@ if (! $ipData) {
 $oldIP = $ipData['ip'];
 
 $wifiMode = file_get_contents($webRoute . '/ip/mode.txt');
-
 
 
 // ap mode processes
@@ -47,6 +45,7 @@ if (stripos( $wifiMode, 'ap') !== false) {
   // no point in continuing if we are an access point
   exit();
 }
+
 
 // wifi mode processes
 if (! $newIP) {
