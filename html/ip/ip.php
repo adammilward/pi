@@ -1,6 +1,6 @@
 <?php
 
-require_once '/var/www/html/config.php';
+require_once '../config.php';
 
 $webRoute = $config['web_route'] ?? '/var/www/html';
 $lastUpdateFile = $webRoute . '/ip/lastUpdate.txt';
