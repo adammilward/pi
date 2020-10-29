@@ -1,6 +1,6 @@
 <?php
 
-require_once '/var/www/html/config.php';
+require_once '../config.php';
 
 $webRoute = $config['web_route'] ?? '/var/www/html';
 $lastUpdateFile = $webRoute . '/ip/lastUpdate.txt';
@@ -11,7 +11,7 @@ $newIP = false;
 echo $newIP . '<br>';
 
 $wifiMode = file_get_contents($webRoute . '/ip/mode.txt');
-if ($wifiMode === 'ap') {
+if (stripos( $wifiMode, 'ap') !== false) {
   $time = new \DateTimeImmutable('NOW');
   // between 3 and 5 past we shut down and attempt wifi mode
   // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
@@ -52,7 +52,7 @@ if (! $newIP) {
 }
 
 // if we have 5 failed attempts in a row (5 minutes) then switch to access point mode
-if ($ipData['failed_attempts'] > 5 && $wifiMode === 'wifi') {
+if ($ipData['failed_attempts'] > 5 && stripos( $wifiMode, 'wifi') !== false) {
   $ipData['failed_attempts'] = 0;
   file_put_contents($myIPFile, json_encode($ipData));
   shell_exec($webRoute . '/ip/ap.sh');
