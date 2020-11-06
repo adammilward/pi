@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: GET');
 $message = $_GET['message'] ?? 'report';
 
 $output = shell_exec ('python3 ./sendReceiveSerial.py "' . $message . '"');
-
+file_put_contents('serialOutput.txt', $output); 
 // this seem to be needed to make the json work
 $output = str_replace(["\r", "\n"], '', $output);
 
