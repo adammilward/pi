@@ -1,6 +1,6 @@
 import React from 'react';
 import {Range, getTrackBackground} from "react-range";
-import Api from '../utils/Api'
+import Api from '../../utils/Api'
 
 const STEP = 0.01;
 const MIN = 0;

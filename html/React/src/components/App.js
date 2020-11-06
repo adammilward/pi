@@ -1,15 +1,14 @@
 import React from "react";
-import Lights from './Lights';
-import Footer from './Footer';
+import Lights from './Lights/Lights';
 import moment from 'moment';
 import Api from '../utils/Api.js'
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
 import Alert from "./Alert";
+import Status from "./Status/Status";
 
 export default class App extends React.Component{
 
   api;
+  interval = {};
 
   constructor(props) {
     super(props);
@@ -18,8 +17,10 @@ export default class App extends React.Component{
      * @type {moment.Moment}
      */
     const time = moment();
+
     this.state = {
       time: time,
+      mode: 'status',
     };
 
     const hours = time.format('H');
@@ -38,9 +39,7 @@ export default class App extends React.Component{
   }
 
   componentDidMount() {
-    //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
-    //this.interval = setInterval(console.log(this), 1000);
-    //this.whereIsThis();
+    this.interval = setInterval(() => this.setState({time: moment()}), 1000);
   }
 
   displayErrors(type, errorsArray) {
@@ -49,27 +48,34 @@ export default class App extends React.Component{
     });
   }
 
+  renderMode() {
+    switch (this.state.mode) {
+      case 'status':
+        return (
+          <Status
+            api={this.api}
+          />
+        )
+      default:
+        return (
+          <Lights
+            api={this.api}
+          />
+        )
+    }
+  }
+
   render() {
-    const options = {
-      // you can also just use 'bottom center'
-      position: positions.BOTTOM_CENTER,
-      timeout: 5000,
-      offset: '30px',
-      // you can also just use 'scale'
-      transition: transitions.SCALE
-    };
     return (
-      <AlertProvider template={AlertTemplate} {...options}>
+      <>
         <div className="container" id='container'>
           <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
             <span className="right">Good {this.timeOfDay}</span>
           </p>
-          <Lights
-            api={this.api}
-          />
+          {this.renderMode()}
         </div>
         {this.state.alert && <Alert alert={this.state.alert}/>}
-      </AlertProvider>
+      </>
     );
   }
 }

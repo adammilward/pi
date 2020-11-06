@@ -1,6 +1,6 @@
 import React from "react";
 import LightsOn from "./LightsOn";
-import Alert from "./Alert";
+import Alert from "../Alert";
 
 const MAX_POW = 255;
 
@@ -111,7 +111,7 @@ export default class Lights extends React.Component{
         : newState.delay * 500;
       this.requestTime = setTimeout(() => this.sendRequest(), time)
     } else {
-      this.requestTime = setTimeout(() => this.sendRequest(), 1000 * 30)
+      this.requestTime = setTimeout(() => this.sendRequest(), 1000 * 10)
     }
   }
 
