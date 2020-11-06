@@ -7,11 +7,7 @@ const MAX_POW = 100;
 export default class LightsOn extends React.Component{
 
   actionDragged = (value, name) => {
-    console.log(value, name);
-    this.props.sendRequest(
-      this.props.sendRequest('lights ' + name + ' ' + value),
-      1
-    );
+    this.props.sendRequest('lights ' + name + ' ' + value);
   };
 
   render() {

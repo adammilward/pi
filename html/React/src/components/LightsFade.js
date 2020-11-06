@@ -55,11 +55,7 @@ export default class LightsFade extends React.Component{
   }
 
   actionDragged = (value, name) => {
-    console.log(value, name);
-    this.props.sendRequest(
-      this.props.sendRequest('lights ' + name + ' ' + (Math.pow(2, value).toFixed() - 1 )),
-      1
-    );
+    this.props.sendRequest('lights ' + name + ' ' + (Math.pow(2, value).toFixed() - 1 ));
   };
 
   render() {

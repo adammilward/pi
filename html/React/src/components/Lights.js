@@ -37,7 +37,7 @@ export default class Lights extends React.Component{
     priority = 0,
     callback = this.receiveResponse
   ) {
-    console.log(request);
+    console.log('request: ', request);
     this.props.api.getData(request, this.receiveResponse, priority);
   }
 
@@ -68,7 +68,6 @@ export default class Lights extends React.Component{
   };
 
   dragHold(isDragged) {
-    console.log('dragHold', isDragged);
     this.isDragged = isDragged;
   }
 
@@ -84,7 +83,7 @@ export default class Lights extends React.Component{
       return;
     }
 
-    console.log(data);
+    console.log('recieved: ', data);
 
     let newState = {
       r: data.r < 0 ? 0 : data.r > MAX_POW ? MAX_POW : data.r,
@@ -99,7 +98,7 @@ export default class Lights extends React.Component{
       count: this.state.count + 1
     };
 
-    console.log(newState);
+    console.log('setState: ', newState);
 
     this.setState({
       ...newState,

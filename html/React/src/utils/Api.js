@@ -19,6 +19,11 @@ export default class Api {
     }
   }
 
+  /**
+   * @param {string} message
+   * @param {funciton} callBack
+   * @param {int} priority - 0 it is discarded, 1 it is placed at back of queue
+   */
   getData = (message, callBack, priority = 0) => {
     if (this.isBusy) {
       if (priority) {
