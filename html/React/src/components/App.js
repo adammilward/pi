@@ -1,9 +1,10 @@
 import React from "react";
-import Lights from './Lights/Lights';
+
 import moment from 'moment';
 import Api from '../utils/Api.js'
 import Alert from "./Alert";
-import Status from "./Status/Status";
+import SwipeContainer from "./SwipeContainer";
+//import SwipeContainer from "./SwipeContainer"
 
 export default class App extends React.Component{
 
@@ -39,7 +40,7 @@ export default class App extends React.Component{
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.setState({time: moment()}), 1000);
+    //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
   }
 
   displayErrors(type, errorsArray) {
@@ -48,34 +49,33 @@ export default class App extends React.Component{
     });
   }
 
-  renderMode() {
-    switch (this.state.mode) {
-      case 'status':
-        return (
-          <Status
-            api={this.api}
-          />
-        )
-      default:
-        return (
-          <Lights
-            api={this.api}
-          />
-        )
-    }
-  }
+
 
   render() {
     return (
       <>
-        <div className="container" id='container'>
-          <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
-            <span className="right">Good {this.timeOfDay}</span>
-          </p>
-          {this.renderMode()}
+        <p className='padded'>
+          <span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
+          <span className="right">Good {this.timeOfDay}</span>
+        </p>
+        <SwipeContainer
+          api={this.api}
+        />
+        <div className='padded'>
+          footer
         </div>
         {this.state.alert && <Alert alert={this.state.alert}/>}
       </>
+
+    /*      <>
+            <div className="container" id='container'>
+              <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
+                <span className="right">Good {this.timeOfDay}</span>
+              </p>
+              {this.renderMode()}
+            </div>
+            {this.state.alert && <Alert alert={this.state.alert}/>}
+          </>*/
     );
   }
 }

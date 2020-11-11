@@ -18,6 +18,12 @@ body {
 
 }
 
+.page {
+    float: left;
+    width: 90%;
+    background: green;
+}
+
 .lights {
     margin: 30px 0px 60px;
 }

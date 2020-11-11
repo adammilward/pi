@@ -105,13 +105,14 @@ export default class Lights extends React.Component{
       on: Boolean(newState.r || newState.g || newState.b),
     });
 
+    clearTimeout(this.requestTime);
     if (newState.fadeDelay || newState.delay) {
       let time = (newState.fadeDelay > newState.delay) ?
         newState.fadeDelay / 20
         : newState.delay * 500;
       this.requestTime = setTimeout(() => this.sendRequest(), time)
     } else {
-      this.requestTime = setTimeout(() => this.sendRequest(), 1000 * 10)
+      this.requestTime = setTimeout(() => this.sendRequest(), 1000 * 100)
     }
   }
 

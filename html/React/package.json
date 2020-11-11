@@ -14,7 +14,8 @@
     "react-dom": "^16.12.0",
     "react-moment": "^0.9.7",
     "react-range": "^1.4.9",
-    "react-scripts": "3.3.0"
+    "react-scripts": "^4.0.0",
+    "react-swipe-events": "^1.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -12,15 +12,7 @@ export default class Status extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          width: '100%',
-          height: '300px'
-        }}
-      >
         <VoltageChart />
-
-      </div>
     );
 
   }
