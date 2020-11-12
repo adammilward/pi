@@ -133,3 +133,13 @@ input:checked + .switch-slider:before {
 .right {
     float: right;
 }
+
+.center {
+    position relative;
+    margin: auto;
+    padding: 10px;
+}
+
+.bold {
+    font-weight: bold;
+}

@@ -62,7 +62,7 @@ export default function MyChart() {
   )
 
   return (
-    <div className='padded'>
+    <div >
       {lineChart}
     </div>
   )
