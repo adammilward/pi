@@ -3,16 +3,12 @@ import Lights from './Lights/Lights';
 import Status from "./Status/Status";
 import Raw from "./Raw/Raw";
 
-const numPages = 3;
-const windowWidth = window.innerWidth;
-const padding = 20;
-const containerWidth = windowWidth * numPages;
+
 
 export default class Pages extends React.Component {
 
   offset = -100;
   pages = ['lights', 'status', 'raw']
-
 
   constructor(props) {
     super(props);
@@ -20,19 +16,21 @@ export default class Pages extends React.Component {
   }
 
   render() {
+    let cons = window.constants;
+    let {numPages, windwoWidth} = {...cons};
     return (
       <>
       <div className="container" id='container'
         style={{
-          width: containerWidth * numPages,
-          right: windowWidth * this.props.page,
+          width: cons.containerWidth * cons.numPages,
+          right: cons.windowWidth * this.props.page,
         }}
       >
         <div
           id='lights'
           className='page padded'
           style={{
-            width: windowWidth - padding,
+            width: cons.windowWidth - cons.padding,
           }}
         >
           <Lights
@@ -43,7 +41,7 @@ export default class Pages extends React.Component {
           id='status'
           className='page padded'
           style={{
-            width: windowWidth - padding,
+            width: cons.windowWidth - cons.padding,
           }}
         >
           <Status
@@ -54,7 +52,7 @@ export default class Pages extends React.Component {
           id='raw'
           className='page padded'
           style={{
-            width: windowWidth - padding,
+            width: cons.windowWidth - cons.padding,
           }}
         >
           <Raw
@@ -62,23 +60,25 @@ export default class Pages extends React.Component {
           />
         </div>
       </div>
-        <div className='center padded'
+        <div className='center'
           style={{
-            width: (numPages * 4 + 'em'),
+            display: "inline-block",
+            //border: '1px solid white',
             position: "relative",
-            left: ((numPages - this.props.page * 4) + 'em')
+            padding: 0,
+            left: ((numPages * 3 - this.props.page * 2) + 'em')
           }}
         >
-          <span className={'padded ' + (this.props.page === 0 ? 'bold' : '')}
+          <span className={' ' + (this.props.page === 0 ? 'bold' : '')}
             onClick={() => this.props.setPage(0)}>
-            lights
+            lights&nbsp;
           </span>
-          <span className={'padded ' + (this.props.page === 1 ? 'bold' : '')}
+          <span className={' ' + (this.props.page === 1 ? 'bold' : '')}
                 onClick={() => this.props.setPage(1)}>
 
-            status
+            status&nbsp;
           </span>
-          <span className={'padded ' + (this.props.page === 2 ? 'bold' : '')}
+          <span className={' ' + (this.props.page === 2 ? 'bold' : '')}
                 onClick={() => this.props.setPage(2)}>
             raw
           </span>

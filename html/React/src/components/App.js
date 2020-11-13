@@ -6,6 +6,18 @@ import Alert from "./Alert";
 import SwipeContainer from "./SwipeContainer";
 //import SwipeContainer from "./SwipeContainer"
 
+const numPages = 3;
+const windowWidth = window.outerWidth;
+const padding = 20;
+const containerWidth = windowWidth * numPages;
+
+window.constants = {
+  numPages: numPages,
+  windowWidth: windowWidth,
+  padding: padding,
+  containerWidth: windowWidth * numPages,
+}
+
 export default class App extends React.Component{
 
   api;
@@ -37,6 +49,7 @@ export default class App extends React.Component{
     this.displayErrors = this.displayErrors.bind(this);
 
     this.api = new Api(this.displayErrors)
+
   }
 
   componentDidMount() {
@@ -44,7 +57,14 @@ export default class App extends React.Component{
   }
 
   displayErrors(type, errorsArray) {
+    console.log('displayErrors, type, errorsArray:', type, errorsArray)
+    console.warn('displayErrors, type, errorsArray:', type, errorsArray)
     errorsArray.forEach((message) => {
+      if (typeof message !== 'string') {
+        message = '';
+      }
+      console.log('errorsArray.forEach, message:', message)
+      console.warn('errorsArray.forEach, message:', message)
       this.setState({alert: {message: message, type: type}});
     });
   }
@@ -53,7 +73,10 @@ export default class App extends React.Component{
 
   render() {
     return (
-      <>
+      <div style={{
+        width: window.constants.windowWidth,
+        overflow: "hidden",
+      }}>
         <p className='padded'>
           <span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
           <span className="right">Good {this.timeOfDay}</span>
@@ -61,11 +84,8 @@ export default class App extends React.Component{
         <SwipeContainer
           api={this.api}
         />
-        <div className='padded'>
-          footer
-        </div>
         {this.state.alert && <Alert alert={this.state.alert}/>}
-      </>
+      </div>
 
     /*      <>
             <div className="container" id='container'>

@@ -53,8 +53,8 @@ export default function MyChart() {
     <div
       style={{
         backgroundColor: '#ffffff',
-        width: '100%',
-        height: '400px'
+        height: '400px',
+        width:  window.outerWidth - 20
       }}
     >
       <Chart data={data} series={series} axes={axes} />

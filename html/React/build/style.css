@@ -11,17 +11,21 @@ body {
 }
 
 .container {
-    margin: 3px 10px;
+    padding: 0;
+    display: inline-block;
+    position: relative;
+}
+
+.padded{
+    padding: 10px;
+}
+
+div.page {
+    float: left;
 }
 
 .fade-type {
 
-}
-
-.page {
-    float: left;
-    width: 90%;
-    background: green;
 }
 
 .lights {
@@ -128,4 +132,14 @@ input:checked + .switch-slider:before {
 
 .right {
     float: right;
+}
+
+.center {
+    position relative;
+    margin: auto;
+    padding: 10px;
+}
+
+.bold {
+    font-weight: bold;
 }
