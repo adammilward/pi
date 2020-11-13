@@ -8,39 +8,56 @@ export default class SwipeContainer extends React.Component {
     super(props);
     this.state = {
       page: 0,
+      right: 0,
     }
     console.log(props);
 
-    this.onSwiped.bind(this)
   }
 
   setPage = (page) => {
     console.log(page, this)
-    this.setState({page: page});
+    this.setState({
+      page: page,
+      right: window.constants.windowWidth * page,
+    });
+  }
+
+  setRight = (deltaR) => {
+    console.log(deltaR);
+    let right = this.state.right - deltaR;
+    this.setState({
+      right: (right > 0 ? right : 0),
+    })
+  }
+
+  setUp = () => {
+
   }
 
   onSwiping = (a, b, c, d, e) => {
     console.log('onSwiping', a, b, c, d, e);
+    this.setRight(d - b);
+    this.setUp(d - b);
   }
 
-  onSwiped = (a, b, c, d, e, f, g, h) => {
-    console.log('onSwiped', a, b, c, d, e, f, g, h);
+  onSwiped = (a, b, c, d, e, f, g) => {
+    //console.log('onSwiped', a, b, c, d, e, f, g);
   }
 
-  onSwipedUp = (a, b, c, d, e) => {
-    console.log('onSwipedUp', a, b, c, d, e);
+  onSwipedUp = (a, b, c) => {
+    //console.log('onSwipedUp', a, b, c);
   }
 
-  onSwipedDown = (a, b, c, d, e) => {
-    console.log('onSwipedDown', a, b, c, d, e);
+  onSwipedDown = (a, b, c) => {
+    //console.log('onSwipedDown', a, b, c);
   }
 
-  onSwipedLeft = (a, b, c, d, e) => {
-    console.log('onSwipedLeft', a, b, c, d, e);
+  onSwipedLeft = (a, b, c) => {
+    //console.log('onSwipedLeft', a, b, c);
   }
 
-  onSwipedRight = (a, b, c, d, e) => {
-    console.log('onSwipedRight', a, b, c, d, e);
+  onSwipedRight = (a, b, c) => {
+    //console.log('onSwipedRight', a, b, c);
   }
 
   render() {
@@ -57,6 +74,7 @@ export default class SwipeContainer extends React.Component {
         <Pages
           {...this.props}
           page={this.state.page}
+          right={this.state.right}
           setPage={this.setPage}
         />
       </ReactSwipeEvents>

@@ -17,13 +17,13 @@ export default class Pages extends React.Component {
 
   render() {
     let cons = window.constants;
-    let {numPages, windwoWidth} = {...cons};
+    let {numPages, windowWidth} = {...cons};
     return (
       <>
       <div className="container" id='container'
         style={{
           width: cons.containerWidth * cons.numPages,
-          right: cons.windowWidth * this.props.page,
+          right: this.props.right,
         }}
       >
         <div
