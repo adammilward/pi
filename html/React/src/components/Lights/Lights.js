@@ -12,6 +12,7 @@ export default class Lights extends React.Component{
   isDragged = false;
 
   constructor(props) {
+    console.log('Lights.constructor', props)
     super(props);
     this.state = {
       on: false
@@ -34,11 +35,13 @@ export default class Lights extends React.Component{
 
   sendRequest(
     request = 'lights report',
-    priority = 0,
-    callback = this.receiveResponse
+    callback = this.receiveResponse,
+    priority = 0
   ) {
-    console.log('request: ', request);
-    this.props.api.getData(request, this.receiveResponse, priority);
+    if (typeof 'callback' !== 'function') {
+      callback = this.receiveResponse
+    }
+    this.props.api.getData(request, callback, priority);
   }
 
 
@@ -62,7 +65,7 @@ export default class Lights extends React.Component{
     this.pendingOff = (this.state.on);
     this.sendRequest(
       this.state.on ? 'lights off' : 'lights on',
-      () => this.receiveResponse,
+      this.receiveResponse,
       1
     );
   };
@@ -130,6 +133,7 @@ export default class Lights extends React.Component{
         {this.state.on &&
           <LightsOn
             {...this.state}
+            {...this.props}
             sendRequest={this.sendRequest}
             dragHold={this.dragHold}
           />

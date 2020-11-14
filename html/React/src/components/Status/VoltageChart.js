@@ -3,7 +3,6 @@ import { Chart } from 'react-charts'
 
 export default function MyChart() {
   let now = new Date(1604685600000);
-  console.log(now.getTime());
   const data = React.useMemo(
     () => [
       {
@@ -50,15 +49,26 @@ export default function MyChart() {
   const lineChart = (
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically
-    <div
-      style={{
-        backgroundColor: '#ffffff',
-        height: '400px',
-        width:  window.outerWidth - 20
-      }}
-    >
-      <Chart data={data} series={series} axes={axes} />
-    </div>
+    <>
+      <div
+        style={{
+          backgroundColor: '#ffffff',
+          height: '400px',
+          width:  window.outerWidth - 20
+        }}
+      >
+        <Chart data={data} series={series} axes={axes} />
+      </div>
+      <div
+        style={{
+          backgroundColor: '#ffffff',
+          height: '400px',
+          width:  window.outerWidth - 20
+        }}
+      >
+        <Chart data={data} series={series} axes={axes} />
+      </div>
+    </>
   )
 
   return (

@@ -31,6 +31,7 @@ class Slider extends React.Component {
   };
 
   slid(value) {
+    //console.log('slid', this.props);
     if ('undefined' !== this.props.allowedmax && value > this.props.allowedmax) {
       value = this.props.allowedmax;
     }
@@ -41,6 +42,8 @@ class Slider extends React.Component {
   }
 
   render() {
+    //console.log('Slider.render', this.props);
+    //this.props.swiper.setActive(true);
     //console.log(MIN);
     return (
     <div
@@ -87,7 +90,6 @@ class Slider extends React.Component {
           )}
           renderThumb={({props, isDragged}) => (
             <div
-
               {...props}
               onTouchEnd={this.actionDragged(isDragged)}
               style={{

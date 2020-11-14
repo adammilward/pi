@@ -50,6 +50,7 @@ export default class Api {
             json = JSON.parse(result);
             callBack('success', json);
           } catch (err) {
+            console.log(callBack);
             console.warn(err);
             console.warn(result);
             this.errorCallBack('error', [err.toString(), result]);

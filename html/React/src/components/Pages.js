@@ -3,26 +3,26 @@ import Lights from './Lights/Lights';
 import Status from "./Status/Status";
 import Raw from "./Raw/Raw";
 
-
-
 export default class Pages extends React.Component {
 
   offset = -100;
   pages = ['lights', 'status', 'raw']
 
   constructor(props) {
-    super(props);
     console.log('Pages::constroctor', props);
+    super(props);
   }
 
   render() {
+    console.log('pages.rencer', this.props)
     let cons = window.constants;
     let {numPages, windowWidth} = {...cons};
     return (
-      <>
-      <div className="container" id='container'
+      <div
         style={{
+          backgroundColor:'#cc0000',
           width: cons.containerWidth * cons.numPages,
+          position:"relative",
           right: this.props.right,
         }}
       >
@@ -34,7 +34,7 @@ export default class Pages extends React.Component {
           }}
         >
           <Lights
-            {...this.props}
+            api={this.props.api}
           />
         </div>
         <div
@@ -60,30 +60,6 @@ export default class Pages extends React.Component {
           />
         </div>
       </div>
-        <div className='center'
-          style={{
-            display: "inline-block",
-            //border: '1px solid white',
-            position: "relative",
-            padding: 0,
-            left: ((numPages * 3 - this.props.page * 2) + 'em')
-          }}
-        >
-          <span className={' ' + (this.props.page === 0 ? 'bold' : '')}
-            onClick={() => this.props.setPage(0)}>
-            lights&nbsp;
-          </span>
-          <span className={' ' + (this.props.page === 1 ? 'bold' : '')}
-                onClick={() => this.props.setPage(1)}>
-
-            status&nbsp;
-          </span>
-          <span className={' ' + (this.props.page === 2 ? 'bold' : '')}
-                onClick={() => this.props.setPage(2)}>
-            raw
-          </span>
-        </div>
-      </>
     );
   }
 }

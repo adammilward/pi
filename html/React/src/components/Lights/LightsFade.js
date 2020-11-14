@@ -11,6 +11,7 @@ export default class LightsFade extends React.Component{
   radio = (mode) => {
     this.props.sendRequest(
       'lights ' + mode,
+      null,
       1
     );
   };
@@ -20,11 +21,13 @@ export default class LightsFade extends React.Component{
     if (Boolean(this.props.delay)) {
       this.props.sendRequest(
         'lights static',
+        null,
         1
       );
     } else {
       this.props.sendRequest(
         'lights ' + requestMode,
+        null,
         1
       );
     }
