@@ -1,93 +1,84 @@
 import React from "react";
-import ReactSwipeEvents from 'react-swipe-events'
 import Pages from "./Pages";
 
 export default class SwipeContainer extends React.Component {
 
-  isScrolling;
+  scrolling;
   touching = false;
 
   constructor(props) {
-    console.log('SwipeContainter.constructor', props);
+    //console.log('SwipeContainter.constructor', props);
     super(props);
     this.state = {
       page: 0,
-      right: 0,
-      swipeProps: this.swipeProps,
     }
-    console.log(props);
   }
 
   setPage = (page) => {
-    console.log('setPage', page);
-    console.log(page, this)
-    this.setState({
-      page: page,
-      right: window.constants.windowWidth * page,
-    });
+    this.scrollTo(
+      document.getElementById('container'),
+      page
+    )
   }
-
-  setRight = (deltaR) => {
-    //console.log(deltaR);
-    let right = this.state.right - deltaR;
-    this.setState({
-      right: (right > 0 ? right : 0),
-    })
-  }
-
 
   handleScroll= (e) => {
-    console.log('scroll', e);
     let container = e.target;
-    console.log('scrollHeight', container.scrllHeight);
-    console.log('scrollWidth', container.scrollWidth);
-    console.log(container.scrollLeft);
-    console.log(container.scrollTop);
-
-    window.clearTimeout(this.isScrolling);
-
-    this.scrollTimeoug = setTimeout(() => {
-      this.isScrolling = false;
-      this.handleScrollFinish(container);
-    }, 2000)
-    this.isScrolling = true;
-
-    /*this.setState({
-      right: element.scrollLeft,
-    })*/
+    window.clearTimeout(this.scrolling);
+    this.scrolling = true;
+    clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => {
+      this.scrolling = false;
+      this.scrollToNearest();
+    }, 100)
   }
 
-  handleScrollFinish = (container) => {
-    if (! this.touching && !this.isScrolling) {
-      container.scrollLeft = 0;
-      container.scrollTop = 0;
+  scrollToNearest = () => {
+    if (! this.touching && !this.scrolling) {
+      let container = document.getElementById('container');
+      let x = container.scrollLeft;
+      let newPage = 0;
+      let newX = 0;
+      let {numPages, windowWidth} = {...window.constants}
+      let maxX = windowWidth * --numPages
+      while (newPage < numPages) {
+        if (x < (newX + windowWidth * 0.5)) {
+          this.scrollTo(container, newPage);
+          return;
+        } else {
+          newPage++;
+          newX = windowWidth * newPage;
+        }
+      }
+      this.scrollTo(container, newPage);
     }
   }
 
+  scrollTo = (container, page) => {
+    //console.log('scrollTo', container, page, x)
+    let x = page * window.constants.windowWidth;
+    if (page !== this.state.page) {
+      this.setState({page: page})
+      container.scrollTo(x, 0)
+    } else {
+      container.scrollTo(x, container.scrollTop)
+    }
+  }
+
+
   touchStart = (e) => {
-    console.log('touchStart', e);
     this.touching = true;
   }
 
   touchEnd = (e) => {
     this.touching = false;
-    this.handleScrollFinish(e.target)
+    this.scrollToNearest();
   }
 
   render() {
-    console.log('SwipeContainter.render', this.props, this.state);
+    //console.log('SwipeContainter.render', this.props, this.state);
     let cons = window.constants;
     let {numPages, windowWidth} = {...cons};
     return (
-      /*<ReactSwipeEvents
-        //threshold='1000000'
-        onSwiping = {this.onSwiping}
-        onSwiped = {this.onSwiped}
-        onSwipedRight = {this.onSwipedRight}
-        onSwipedLeft ={this.onSwipedLeft}
-        onSwipedDown = {this.onSwipedDown}
-        onSwipedUp = {this.onSwipedUp}
-      >*/
       <>
         <div className="container" id='container'
              style={{
@@ -95,6 +86,7 @@ export default class SwipeContainer extends React.Component {
                width: cons.containerWidth,
                height: window.outerHeight - 63,
                overflow: "scroll",
+               scrollBehavior:"smooth",
              }}
              onScroll={this.handleScroll}
              onTouchStart={this.touchStart}
@@ -137,7 +129,6 @@ export default class SwipeContainer extends React.Component {
               </span>
         </div>
       </>
-      /*</ReactSwipeEvents>*/
     )
   }
 }
