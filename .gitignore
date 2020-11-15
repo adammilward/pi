@@ -3,3 +3,6 @@
 html/config.php
 html/ip/lastUpdate.txt
 /html/React/src/utils/config.json
+.venv
+.vscode
+node_modules
