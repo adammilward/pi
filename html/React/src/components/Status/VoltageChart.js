@@ -59,6 +59,7 @@ export default function MyChart() {
       >
         <Chart data={data} series={series} axes={axes} />
       </div>
+      <br/>
       <div
         style={{
           backgroundColor: '#ffffff',

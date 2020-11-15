@@ -50,6 +50,7 @@ export default class App extends React.Component{
 
     this.api = new Api(this.displayErrors)
 
+    window.addEventListener('resize', () => window.location.reload())
   }
 
   componentDidMount() {
