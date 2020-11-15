@@ -20,10 +20,10 @@ export default class Pages extends React.Component {
     return (
       <div
         style={{
+          //border: '1px solid white',
           backgroundColor:'#cc0000',
-          width: cons.containerWidth * cons.numPages,
+          width: cons.containerWidth,
           position:"relative",
-          right: this.props.right,
         }}
       >
         <div

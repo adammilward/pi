@@ -22,14 +22,13 @@ export default class SwipeContainer extends React.Component {
   }
 
   handleScroll= (e) => {
-    let container = e.target;
     window.clearTimeout(this.scrolling);
     this.scrolling = true;
     clearTimeout(this.scrollTimer);
     this.scrollTimer = setTimeout(() => {
       this.scrolling = false;
       this.scrollToNearest();
-    }, 100)
+    }, 80)
   }
 
   scrollToNearest = () => {
@@ -37,17 +36,14 @@ export default class SwipeContainer extends React.Component {
       let container = document.getElementById('container');
       let x = container.scrollLeft;
       let newPage = 0;
-      let newX = 0;
       let {numPages, windowWidth} = {...window.constants}
-      let maxX = windowWidth * --numPages
-      while (newPage < numPages) {
-        if (x < (newX + windowWidth * 0.5)) {
+
+      while (newPage < (numPages - 1)) {
+        if (x < (windowWidth * (newPage + 0.5))) {
           this.scrollTo(container, newPage);
           return;
-        } else {
-          newPage++;
-          newX = windowWidth * newPage;
         }
+        newPage++;
       }
       this.scrollTo(container, newPage);
     }
@@ -82,8 +78,8 @@ export default class SwipeContainer extends React.Component {
       <>
         <div className="container" id='container'
              style={{
-               backgroundColor:'#cc0000',
-               width: cons.containerWidth,
+               //backgroundColor:'#cc0000',
+               width: cons.windowWidth,
                height: window.outerHeight - 63,
                overflow: "scroll",
                scrollBehavior:"smooth",
@@ -106,7 +102,7 @@ export default class SwipeContainer extends React.Component {
         </div>
         <div className='center'
              style={{
-               backgroundColor:'#00aa00',
+               //backgroundColor:'#00aa00',
                display: "inline-block",
                //border: '1px solid white',
                position: "relative",
