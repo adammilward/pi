@@ -24,7 +24,7 @@ export default class SwipeContainer extends React.Component {
 
   setRight = (deltaR) => {
     console.log(deltaR);
-    let right = this.state.right - deltaR;
+    let right = this.state.right - deltaR / 20;
     this.setState({
       right: (right > 0 ? right : 0),
     })
