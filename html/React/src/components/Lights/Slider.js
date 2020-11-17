@@ -1,6 +1,5 @@
 import React from 'react';
 import {Range, getTrackBackground} from "react-range";
-import Api from '../../utils/Api'
 
 const STEP = 0.01;
 const MIN = 0;
@@ -9,7 +8,6 @@ const MAX = 255;
 class Slider extends React.Component {
 
   isDragged = false;
-  api = new Api();
 
   constructor(props) {
     super(props);

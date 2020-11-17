@@ -48,13 +48,17 @@ export default class App extends React.Component{
 
     this.displayErrors = this.displayErrors.bind(this);
 
-    this.api = new Api(this.displayErrors)
+    this.api = new Api(this.dataReceive, this.displayErrors)
 
     window.addEventListener('resize', () => window.location.reload())
   }
 
   componentDidMount() {
     //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
+  }
+
+  dataReceive = (data) => {
+    console.log('dataReceive ', data)
   }
 
   displayErrors(type, errorsArray) {

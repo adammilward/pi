@@ -102,9 +102,7 @@ export default class SwipeContainer extends React.Component {
         </div>
         <div className='center'
              style={{
-               //backgroundColor:'#00aa00',
                display: "inline-block",
-               //border: '1px solid white',
                position: "relative",
                padding: 0,
                left: ((numPages * 2.75 - this.state.page * 2) + 'em')

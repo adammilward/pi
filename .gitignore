@@ -6,3 +6,4 @@ html/ip/lastUpdate.txt
 .venv
 .vscode
 node_modules
+html/config.json

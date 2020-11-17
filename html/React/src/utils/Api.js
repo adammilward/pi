@@ -1,15 +1,26 @@
-import config from './config.json'
 export default class Api {
 
   isBusy = false;
   errorCallBack;
   queue = [];
+  webSocket = new WebSocket(
+     "ws://"
+    + window.config.webSocket.host
+    + ":"
+    + window.config.webSocket.port
+    + "/"
+  )
 
-  constructor(errorCallBack) {
+  constructor(messageReceive, errorCallBack) {
+    this.messageReceive = messageReceive;
     this.errorCallBack = errorCallBack;
-    this.apiUrl = config.apiUrl;
+    this.apiUrl = window.config.apiUrl;
+    this.webSocket.onmessage = this.receive
+  }
 
-    //this.processQueue = this.processQueue.bind(this);
+  receive = (data, a, b) => {
+    console.log('websocket.receive: ', data, a, b)
+    this.messageReceive(data);
   }
 
   processQueue() {

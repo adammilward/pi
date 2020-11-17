@@ -14,6 +14,17 @@ const options = {
   transition: transitions.SCALE
 };
 
+if (window.config === undefined) {
+  window.config = {
+    "apiUrl": "http://thx1138/van_data.php",
+    "webSocket": {
+      "host": "thx1138-dev",
+      "port": "1138"
+    }
+  }
+}
+console.log(window.config);
+
 ReactDOM.render(
   <AlertProvider template={AlertTemplate} {...options}>
     <App />
