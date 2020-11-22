@@ -8,7 +8,6 @@ import logging
 import websockets
 
 logging.basicConfig()
-
 STATE = {"value": 0}
 
 USERS = set()
@@ -43,13 +42,17 @@ async def unregister(websocket):
     USERS.remove(websocket)
     await notify_users()
 
-
+# this is called each time a client is added
 async def counter(websocket, path):
+    print('registering')
     # register(websocket) sends user_event() to websocket
     await register(websocket)
     try:
+        print('trying')
         await websocket.send(state_event())
         async for message in websocket:
+            print('message')
+            print(message)
             data = json.loads(message)
             if data["action"] == "minus":
                 STATE["value"] -= 1
@@ -60,10 +63,11 @@ async def counter(websocket, path):
             else:
                 logging.error("unsupported event: {}", data)
     finally:
+        print('unregisteriong')
         await unregister(websocket)
 
 
-start_server = websockets.serve(counter, "thx1138-dev", 6789)
+start_server = websockets.serve(counter, "thx1138-dev", 1138)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

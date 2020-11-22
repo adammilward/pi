@@ -18,59 +18,49 @@ try:
     f =  open('../config.json')
     configs = json.loads(f.read())
     f.close()
-    hostname = configs["hostname"]
+    hostname = configs["websocket"]["host"]
+    port = configs["websocket"]["port"]
 except:
-    raise Exception("you must provide a host name in hostname.txt")
-
-def state_event():
-    return json.dumps({"type": "state", **STATE})
+    raise Exception("you must websocket.host & port in config.json")
 
 
-def users_event():
-    return json.dumps({"type": "users", "count": len(USERS)})
-
-
-async def notify_state():
+async def processMessage(request):
     if USERS:  # asyncio.wait doesn't accept an empty list
-        message = state_event()
+        response = request(request)
         await asyncio.wait([user.send(message) for user in USERS])
 
+def request(request):
+    print(request)
+    return json.dumps({"type": "response", "requestId": request.id})
 
-async def notify_users():
+async def serialReceive():
+    message = json.dumps({"type": "statusReport", "payload": "payload"})
     if USERS:  # asyncio.wait doesn't accept an empty list
-        message = users_event()
+        message = message
         await asyncio.wait([user.send(message) for user in USERS])
-
 
 async def register(websocket):
     USERS.add(websocket)
-    await notify_users()
-
+    await serialReceive()
 
 async def unregister(websocket):
     USERS.remove(websocket)
-    await notify_users()
+    await serialReceive()
 
-
-async def counter(websocket, path):
+async def onMessage(websocket, path):
     # register(websocket) sends user_event() to websocket
+    print('onMessage')
     await register(websocket)
     try:
-        await websocket.send(state_event())
         async for message in websocket:
+            print('message')
+            print(message)
             data = json.loads(message)
-            if data["action"] == "minus":
-                STATE["value"] -= 1
-                await notify_state()
-            elif data["action"] == "plus":
-                STATE["value"] += 1
-                await notify_state()
-            else:
-                logging.error("unsupported event: {}", data)
+            processMessage(message)
     finally:
         await unregister(websocket)
 
-start_server = websockets.serve(counter, hostname, 6789)
+start_server = websockets.serve(onMessage, hostname, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
