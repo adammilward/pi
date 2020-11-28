@@ -7,6 +7,8 @@ import json
 import logging
 import websockets
 
+import arduinoSerialCom
+
 logging.basicConfig()
 
 STATE = {"value": 0}

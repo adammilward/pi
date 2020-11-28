@@ -7,6 +7,7 @@
     to allow the www-data read and write access
 ''' 
 
+# python -m pip install pyserial
 import serial
 import time
 import sys
