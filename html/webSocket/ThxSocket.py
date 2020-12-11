@@ -10,8 +10,10 @@ class ThxSocket:
     USERS = set()
     hostname = ''
     port = ''
+    arduinoCom = object
 
-    def __init__(self):
+    def __init__(self, arduino):
+        self.arduinoCom = arduino
         try:
             configs = {}
             f =  open('../config.json')
@@ -21,6 +23,21 @@ class ThxSocket:
             self.port = configs["websocket"]["port"]
         except:
             raise Exception("you must websocket.host & port in config.json")
+
+    async def startArduinoReadLoop(self):
+        while True:
+            await self.arduinoRead()            
+            await asyncio.sleep(10)
+
+    async def arduinoRead(self):
+        message = self.arduinoCom.read()
+        if (len(message)):
+            await self.sendData(message)
+
+    async def arduinoSend(self, request):
+        print('socket.arduinoSend', request)
+        self.arduinoCom.writeLine(request)
+        await self.arduinoRead()
 
     async def sendData(self, data):
         print('sendData: ', data)
@@ -73,6 +90,8 @@ class ThxSocket:
                 elif data["action"] == "plus":
                     self.STATE["value"] += 1
                     await self.notify_state() # notify all users of new state
+                elif data['action'] == 'arduinoRequest':
+                    await self.arduinoSend(data['request'])
                 else:
                     logging.error("unsupported event: {}", data)
                 print('end for message loop')

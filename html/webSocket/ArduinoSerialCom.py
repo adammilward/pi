@@ -23,8 +23,9 @@ class ArduinoSerialCom:
 
         self.arduino = serial.Serial(self.serialPort, self.baudRate, timeout = self.timeout)
 
-    def write(self, message):
-        self.arduino.write(message.encode());
+    def writeLine(self, message):
+        print('arduino.write ', message)
+        self.arduino.write((message + '\n').encode());
 
     def passForJson(self, message):
         result = []
@@ -46,8 +47,11 @@ class ArduinoSerialCom:
 
         if (responseText):
             messages['raw'] = responseText
-            jsonData = self.passForJson(responseText)
-            messages['json'] = jsonData
+            try:
+                jsonData = self.passForJson(responseText)
+                messages['json'] = jsonData
+            except:
+                print('json parse failed')
             
         return messages
 

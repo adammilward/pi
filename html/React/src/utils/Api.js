@@ -14,10 +14,26 @@ export default class Api {
 
   }
 
-  receive = (event, a, b) => {
-    console.log('websocket.receive: ', event, a, b)
-    let data = event.data;
-    console.log('data', data);
+  send(request) {
+    console.log('websocket send', request)
+    console.log(this._websocket);
+    console.log(this._websocket.send);
+    this._websocket.send(JSON.stringify({action: 'minus'}));
+    this._websocket.send(JSON.stringify({
+      action : 'arduinoRequest',
+      request: request
+    }));
+  }
+
+  receive(event) {
+    console.log('websocket.receive: ', event)
+    let data = JSON.parse(event.data);
+
+    console.log('data: ', data);
+
+    if (data.raw) {
+      console.log('raw: ', data.raw);
+    }
 
     switch (data.type) {
       case 'response':
@@ -34,9 +50,13 @@ export default class Api {
   }
 
   websocket() {
-    if (this._websocket && this._websocket.hasOwnProperty('onmessage')) {
+    console.log('websocket()')
+    console.log(this._websocket)
+    if (this._websocket !== null) {
       return this._websocket
     }
+
+    let _that = this;
     try {
       this._websocket =  new WebSocket(
         "ws://"
@@ -47,15 +67,16 @@ export default class Api {
       )
 
       this._websocket.onOpen = function () {
-        console.log('websocket Opend, this', this)
+        console.log('websocket Opened, this', this)
       };
 
       this._websocket.onClose = function () {
+        _that._websocket = null;
         console.log('websocket closed, this', this)
       }
 
-      console.log(this._websocket);
       this._websocket.onmessage = this.receive
+
       return this._websocket;
     } catch (e) {
       console.warn('websocekt failed', e);

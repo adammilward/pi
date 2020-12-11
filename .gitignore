@@ -7,3 +7,4 @@ html/ip/lastUpdate.txt
 .vscode
 node_modules
 html/config.json
+__pycache__
