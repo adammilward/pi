@@ -67,12 +67,12 @@
                         value.textContent = data.value;
                         break;
                     case 'users':
-                        users.textContent = (
-                            data.count.toString() + " user" +
-                            (data.count == 1 ? "" : "s"));
-                        break;
-                    default:
-                        console.error(
+                      users.textContent = (
+                        data.count.toString() + " user" +
+                        (data.count === 1 ? "" : "s"));
+                      break;
+                  default:
+                        console.warn(
                             "unsupported event", data);
                 }
             };

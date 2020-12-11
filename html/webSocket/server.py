@@ -2,67 +2,30 @@
 
 # WS server example that synchronizes state across clients
 
+import ThxSocket
 import asyncio
-import json
-import logging
-import websockets
+import ArduinoSerialCom
 
-import arduinoSerialCom
+arduino = ArduinoSerialCom.ArduinoSerialCom()
+thx1138 = ThxSocket.ThxSocket()
 
-logging.basicConfig()
+async def arduinoRead():
+    while True:
+        message = arduino.read()
+        if (len(message)):
+            await thx1138.sendData(message)
+        
+        await asyncio.sleep(1)
 
-STATE = {"value": 0}
+async def main(loop):
+    socket = thx1138.getSocket()
+    arduinoReadTask = loop.create_task(arduinoRead())
+    await socket
+    await arduinoReadTask
+    
 
-USERS = set()
+#start_server = websockets.serve(counter, hostname, port)
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main(loop))
+loop.close()
 
-try:
-    configs = {}
-    f =  open('../config.json')
-    configs = json.loads(f.read())
-    f.close()
-    hostname = configs["websocket"]["host"]
-    port = configs["websocket"]["port"]
-except:
-    raise Exception("you must websocket.host & port in config.json")
-
-
-async def processMessage(request):
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        response = request(request)
-        await asyncio.wait([user.send(message) for user in USERS])
-
-def request(request):
-    print(request)
-    return json.dumps({"type": "response", "requestId": request.id})
-
-async def serialReceive():
-    message = json.dumps({"type": "statusReport", "payload": "payload"})
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        message = message
-        await asyncio.wait([user.send(message) for user in USERS])
-
-async def register(websocket):
-    USERS.add(websocket)
-    await serialReceive()
-
-async def unregister(websocket):
-    USERS.remove(websocket)
-    await serialReceive()
-
-async def onMessage(websocket, path):
-    # register(websocket) sends user_event() to websocket
-    print('onMessage')
-    await register(websocket)
-    try:
-        async for message in websocket:
-            print('message')
-            print(message)
-            data = json.loads(message)
-            processMessage(message)
-    finally:
-        await unregister(websocket)
-
-start_server = websockets.serve(onMessage, hostname, port)
-
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
