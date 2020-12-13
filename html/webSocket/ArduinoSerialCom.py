@@ -39,20 +39,25 @@ class ArduinoSerialCom:
 
     def read(self):
         responseText = ''
-        messages = {}
+        messages = []
 
         response = self.arduino.readlines()
         for line in response:
             responseText += line.decode('utf-8')
 
         if (responseText):
-            messages['raw'] = responseText
+            messages.append({
+                    'type': 'raw',
+                    'payload': responseText
+                 })
             try:
-                jsonData = self.passForJson(responseText)
-                messages['json'] = jsonData
+                jsonMessages = self.passForJson(responseText)
+                messages += jsonMessages
             except:
                 print('json parse failed')
             
+        print('arduino messages')    
+        print(messages)    
         return messages
 
 

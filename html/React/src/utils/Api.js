@@ -1,88 +1,63 @@
+import MySocket from "./MySocket.js"
+import App from "../components/App.js"
+
 export default class Api {
 
   isBusy = false;
   errorCallBack;
   queue = [];
-  _websocket = null;
+  websocket = null;
+  messageHandlers = {}
 
+  /**
+   * @param {object} messageHandlers - message handling callbacks
+   * @param errorCallBack
+   */
+  constructor(messageHandlers, errorCallBack) {
 
-  constructor(messageReceive, errorCallBack) {
-    this.messageReceive = messageReceive;
+    this.messageHandlers = messageHandlers;
     this.errorCallBack = errorCallBack;
     this.apiUrl = window.config.apiUrl;
-    this.websocket();
+    this.websocket = new MySocket(this.receive)
 
   }
 
   send(request) {
-    console.log('websocket send', request)
-    console.log(this._websocket);
-    console.log(this._websocket.send);
-    this._websocket.send(JSON.stringify({action: 'minus'}));
-    this._websocket.send(JSON.stringify({
-      action : 'arduinoRequest',
-      request: request
-    }));
+    this.websocket.getSocket()
+      .then((socket) => {
+        socket.send(JSON.stringify({
+          type : 'arduinoRequest',
+          payload: request
+        }));
+      })
+      .catch((e) => {
+        console.warn('send error:  ', e)
+      })
   }
 
-  receive(event) {
+  receive = (event) => {
     console.log('websocket.receive: ', event)
     let data = JSON.parse(event.data);
 
     console.log('data: ', data);
+    console.log(this);
 
-    if (data.raw) {
-      console.log('raw: ', data.raw);
-    }
-
-    switch (data.type) {
-      case 'response':
-        this.requests[data.requestId].resolve(data);
-        break;
-      case 'statusReport':
-        this.statusReport(data);
-        break;
+    // todo probably just send data back to App.js who sends it blind to the users
+    try {
+      if (this.messageHandlers.hasOwnProperty(data.type)) {
+        this.messageHandlers[data.type](data.payload);
+      } else {
+        this.errorCallBack(App.alertTypes.INFO, ['unrecognised message type', data.type, data.payload])
+      }
+    } catch (e) {
+      console.warn('message type error');
+      console.warn(e);
+      this.errorCallBack(App.alertTypes.ERROR, ['message type error', e])
     }
   }
 
   statusReport() {
     console.warn('status report function needs to replace this')
-  }
-
-  websocket() {
-    console.log('websocket()')
-    console.log(this._websocket)
-    if (this._websocket !== null) {
-      return this._websocket
-    }
-
-    let _that = this;
-    try {
-      this._websocket =  new WebSocket(
-        "ws://"
-        + window.config.webSocket.host
-        + ":"
-        + window.config.webSocket.port
-        + "/"
-      )
-
-      this._websocket.onOpen = function () {
-        console.log('websocket Opened, this', this)
-      };
-
-      this._websocket.onClose = function () {
-        _that._websocket = null;
-        console.log('websocket closed, this', this)
-      }
-
-      this._websocket.onmessage = this.receive
-
-      return this._websocket;
-    } catch (e) {
-      console.warn('websocekt failed', e);
-      this._websocket = null;
-    }
-    return this._websocket;
   }
 
   processQueue() {

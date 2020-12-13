@@ -80,7 +80,7 @@ export default class SwipeContainer extends React.Component {
              style={{
                //backgroundColor:'#cc0000',
                width: cons.windowWidth,
-               height: window.outerHeight - 63,
+               height: window.innerHeight - 63,
                overflow: "scroll",
                scrollBehavior:"smooth",
              }}

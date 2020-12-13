@@ -6,7 +6,6 @@ import time
 
 class ThxSocket:
 
-    STATE = {"value": 0}
     USERS = set()
     hostname = ''
     port = ''
@@ -30,9 +29,10 @@ class ThxSocket:
             await asyncio.sleep(10)
 
     async def arduinoRead(self):
-        message = self.arduinoCom.read()
-        if (len(message)):
-            await self.sendData(message)
+        messages = self.arduinoCom.read()
+        if (len(messages)):
+            for message in messages:
+                await self.sendData(message)
 
     async def arduinoSend(self, request):
         print('socket.arduinoSend', request)
@@ -51,17 +51,6 @@ class ThxSocket:
         self.USERS.add(websocket)
         await self.notify_users()
 
-    def state_event(self):
-        print('state_event')
-        return json.dumps({"type": "state", **self.STATE})
-
-    async def notify_state(self):
-        time.sleep(.5)
-        print('notify_state')
-        if self.USERS:  # asyncio.wait doesn't accept an empty list
-            message = self.state_event()
-            await asyncio.wait([user.send(message) for user in self.USERS])
-
     async def unregister(self, websocket):
         print('unregister')
         self.USERS.remove(websocket)
@@ -79,19 +68,11 @@ class ThxSocket:
         print('call retister')
         await self.register(websocket)
         try:
-            print('websocket.send(state_event())')
-            #await websocket.send(thx1138.state_event()) # sends state info to current websocket
             async for message in websocket: # when websocket receives a message this loop runs
                 print('message: ', message)
                 data = json.loads(message)
-                if data["action"] == "minus":
-                    self.STATE["value"] -= 1
-                    await self.notify_state() # notify all users of new state
-                elif data["action"] == "plus":
-                    self.STATE["value"] += 1
-                    await self.notify_state() # notify all users of new state
-                elif data['action'] == 'arduinoRequest':
-                    await self.arduinoSend(data['request'])
+                if data['type'] == 'arduinoRequest':
+                    await self.arduinoSend(data['payload'])
                 else:
                     logging.error("unsupported event: {}", data)
                 print('end for message loop')

@@ -23,6 +23,12 @@ export default class App extends React.Component{
   api;
   interval = {};
 
+  static alertTypes = {
+    INFO: 'info',
+    SUCCESS: 'success',
+    ERROR: 'error'
+  };
+
   constructor(props) {
     super(props);
 
@@ -48,10 +54,16 @@ export default class App extends React.Component{
 
     this.displayErrors = this.displayErrors.bind(this);
 
-    this.api = new Api(this.dataReceive, this.displayErrors)
+    let messageHandlers = {
+      'lights': this.receiveLights,
+      'status': this.receiveStatus,
+    }
+    // todo decide how data is going to be sent to where it is needed
+    this.api = new Api(messageHandlers, this.displayErrors)
 
     window.addEventListener('resize', () => window.location.reload())
   }
+
 
   componentDidMount() {
     //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
