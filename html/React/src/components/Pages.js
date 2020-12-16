@@ -9,19 +9,18 @@ export default class Pages extends React.Component {
   pages = ['lights', 'status', 'raw']
 
   constructor(props) {
-    console.log('Pages::constroctor', props);
     super(props);
   }
 
   render() {
-    console.log('pages.rencer', this.props)
+    //console.log('Pages.render, props, lastMessage ', this.props, this.props.lastMessage)
     let cons = window.constants;
     let {numPages, windowWidth} = {...cons};
     return (
       <div
+        id={'container'}
         style={{
-          //border: '1px solid white',
-          backgroundColor:'#cc0000',
+          overflow: "hidden",
           width: cons.containerWidth,
           position:"relative",
         }}
@@ -30,33 +29,41 @@ export default class Pages extends React.Component {
           id='lights'
           className='page padded'
           style={{
-            width: cons.windowWidth - cons.padding,
+            width: cons.windowInnerWidth,
           }}
         >
           <Lights
+            active={0 === this.props.page}
             api={this.props.api}
+            lastMessage={this.props.lastMessage}
           />
         </div>
         <div
           id='status'
           className='page padded'
           style={{
-            width: cons.windowWidth - cons.padding,
+            overflow: "hidden",
+            width: cons.windowInnerWidth,
           }}
         >
           <Status
             {...this.props}
+            active={1 === this.props.page}
+            lastMessage={this.props.lastMessage}
           />
         </div>
         <div
           id='raw'
           className='page padded'
           style={{
-            width: cons.windowWidth - cons.padding,
+            overflow: "hidden",
+            width: cons.windowInnerWidth,
           }}
         >
           <Raw
             {...this.props}
+            active={2 === this.props.page}
+            lastMessage={this.props.lastMessage}
           />
         </div>
       </div>

@@ -4,18 +4,18 @@ import moment from 'moment';
 import Api from '../utils/Api.js'
 import Alert from "./Alert";
 import SwipeContainer from "./SwipeContainer";
-//import SwipeContainer from "./SwipeContainer"
 
 const numPages = 3;
-const windowWidth = window.outerWidth;
+const windowWidth = window.innerWidth;
 const padding = 20;
-const containerWidth = windowWidth * numPages;
 
 window.constants = {
   numPages: numPages,
   windowWidth: windowWidth,
+  windowInnerWidth: windowWidth - padding,
   padding: padding,
   containerWidth: windowWidth * numPages,
+  pageHeight: window.innerHeight - 88
 }
 
 export default class App extends React.Component{
@@ -40,6 +40,8 @@ export default class App extends React.Component{
     this.state = {
       time: time,
       mode: 'status',
+      users: 0,
+      lastMessage: {type: '', payload: ''}
     };
 
     const hours = time.format('H');
@@ -54,16 +56,20 @@ export default class App extends React.Component{
 
     this.displayErrors = this.displayErrors.bind(this);
 
-    let messageHandlers = {
-      'lights': this.receiveLights,
-      'status': this.receiveStatus,
-    }
-    // todo decide how data is going to be sent to where it is needed
-    this.api = new Api(messageHandlers, this.displayErrors)
+    this.api = new Api(this.displayErrors)
 
     window.addEventListener('resize', () => window.location.reload())
   }
 
+  receiveMessage = (message) => {
+    console.log('App.receiveMesage', message)
+    if (message.type === 'users') {
+      this.setState({users: message.payload.count})
+    }
+    this.setState({
+      lastMessage: message
+    });
+  }
 
   componentDidMount() {
     //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
@@ -74,14 +80,10 @@ export default class App extends React.Component{
   }
 
   displayErrors(type, errorsArray) {
-    console.log('displayErrors, type, errorsArray:', type, errorsArray)
-    console.warn('displayErrors, type, errorsArray:', type, errorsArray)
     errorsArray.forEach((message) => {
       if (typeof message !== 'string') {
         message = '';
       }
-      console.log('errorsArray.forEach, message:', message)
-      console.warn('errorsArray.forEach, message:', message)
       this.setState({alert: {message: message, type: type}});
     });
   }
@@ -89,30 +91,31 @@ export default class App extends React.Component{
 
 
   render() {
+    let s = 's'
     return (
       <div style={{
         width: window.constants.windowWidth,
         overflow: "hidden",
       }}>
         <p className='padded'>
-          <span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
-          <span className="right">Good {this.timeOfDay}</span>
+
+          <span>
+            {this.state.time.format('ddd Do MMM HH:mm:ss')}
+          </span>
+          <span className="right">
+            Good {this.timeOfDay}
+          </span>
+          <span className="right">
+            {this.state.users} user{this.state.users !== 1 && s}
+          </span>
         </p>
         <SwipeContainer
           api={this.api}
+          windowConstants={this.pr}
+          lastMessage={this.state.lastMessage}
         />
         {this.state.alert && <Alert alert={this.state.alert}/>}
       </div>
-
-    /*      <>
-            <div className="container" id='container'>
-              <p><span>{this.state.time.format('ddd Do MMM HH:mm:ss')}</span>
-                <span className="right">Good {this.timeOfDay}</span>
-              </p>
-              {this.renderMode()}
-            </div>
-            {this.state.alert && <Alert alert={this.state.alert}/>}
-          </>*/
     );
   }
 }

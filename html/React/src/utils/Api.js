@@ -1,28 +1,40 @@
 import MySocket from "./MySocket.js"
 import App from "../components/App.js"
 
+// i don't know where else to put this
+const recognisedTypes = [
+  'raw', 'status', 'lights', 'time', 'users', 'request'
+]
+
 export default class Api {
 
   isBusy = false;
   errorCallBack;
   queue = [];
   websocket = null;
-  messageHandlers = {}
 
   /**
-   * @param {object} messageHandlers - message handling callbacks
+   * {type: callback}
+   * callback takes one parameter
+   * @type {{}}
+   */
+  messageHandlers = {}
+
+
+  /**
+   * @param {object} messageHandler - message handling callbacks
    * @param errorCallBack
    */
-  constructor(messageHandlers, errorCallBack) {
+  constructor(errorCallBack) {
 
-    this.messageHandlers = messageHandlers;
-    this.errorCallBack = errorCallBack;
+    this.errorHandler = errorCallBack;
     this.apiUrl = window.config.apiUrl;
     this.websocket = new MySocket(this.receive)
 
   }
 
   send(request) {
+    this.sentHandler(request);
     this.websocket.getSocket()
       .then((socket) => {
         socket.send(JSON.stringify({
@@ -36,28 +48,58 @@ export default class Api {
   }
 
   receive = (event) => {
-    console.log('websocket.receive: ', event)
     let data = JSON.parse(event.data);
+    let errors = false;
 
-    console.log('data: ', data);
-    console.log(this);
+    if (data.payload === undefined) {
+      errors = true;
+      console.warn('message had no payload', data)
+      this.errorHandler(App.alertTypes.ERROR, 'message had no payload')
+    }
+    if (data.type === undefined) {
+      errors = true;
+      console.warn('message had no type', data)
+      this.errorHandler(App.alertTypes.ERROR, 'message had no type')
+    }
 
-    // todo probably just send data back to App.js who sends it blind to the users
-    try {
-      if (this.messageHandlers.hasOwnProperty(data.type)) {
-        this.messageHandlers[data.type](data.payload);
-      } else {
-        this.errorCallBack(App.alertTypes.INFO, ['unrecognised message type', data.type, data.payload])
-      }
-    } catch (e) {
-      console.warn('message type error');
-      console.warn(e);
-      this.errorCallBack(App.alertTypes.ERROR, ['message type error', e])
+    if (!errors) {
+      this.messageHandler(data.type, data.payload);
     }
   }
 
-  statusReport() {
-    console.warn('status report function needs to replace this')
+  addSentHandler(callBack) {
+    this.sentHandler = callBack;
+  }
+
+  sentHandler(request) {
+    console.log('sent request: ', request)
+  }
+
+  messageHandler(type, data) {
+    if (this.messageHandlers[type]) {
+      this.messageHandlers[type](data);
+    } else {
+      console.log('type "' + type + '" not recognised');
+      this.defaultHandler(type, data)
+    }
+  }
+
+  addHandler(type, handler) {
+    this.messageHandlers[type] = handler;
+  }
+
+  addDefaultHandler(handler) {
+    this.defaultHandler = handler;
+  }
+
+  defaultHandler(type, message) {
+    console.warn('you should provide a proper handler for this')
+    console.log('payload', message)
+  }
+
+  errorHandler(data) {
+    console.warn('you should provide a proper handler for this')
+    console.log('error with data', data)
   }
 
   processQueue() {

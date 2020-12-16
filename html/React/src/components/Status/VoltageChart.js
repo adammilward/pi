@@ -49,12 +49,17 @@ export default function MyChart() {
   const lineChart = (
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically
-    <>
+    <div
+      style={{
+        height: window.constants.pageHeight,
+        overflowY: "scroll"
+      }}
+    >
       <div
         style={{
           backgroundColor: '#ffffff',
           height: '400px',
-          width:  window.outerWidth - 20
+          width:  '100%'
         }}
       >
         <Chart data={data} series={series} axes={axes} />
@@ -64,12 +69,12 @@ export default function MyChart() {
         style={{
           backgroundColor: '#ffffff',
           height: '400px',
-          width:  window.outerWidth - 20
+          width:  '100%'
         }}
       >
         <Chart data={data} series={series} axes={axes} />
       </div>
-    </>
+    </div>
   )
 
   return (

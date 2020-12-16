@@ -16,7 +16,7 @@ export default class SwipeContainer extends React.Component {
 
   setPage = (page) => {
     this.scrollTo(
-      document.getElementById('container'),
+      document.getElementById('viewPort'),
       page
     )
   }
@@ -33,30 +33,30 @@ export default class SwipeContainer extends React.Component {
 
   scrollToNearest = () => {
     if (! this.touching && !this.scrolling) {
-      let container = document.getElementById('container');
-      let x = container.scrollLeft;
+      let viewPort = document.getElementById('viewPort');
+      let x = viewPort.scrollLeft;
       let newPage = 0;
       let {numPages, windowWidth} = {...window.constants}
 
       while (newPage < (numPages - 1)) {
         if (x < (windowWidth * (newPage + 0.5))) {
-          this.scrollTo(container, newPage);
+          this.scrollTo(viewPort, newPage);
           return;
         }
         newPage++;
       }
-      this.scrollTo(container, newPage);
+      this.scrollTo(viewPort, newPage);
     }
   }
 
-  scrollTo = (container, page) => {
-    //console.log('scrollTo', container, page, x)
+  scrollTo = (viewPort, page) => {
     let x = page * window.constants.windowWidth;
+    //console.log('SwipeContainer.scrollTo', viewPort, page, x)
     if (page !== this.state.page) {
       this.setState({page: page})
-      container.scrollTo(x, 0)
+      viewPort.scrollTo(x, 0)
     } else {
-      container.scrollTo(x, container.scrollTop)
+      viewPort.scrollTo(x, 0)
     }
   }
 
@@ -76,12 +76,13 @@ export default class SwipeContainer extends React.Component {
     let {numPages, windowWidth} = {...cons};
     return (
       <>
-        <div className="container" id='container'
+        <div className="viewPort" id='viewPort'
              style={{
                //backgroundColor:'#cc0000',
                width: cons.windowWidth,
-               height: window.innerHeight - 63,
-               overflow: "scroll",
+               height: window.innerHeight - 70,
+               overflowX: "scroll",
+               overflowY: "hidden",
                scrollBehavior:"smooth",
              }}
              onScroll={this.handleScroll}
@@ -92,9 +93,6 @@ export default class SwipeContainer extends React.Component {
         >
           <Pages
             {...this.props}
-            swiper={{
-              setActive: this.setActive
-            }}
             page={this.state.page}
             right={this.state.right}
             setPage={this.setPage}

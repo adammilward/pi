@@ -59,7 +59,10 @@ class ThxSocket:
     async def notify_users(self):   
         print('notify_users')
         if self.USERS:  # asyncio.wait doesn't accept an empty list
-            message = json.dumps({"type": "users", "count": len(self.USERS)})
+            message = json.dumps({
+                "type": "users",
+                "payload": {"count": len(self.USERS)}
+            })
             await asyncio.wait([user.send(message) for user in self.USERS])
 
     async def counter(self, websocket, path):

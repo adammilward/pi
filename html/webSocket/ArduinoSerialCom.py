@@ -2,6 +2,8 @@
 import serial
 import json
 import re
+import sys
+import traceback
 
 class ArduinoSerialCom:
 
@@ -28,13 +30,18 @@ class ArduinoSerialCom:
         self.arduino.write((message + '\n').encode());
 
     def passForJson(self, message):
-        result = []
-
+        result = []  
         strings = re.findall("\<\{(.*?)\}\>", message, re.DOTALL)
         for string in strings:
-            jsonInner = re.sub("\'", '"', string, re.DOTALL)
-            result.append(json.loads('{' + jsonInner + '}'))
-
+            try:
+                jsonInner = re.sub("\'", '"', string, flags = re.DOTALL)
+                result.append(json.loads('{' + jsonInner + '}'))
+            except:
+                print(traceback.format_exc())
+                result.append({
+                    'type': 'error',
+                    'payload': traceback.format_exc()
+                })
         return result
 
     def read(self):
@@ -54,10 +61,8 @@ class ArduinoSerialCom:
                 jsonMessages = self.passForJson(responseText)
                 messages += jsonMessages
             except:
-                print('json parse failed')
-            
-        print('arduino messages')    
-        print(messages)    
+                print('json parse failed' , sys.exc_info()[0], sys.exc_info()[1])
+               
         return messages
 
 

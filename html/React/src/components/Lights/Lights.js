@@ -14,19 +14,27 @@ export default class Lights extends React.Component{
   constructor(props) {
     console.log('Lights.constructor', props)
     super(props);
-    this.state = {
-      on: false
-      , r: 0
-      , g: 0
-      , b: 0
-      , l: 1
-      , u: MAX_POW
-      , lightMode: [0, 3]
-      , delay: 0
-      , fadeDelay: 0
-      , reportDelay: 0
-      , count: 0
-    };
+
+    if (props.lastMessage
+      && props.lastMessage.type
+      && props.lastMessage.type === 'lights'
+    ) {
+      this.processLightsData(props.message.payload);
+    } else {
+      this.state = {
+        on: false
+        , r: 0
+        , g: 0
+        , b: 0
+        , l: 1
+        , u: MAX_POW
+        , lightMode: [0, 3]
+        , delay: 0
+        , fadeDelay: 0
+        , reportDelay: 0
+        , count: 0
+      };
+    }
     this.sendRequest('lights report');
 
     this.dragHold = this.dragHold.bind(this);
@@ -101,7 +109,7 @@ export default class Lights extends React.Component{
       count: this.state.count + 1
     };
 
-    console.log('setState: ', newState);
+    console.log('lights setState: ', newState);
 
     this.setState({
       ...newState,
