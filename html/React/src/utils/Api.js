@@ -22,7 +22,6 @@ export default class Api {
 
 
   /**
-   * @param {object} messageHandler - message handling callbacks
    * @param errorCallBack
    */
   constructor(errorCallBack) {
@@ -30,39 +29,30 @@ export default class Api {
     this.errorHandler = errorCallBack;
     this.apiUrl = window.config.apiUrl;
     this.websocket = new MySocket(this.receive)
-
+    this.addHandler('watchdogConfirm', function() {})
   }
 
   send(request) {
     this.sentHandler(request);
-    this.websocket.getSocket()
-      .then((socket) => {
-        socket.send(JSON.stringify({
-          type : 'arduinoRequest',
-          payload: request
-        }));
-      })
-      .catch((e) => {
-        console.warn('send error:  ', e)
-      })
+    this.websocket.send(request);
   }
 
   receive = (event) => {
     let data = JSON.parse(event.data);
     let errors = false;
 
-    if (data.payload === undefined) {
-      errors = true;
-      console.warn('message had no payload', data)
-      this.errorHandler(App.alertTypes.ERROR, 'message had no payload')
-    }
     if (data.type === undefined) {
       errors = true;
       console.warn('message had no type', data)
       this.errorHandler(App.alertTypes.ERROR, 'message had no type')
+      return;
     }
 
-    if (!errors) {
+    if (data.payload === undefined) {
+      errors = true;
+      console.log('message had no payload', data)
+      this.messageHandler(data.type)
+    } else {
       this.messageHandler(data.type, data.payload);
     }
   }
@@ -79,7 +69,6 @@ export default class Api {
     if (this.messageHandlers[type]) {
       this.messageHandlers[type](data);
     } else {
-      console.log('type "' + type + '" not recognised');
       this.defaultHandler(type, data)
     }
   }
@@ -94,6 +83,7 @@ export default class Api {
 
   defaultHandler(type, message) {
     console.warn('you should provide a proper handler for this')
+    console.log('type "' + type + '" not recognised');
     console.log('payload', message)
   }
 

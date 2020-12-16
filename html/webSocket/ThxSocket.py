@@ -47,17 +47,14 @@ class ThxSocket:
             #print('sent messgage: ', message)
 
     async def register(self, websocket):
-        print('register')
         self.USERS.add(websocket)
         await self.notify_users()
 
     async def unregister(self, websocket):
-        print('unregister')
         self.USERS.remove(websocket)
         await self.notify_users()
 
     async def notify_users(self):   
-        print('notify_users')
         if self.USERS:  # asyncio.wait doesn't accept an empty list
             message = json.dumps({
                 "type": "users",
@@ -66,22 +63,20 @@ class ThxSocket:
             await asyncio.wait([user.send(message) for user in self.USERS])
 
     async def counter(self, websocket, path):
-        print('counter')
         # register(websocket) sends user_event() to websocket
-        print('call retister')
         await self.register(websocket)
         try:
             async for message in websocket: # when websocket receives a message this loop runs
                 print('message: ', message)
                 data = json.loads(message)
+                print('messageSent')
                 if data['type'] == 'arduinoRequest':
                     await self.arduinoSend(data['payload'])
+                elif data['type'] == 'watchdogCheck':
+                    await websocket.send(json.dumps({'type': 'watchdogConfirm'}))
                 else:
                     logging.error("unsupported event: {}", data)
-                print('end for message loop')
-            print('after for message loop')
         finally:
-            print('unregister')
             await self.unregister(websocket)
 
     def getSocket(self):

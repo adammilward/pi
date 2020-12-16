@@ -41,6 +41,7 @@ export default class Raw extends React.Component {
         }
       })
     }
+    this.scrollToBottom();
   }
 
   handleSent = (message) => {
@@ -55,6 +56,7 @@ export default class Raw extends React.Component {
         }
       })
     }
+    this.scrollToBottom();
   }
 
   handleDefault = (type, message) => {
@@ -67,6 +69,13 @@ export default class Raw extends React.Component {
           + message
       }
     })
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    if (this.props.active && this.messagesEndRef.current) {
+      this.messagesEndRef.current.scrollIntoView('smooth')
+    }
   }
 
   render() {

@@ -79,13 +79,11 @@ export default class App extends React.Component{
     console.log('dataReceive ', data)
   }
 
-  displayErrors(type, errorsArray) {
-    errorsArray.forEach((message) => {
-      if (typeof message !== 'string') {
-        message = '';
-      }
-      this.setState({alert: {message: message, type: type}});
-    });
+  displayErrors(type, message) {
+    if (typeof message !== 'string') {
+      message = '';
+    }
+    this.setState({alert: {message: message, type: type}});
   }
 
 

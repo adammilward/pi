@@ -14,6 +14,10 @@ export default class SwipeContainer extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setPage(2);
+  }
+
   setPage = (page) => {
     this.scrollTo(
       document.getElementById('viewPort'),
