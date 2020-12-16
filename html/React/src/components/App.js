@@ -57,18 +57,9 @@ export default class App extends React.Component{
     this.displayErrors = this.displayErrors.bind(this);
 
     this.api = new Api(this.displayErrors)
+    this.api.addHandler('users', this.handleUsers)
 
     window.addEventListener('resize', () => window.location.reload())
-  }
-
-  receiveMessage = (message) => {
-    console.log('App.receiveMesage', message)
-    if (message.type === 'users') {
-      this.setState({users: message.payload.count})
-    }
-    this.setState({
-      lastMessage: message
-    });
   }
 
   componentDidMount() {
@@ -86,7 +77,12 @@ export default class App extends React.Component{
     this.setState({alert: {message: message, type: type}});
   }
 
-
+  handleUsers = (payload) => {
+    console.log(this)
+    if (payload.count) {
+      this.setState({users: payload.count})
+    }
+  }
 
   render() {
     let s = 's'
@@ -103,6 +99,7 @@ export default class App extends React.Component{
           <span className="right">
             Good {this.timeOfDay}
           </span>
+          <br/>
           <span className="right">
             {this.state.users} user{this.state.users !== 1 && s}
           </span>

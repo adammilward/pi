@@ -3,6 +3,8 @@ export default class MySocket {
   _websocket = null
   receiveCallback
   aliveTimeout
+
+  // start assuming the websocket is dead
   watchdogCount = 7
 
   constructor(receiveCallback) {
