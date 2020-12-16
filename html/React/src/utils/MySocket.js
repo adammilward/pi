@@ -3,7 +3,7 @@ export default class MySocket {
   _websocket = null
   receiveCallback
   aliveTimeout
-  watchdogCount = 0
+  watchdogCount = 7
 
   constructor(receiveCallback) {
     this.receiveCallback = receiveCallback
@@ -19,20 +19,14 @@ export default class MySocket {
   }
 
   getSocket() {
-    console.log(1)
     return new Promise((resolve, reject) => {
-      console.log(2)
       if (this._websocket !== null) {
-        console.log(3)
         resolve(this._websocket)
       } else {
-        console.log(4)
         try {
-          console.log(5)
           this.buildSocket();
           resolve(this._websocket);
         } catch (e) {
-          console.log(6)
           console.warn('websocekt failed', e);
           this._websocket = null;
           reject(e)
@@ -74,13 +68,25 @@ export default class MySocket {
   watchdog = () => {
     console.log('watchdog', this.watchdogCount)
 
+    if (this.watchdogCount > 7) {
+      fetch(
+        window.config.apiUrl + '/webSocket/startSocket.php',
+        {
+          method: 'GET',
+        })
+        .then((response) => {
+          console.log(response);
+        })
+    }
+
     if (this.watchdogCount > 5) {
-      console.log('destroy watchodog')
+      console.log('destroy watchdog')
       this._websocket = null
       this.send('watchdogCheck', 'watchdogCheck')
     } else if (this.watchdogCount > 4) {
       this.send('watchdogCheck', 'watchdogCheck')
     }
+
 
     this.watchdogCount ++
   }
@@ -89,17 +95,14 @@ export default class MySocket {
     console.log('send,', request)
     this.getSocket()
       .then((socket) => {
-        console.log('a');
         socket.send(JSON.stringify({
           type : type,
           payload: request
         }));
-        console.log('b');
       })
       .catch((e) => {
         console.warn('send error:  ', e)
       })
-    console.log('c');
   }
 
   close() {

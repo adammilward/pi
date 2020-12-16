@@ -2,7 +2,6 @@ import json
 import asyncio
 import websockets
 import logging
-import time
 
 class ThxSocket:
 
@@ -47,10 +46,12 @@ class ThxSocket:
             #print('sent messgage: ', message)
 
     async def register(self, websocket):
+        print('register')
         self.USERS.add(websocket)
         await self.notify_users()
 
     async def unregister(self, websocket):
+        print('unregister')
         self.USERS.remove(websocket)
         await self.notify_users()
 
@@ -73,7 +74,10 @@ class ThxSocket:
                 if data['type'] == 'arduinoRequest':
                     await self.arduinoSend(data['payload'])
                 elif data['type'] == 'watchdogCheck':
-                    await websocket.send(json.dumps({'type': 'watchdogConfirm'}))
+                    await websocket.send(json.dumps({
+                            'type': 'watchdogConfirm',
+                            'payload': data['payload']
+                        }))
                 else:
                     logging.error("unsupported event: {}", data)
         finally:

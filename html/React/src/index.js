@@ -16,7 +16,7 @@ const options = {
 
 if (window.config === undefined) {
   window.config = {
-    "apiUrl": "http://thx1138/van_data.php",
+    "apiUrl": "http://thx1138-dev",
     "webSocket": {
       "host": "thx1138-dev",
       "port": "1138"
