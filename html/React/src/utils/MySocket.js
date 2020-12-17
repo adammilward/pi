@@ -13,9 +13,7 @@ export default class MySocket {
       console.log('got socket', socket);
     })
       .catch(() => console.log('error socket', this._websocket))
-    console.log('can you see this', this._websocket);
 
-    console.log('setAliveInterval');
     clearInterval(window.aliveInterval) // was being called twice some how
     window.aliveInterval = setInterval(this.watchdog, 1000)
   }
@@ -38,7 +36,6 @@ export default class MySocket {
   }
 
   buildSocket() {
-    console.log('build socket');
     let _this = this;
 
     this._websocket = new WebSocket(
@@ -68,21 +65,20 @@ export default class MySocket {
   }
 
   watchdog = () => {
-    console.log('watchdog', this.watchdogCount)
-
     if (this.watchdogCount > 7) {
+      console.log('sending websocket server start request')
       fetch(
         window.config.apiUrl + '/webSocket/startSocket.php',
         {
           method: 'GET',
         })
         .then((response) => {
-          console.log(response);
+          console.log('websocket start response: ', response);
         })
     }
 
     if (this.watchdogCount > 5) {
-      console.log('destroy watchdog')
+      console.log('destroying websocket')
       this._websocket = null
       this.send('watchdogCheck', 'watchdogCheck')
     } else if (this.watchdogCount > 4) {
@@ -94,7 +90,7 @@ export default class MySocket {
   }
 
   send(request, type = 'arduinoRequest') {
-    console.log('send,', request)
+    console.log('send: ', type, request)
     this.getSocket()
       .then((socket) => {
         socket.send(JSON.stringify({

@@ -12,64 +12,33 @@ export default class Lights extends React.Component{
   isDragged = false;
 
   constructor(props) {
-    console.log('Lights.constructor', props)
     super(props);
 
-    if (props.lastMessage
-      && props.lastMessage.type
-      && props.lastMessage.type === 'lights'
-    ) {
-      this.processLightsData(props.message.payload);
-    } else {
-      this.state = {
-        on: false
-        , r: 0
-        , g: 0
-        , b: 0
-        , l: 1
-        , u: MAX_POW
-        , lightMode: [0, 3]
-        , delay: 0
-        , fadeDelay: 0
-        , reportDelay: 0
-        , count: 0
-      };
-    }
-    this.sendRequest('lights report');
+    this.state = {
+      on: false
+      , r: 0
+      , g: 0
+      , b: 0
+      , l: 1
+      , u: MAX_POW
+      , lightMode: [0, 3]
+      , delay: 0
+      , fadeDelay: 0
+      , reportDelay: 0
+      , count: 0
+    };
 
+    //this.props.api.addHandler('lights', this.handleData)
+    this.sendRequest('lights report');
     this.dragHold = this.dragHold.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
   }
 
-  sendRequest(
-    request = 'lights report',
-    callback = this.receiveResponse,
-    priority = 0
-  ) {
-    if (typeof 'callback' !== 'function') {
-      callback = this.receiveResponse
-    }
-    this.props.api.getData(request, callback, priority);
+  sendRequest(request = 'lights report') {
+    this.props.api.send(request);
   }
 
-
-  receiveResponse = (success, response) => {
-    response.forEach((data) =>{
-      if (Array.isArray(data)) {
-        this.receiveResponse(success, data)
-      } else if ('object' === typeof data) {
-        if ('lights' === data.mode) {
-          this.processLightsData(data);
-        } else if (data.info) {
-          //this.setState({alert: {message: data.info, type: 'info'}});
-        } else if (data.err) {
-          this.setState({alert: {message: data.err, type: 'error'}});
-        }
-      }
-    });
-  };
-
-  toggle = (fade) => {
+  toggle = () => {
     this.pendingOff = (this.state.on);
     this.sendRequest(
       this.state.on ? 'lights off' : 'lights on',
@@ -82,19 +51,17 @@ export default class Lights extends React.Component{
     this.isDragged = isDragged;
   }
 
-  processLightsData(data) {
+  handleData = (data) => {
     clearTimeout(this.requestTime);
-    if (typeof data !== "object") {
-      return;
-    }
 
     // postpone update if dragging;
     if (this.isDragged) {
-      //this.processHold = setTimeout(() => this.processLightsData(data), 10);
+      clearTimeout(this.processHold)
+      this.processHold = setTimeout(() => this.processLightsData(data), 10);
       return;
     }
 
-    console.log('recieved: ', data);
+    console.log('lights received recieved: ', data);
 
     let newState = {
       r: data.r < 0 ? 0 : data.r > MAX_POW ? MAX_POW : data.r,

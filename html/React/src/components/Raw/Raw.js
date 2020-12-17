@@ -78,6 +78,10 @@ export default class Raw extends React.Component {
     }
   }
 
+  clear = () => {
+    this.setState({messageList: ''})
+  }
+
   render() {
     //console.log('Raw.render, props ', this.props);
 
@@ -90,6 +94,7 @@ export default class Raw extends React.Component {
                value={this.state.request}
                onChange={this.onChange} />
         <input type='submit' value='submit' onClick={this.submit}/>
+        <input type='button' value='X' className='right' onClick={this.clear} />
         <div>
           <pre>
             {this.state.messageList}
@@ -100,6 +105,7 @@ export default class Raw extends React.Component {
                onChange={this.onChange} />
         <input ref={this.messagesEndRef}
           type='submit' value='submit' onClick={this.submit}/>
+        <input type='button' value='X' className='right' onClick={this.clear} />
       </div>
     )
 

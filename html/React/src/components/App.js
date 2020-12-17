@@ -5,7 +5,7 @@ import Api from '../utils/Api.js'
 import Alert from "./Alert";
 import SwipeContainer from "./SwipeContainer";
 
-const numPages = 3;
+const numPages = 4;
 const windowWidth = window.innerWidth;
 const padding = 20;
 
@@ -63,11 +63,7 @@ export default class App extends React.Component{
   }
 
   componentDidMount() {
-    //this.interval = setInterval(() => this.setState({time: moment()}), 1000);
-  }
-
-  dataReceive = (data) => {
-    console.log('dataReceive ', data)
+    this.interval = setInterval(() => this.setState({time: moment()}), 1000);
   }
 
   displayErrors(type, message) {
@@ -78,7 +74,6 @@ export default class App extends React.Component{
   }
 
   handleUsers = (payload) => {
-    console.log(this)
     if (payload.count) {
       this.setState({users: payload.count})
     }
