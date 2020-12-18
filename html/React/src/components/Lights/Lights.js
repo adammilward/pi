@@ -14,6 +14,8 @@ export default class Lights extends React.Component{
   constructor(props) {
     super(props);
 
+
+
     this.state = {
       on: false
       , r: 0
