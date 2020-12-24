@@ -5,8 +5,8 @@
  * Date: 16/12/2020
  */
 
-header("Access-Control-Allow-Origin: https://localhost");
-header("Access-Control-Allow-Origin: https://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Origin: http://localhost:3000");
 
 $response = shell_exec (
   '/var/www/thx1138-dev/html/webSocket/.venv-env/bin/python3.8 /var/www/thx1138-dev/html/webSocket/startSocket.py'
