@@ -107,22 +107,27 @@ export default class SwipeContainer extends React.Component {
                display: "inline-block",
                position: "relative",
                padding: 0,
-               left: ((numPages * 2.75 - this.state.page * 2) + 'em')
+               left: ((numPages * 2.75 - this.state.page * 4) + 'em')
              }}
         >
-              <span className={'paginator ' + (this.state.page === 0 ? 'bold' : '')}
-                    onClick={() => this.setPage(0)}>
-                lights&nbsp;
-              </span>
+          <span className={'paginator ' + (this.state.page === 0 ? 'bold' : '')}
+                onClick={() => this.setPage(0)}>
+            lights&nbsp;
+          </span>
           <span className={'paginator ' + (this.state.page === 1 ? 'bold' : '')}
                 onClick={() => this.setPage(1)}>
 
-                status&nbsp;
-              </span>
+            status&nbsp;
+          </span>
           <span className={'paginator ' + (this.state.page === 2 ? 'bold' : '')}
                 onClick={() => this.setPage(2)}>
-                raw
-              </span>
+
+            time&nbsp;
+          </span>
+          <span className={'paginator ' + (this.state.page === 3 ? 'bold' : '')}
+                onClick={() => this.setPage(3)}>
+            raw
+          </span>
         </div>
       </>
     )

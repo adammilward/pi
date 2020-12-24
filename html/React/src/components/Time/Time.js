@@ -1,38 +1,47 @@
 import React from "react";
+import Utility from "./Utility.js";
 
 const INITIAL_STATE = {
   timeTs: 0,
   temp: 0,
   reportDelay: 0,
+  leds: {
+    on: true,
+    forMin: 0,
+    alarm: {
+      active: true,
+      inMins: '10',
+      time: '10:11',
+      ts: 1234565,
+      repeat: true,
+      timerMins: 60
+    },
+  },
   heater: {
     on: false,
     forMin: 0,
     alarm: {
-      active: false,
-      inMins: '',
-      time: '',
+      active: true,
+      inMins: '0',
+      time: '10:10',
       ts: 0,
       repeat: false,
       timerMins: 0
     },
-    water: {
+  },
+  water: {
+    on: false,
+    forMin: 0,
+    alarm: {
       active: false,
-      inMins: '',
-      time: '',
+      inMins: '0',
+      time: '13:44',
       ts: 0,
       repeat: false,
       timerMins: 0
-    },
-    leds: {
-      active: false,
-      inMins: '',
-      time: '',
-      ts: 0,
-      repeat: false,
-      timerMins: 0
-    },
+    }
   }
-}
+};
 
 export default class Time extends React.Component {
   constructor(props) {
@@ -42,16 +51,8 @@ export default class Time extends React.Component {
 
     props.api.addHandler(this.handleTime);
 
-    let alarm = {
-      'type': 'time', 'payload': {
-        'timeTs': 1234556,
-        'temp': 45
-      }
-    };
 
-
-
-    this.sendRequest('timeReport report');
+    props.api.send('time report');
   }
 
   handleTime = (data) => {
@@ -76,43 +77,35 @@ export default class Time extends React.Component {
       }
   }
 
-  alarm = {
-    'type': 'time', 'payload': {
-      'heater': {
-        'on': true,
-        'forMin': 12,
-        'alarm': {
-          'active': true,
-          'inMins': '23:45',
-          'time': '23:45',
-          'ts': 1234,
-          'repeat': true,
-          'timerMins': 567
-        }
-      }
-    }
-  }
-
-  outputAlarm(utilityType) {
-    let utility = this.state[utilityType];
-    return (
-      {utilityType}
-    )
-  }
-
   render() {
     let arduinoTime = new Date(this.state.timeTs * 1000)
-    let dateTime = arduinoTime.toISOString().replace('T', '&nbs;&nbs;&nbs;&nbs;')
+    let dateTime = arduinoTime.toISOString().replace('T', ' ').substr(0, 19)
 
     return (
       <div>
         <p>arduino time {dateTime}</p>
         <p>temp {this.state.temp}&deg;C</p>
-        <ul>
-          <li>
-            {this.outputAlarm(this.state.leds)}
-          </li>
-        </ul>
+        <br/>
+        <div>
+          <Utility
+            utility={this.state.leds}
+            name="LEDs"
+          />
+        </div>
+        <br/>
+        <div>
+          <Utility
+            utility={this.state.heater}
+            name="Heater"
+          />
+        </div>
+        <br/>
+        <div>
+          <Utility
+            utility={this.state.water}
+            name="Water"
+          />
+        </div>
       </div>
     );
   }

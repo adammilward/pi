@@ -2,7 +2,7 @@ import React from "react";
 import Lights from './Lights/Lights';
 import Status from "./Status/Status";
 import Raw from "./Raw/Raw";
-import Time from "./Time"
+import Time from "./Time/Time"
 
 export default class Pages extends React.Component {
 
@@ -59,7 +59,7 @@ export default class Pages extends React.Component {
             width: cons.windowInnerWidth,
           }}
         >
-          <TIME
+          <Time
             {...this.props}
             active={2 === this.props.page}
           />

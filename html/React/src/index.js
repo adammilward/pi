@@ -16,9 +16,9 @@ const options = {
 
 if (window.config === undefined) {
   window.config = {
-    "apiUrl": "http://thx1138-dev",
+    "apiUrl": "http://thx1138",
     "webSocket": {
-      "host": "thx1138-dev",
+      "host": "thx1138",
       "port": "1138"
     }
   }
