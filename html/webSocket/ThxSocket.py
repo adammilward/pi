@@ -20,7 +20,7 @@ class ThxSocket:
             self.hostname = configs["websocket"]["host"]
             self.port = configs["websocket"]["port"]
         except:
-            raise Exception("you must websocket.host & port in config.json")
+            raise Exception("you must provide websocket.host & port in config.json")
 
     async def startArduinoReadLoop(self):
         while True:

@@ -44,15 +44,23 @@ export default class Api {
     if (data.type === undefined) {
       errors = true;
       console.warn('message had no type', data)
-      this.errorHandler(App.alertTypes.ERROR, 'message had no type')
+      //this.errorHandler(App.alertTypes.ERROR, 'message had no type')
       return;
     }
 
     if (data.payload === undefined) {
       errors = true;
       console.log('message had no payload', data)
-      this.messageHandler(data.type)
-    } else {
+      //this.errorHandler(App.alertTypes.ERROR, 'message had no payload')
+    }
+
+    if (data.err !== undefined) {
+      errors = true;
+      console.log('error recieved', data, data.err)
+      //this.errorHandler(App.alertTypes.ERROR, data.err)
+    }
+
+    if (!errors) {
       this.messageHandler(data.type, data.payload);
     }
   }

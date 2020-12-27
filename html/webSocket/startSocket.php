@@ -8,21 +8,15 @@ $configs = json_decode(file_get_contents('config.json'));
 
 header("Access-Control-Allow-Origin: http://localhost");
 
-$response = shell_exec (
-  '/var/www/thx1138-dev/html/webSocket/.venv-env/bin/python3.8 /var/www/thx1138-dev/html/webSocket/checkServer.py'
-  );
+$response = shell_exec ($configs['checkServer.py']);
 
 if (strpos($response, 'socket running') === false) {
-  shell_exec (
-    '/var/www/thx1138-dev/html/webSocket/.venv-env/bin/python3.8 /var/www/thx1138-dev/html/webSocket/server.py'
-  );
+  shell_exec ($configs['server.py']);
   error_log('socket check failed');
   error_log($response);
   echo 'socket check failed' . "\n";
   echo $response . "\n";
-  $response = shell_exec (
-    '/var/www/thx1138-dev/html/webSocket/.venv-env/bin/python3.8 /var/www/thx1138-dev/html/webSocket/checkServer.py'
-  );
+  $response = shell_exec ($configs['checkServer.py']);
 }
 
 error_log('socket check finished');

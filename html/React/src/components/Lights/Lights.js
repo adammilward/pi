@@ -30,7 +30,7 @@ export default class Lights extends React.Component{
       , count: 0
     };
 
-    //this.props.api.addHandler('lights', this.handleData)
+    this.props.api.addHandler('lights', this.handleData)
     this.sendRequest('lights report');
     this.dragHold = this.dragHold.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
