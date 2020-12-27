@@ -15,7 +15,7 @@ class ArduinoSerialCom:
     
     arduino = object
 
-    serialPort = '/dev/ttyACM0'
+    serialPort = '/dev/serial0'
 
     def __init__(self, serialPort = '', baudRate = 0,  timeout  = 0):
         

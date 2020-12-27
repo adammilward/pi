@@ -50,8 +50,6 @@ export default class Time extends React.Component {
     this.state = INITIAL_STATE;
 
     props.api.addHandler(this.handleTime);
-
-
     props.api.send('time report');
   }
 

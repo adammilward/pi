@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env pythonpy
 
 # WS server example that synchronizes state across clients
 
