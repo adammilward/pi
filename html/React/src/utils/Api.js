@@ -39,6 +39,7 @@ export default class Api {
 
   receive = (event) => {
     let data = JSON.parse(event.data);
+    console.log('recieved data: ', data)
     let errors = false;
 
     if (data.type === undefined) {

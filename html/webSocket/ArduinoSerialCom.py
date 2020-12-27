@@ -11,7 +11,7 @@ class ArduinoSerialCom:
 
     #timeout = 0.003 seems to work ok, so set it to 0.02 to be safe 0.5 for debug mode
     # for reading the volttages atleast 0.07 is needed use 0.1 to be safe
-    timeout = 0.02
+    timeout = 0.1
     
     arduino = object
 
