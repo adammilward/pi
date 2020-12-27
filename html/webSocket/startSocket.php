@@ -4,8 +4,8 @@
  * User: adam
  * Date: 16/12/2020
  */
-$configs = json_decode(file_get_contents('config.json'));
-
+$configs = json_decode(file_get_contents('/var/www/html/config.json'));
+print_r($configs);
 header("Access-Control-Allow-Origin: http://localhost:3000");
 
 $response = shell_exec ($configs['checkServer.py']);
