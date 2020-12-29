@@ -54,6 +54,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   scrollTo = (viewPort, page) => {
+    // todo request a page report here
     let x = page * window.constants.windowWidth;
     //console.log('SwipeContainer.scrollTo', viewPort, page, x)
     if (page !== this.state.page) {

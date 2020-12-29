@@ -60,7 +60,7 @@ export default class Raw extends React.Component {
   }
 
   handleDefault = (type, message) => {
-    console.log('unrecognised message: ', message)
+    console.log('unrecognised message: ', type, message)
     this.setState((prevState) => {
       return {
         messageList: prevState.messageList +
@@ -86,10 +86,12 @@ export default class Raw extends React.Component {
     //console.log('Raw.render, props ', this.props);
 
     return(
-      <div style={{
+      <form style={{
         height: window.constants.pageHeight,
         overflowY: "scroll"
-      }}>
+      }}
+      onSubmit={(e) => e.preventDefault()}
+      >
         <input type='text'
                value={this.state.request}
                onChange={this.onChange} />
@@ -106,7 +108,7 @@ export default class Raw extends React.Component {
         <input ref={this.messagesEndRef}
           type='submit' value='submit' onClick={this.submit}/>
         <input type='button' value='X' className='right' onClick={this.clear} />
-      </div>
+      </form>
     )
 
   }

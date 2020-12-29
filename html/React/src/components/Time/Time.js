@@ -49,11 +49,11 @@ export default class Time extends React.Component {
 
     this.state = INITIAL_STATE;
 
-    props.api.addHandler(this.handleTime);
-    props.api.send('time report');
+    props.api.addHandler('time', this.handleTime);
   }
 
   handleTime = (data) => {
+    console.log(data);
       if (data.hasOwnProperty('heater')) {
         this.setState({
           heater: data.heater

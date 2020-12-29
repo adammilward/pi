@@ -10,17 +10,10 @@ class ThxSocket:
     port = ''
     arduinoCom = object
 
-    def __init__(self, arduino):
+    def __init__(self, arduino, hostname = 'localhost', port = '1138'):
         self.arduinoCom = arduino
-        try:
-            configs = {}
-            f =  open('../config.json')
-            configs = json.loads(f.read())
-            f.close()
-            self.hostname = configs["websocket"]["host"]
-            self.port = configs["websocket"]["port"]
-        except:
-            raise Exception("you must provide websocket.host & port in config.json")
+        self.hostname = hostname
+        self.port = port
 
     async def startArduinoReadLoop(self):
         while True:
