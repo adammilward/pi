@@ -25,7 +25,7 @@ class ThxSocket:
     async def startArduinoReadLoop(self):
         while True:
             await self.arduinoRead()            
-            await asyncio.sleep(10)
+            await asyncio.sleep(0.5)
 
     async def arduinoRead(self):
         messages = self.arduinoCom.read()
@@ -34,24 +34,20 @@ class ThxSocket:
                 await self.sendData(message)
 
     async def arduinoSend(self, request):
-        print('socket.arduinoSend', request)
         self.arduinoCom.writeLine(request)
         await self.arduinoRead()
 
     async def sendData(self, data):
-        print('sendData: ', data)
         message = json.dumps(data)
         if self.USERS:  # asyncio.wait doesn't accept an empty list
             await asyncio.wait([user.send(message) for user in self.USERS])
             #print('sent messgage: ', message)
 
     async def register(self, websocket):
-        print('register')
         self.USERS.add(websocket)
         await self.notify_users()
 
     async def unregister(self, websocket):
-        print('unregister')
         self.USERS.remove(websocket)
         await self.notify_users()
 
@@ -68,9 +64,7 @@ class ThxSocket:
         await self.register(websocket)
         try:
             async for message in websocket: # when websocket receives a message this loop runs
-                print('message: ', message)
                 data = json.loads(message)
-                print('messageSent')
                 if data['type'] == 'arduinoRequest':
                     await self.arduinoSend(data['payload'])
                 elif data['type'] == 'watchdogCheck':
