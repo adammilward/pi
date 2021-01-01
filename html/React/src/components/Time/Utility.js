@@ -7,7 +7,6 @@ export default class Utility extends React.Component {
 
   alarm(alarm) {
     let time = new Date(alarm.ts * 1000)
-    let repeat = alarm.repeat ? 'daily' : 'once'
 
     let timer = alarm.timerMins + ' minute';
     timer += (alarm.timerMins === 1) ? '' : 's';
@@ -23,7 +22,7 @@ export default class Utility extends React.Component {
               .replace('T', ' ')
               .substr(0, 19)}
           </span><br/>
-          repeat: {repeat}<br/>
+          repeat: {alarm.repeat}<br/>
           timer: {timer}
         </div>
       )
@@ -37,7 +36,7 @@ export default class Utility extends React.Component {
                .replace('T', ' ')
                .substr(0, 19)}
           </span><br/>
-          repeat: {repeat}<br/>
+          repeat: {alarm.repeat}<br/>
           timer: {timer}
         </div>
       )
@@ -45,11 +44,11 @@ export default class Utility extends React.Component {
   }
 
   render() {
-    let {alarm, on, forMin} = this.props.utility
+    let {alarm, on, forMins} = this.props.utility
 
     let titleClass = on ? 'bold': '';
-    let forMinStr = 'ON for: ' + forMin + ' minute';
-    forMinStr += (forMin === 1) ? '' : 's';
+    let forMinStr = 'ON for: ' + forMins + ' minute';
+    forMinStr += (forMins === 1) ? '' : 's';
 
     let alarmClass = alarm.active ? 'bold': '';
     let activeStr = alarm.active ? 'alarm active': 'alarm off';

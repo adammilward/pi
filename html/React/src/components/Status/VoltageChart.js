@@ -1,10 +1,45 @@
 import React from 'react'
 import { Chart } from 'react-charts'
 
-export default function MyChart() {
-  let now = new Date(1604685600000);
-  const data = React.useMemo(
-    () => [
+const SERIES = {
+  timestamp: {
+    label: 'timestamp',
+    data: []
+  },
+  temp: {
+    label: 'temp',
+    data: []
+  },
+  a0: {
+    label: 'solar panels',
+    data: []
+  },
+  a1: {
+    label: 'consumer unit',
+    data: []
+  },
+  a2: {
+    label: 'a2',
+    data: []
+  },
+  a3: {
+    label: 'heater wire',
+    data: []
+  },
+  a4: {
+    label: 'heater relay',
+    data: []
+  }
+}
+
+export default class MyChart extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    let now = new Date(1604685600000);
+
+    const data = [
       {
         label: 'Series 1',
         data: [
@@ -28,58 +63,118 @@ export default function MyChart() {
           [new Date(now.getTime() + 50000), 13.2],
         ]
       }
-    ],
-    []
-  )
-  const series = React.useMemo(
-    () => ({
-      showPoints: false,
-    }),
-    []
-  );
+    ];
 
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'time', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
+    const series = {
+      showPoints: true,
+    };
 
-  const lineChart = (
+    const axes = [
+      {primary: true, type: 'time', position: 'bottom'},
+      {type: 'linear', position: 'left'}
+    ];
+
+    this.state = {
+      data: data,
+      series: series,
+      axes: axes
+    }
+
+    this.stuff = {
+      data: [],
+      series: series,
+      axes: axes
+    }
+  }
+
+  updateChart(data) {
+    //console.log('updateChart data: ', data)
+    let series = {}
+    let a0 = [];
+    let a1 = [];
+
+    data.map((datum) => {
+      let time = new Date(datum.timestamp * 1000)
+
+      a0 = a0.concat([[time, datum['a0']]])
+      a1 = a1.concat([[time, datum['a1']]])
+    })
+
+    this.stuff.data = [
+      SERIES.a0,
+      SERIES.a1,
+    ]
+
+    this.stuff.data[0].data = a0
+    this.stuff.data[1].data = a1
+
+    //console.log('charts: ', this.stuff);
+    //console.log('example chart: ', this.state);
+
+    // let series1 = data.map((datum) => {
+    //   let time = new Date(datum.timestamp * 1000)
+    //   return [time, datum['a1']]
+    // })
+    //
+    // let series2 = data.map((datum) => {
+    //   let time = new Date(datum.timestamp * 1000)
+    //   return [time, datum['a2']]
+    // })
+    //
+    // let series3 = data.map((datum) => {
+    //   let time = new Date(datum.timestamp * 1000)
+    //   return [time, datum['a3']]
+    // })
+    //
+    // let series4 = data.map((datum) => {
+    //   let time = new Date(datum.timestamp * 1000)
+    //   return [time, datum['a4']]
+    // })
+
+    //console.log(series0);
+    //console.log(series1);
+    //this.stuff.charts[2].data = series2;
+    //this.stuff.charts[3].data = series3;
+    //this.stuff.charts[4].data = series4;
+
+    //console.log(this.stuff.charts);
+  }
+
+  render() {
+    //console.log(this.props);
+    this.updateChart(this.props.data);
+
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically
-    <div
-      style={{
-        height: window.constants.pageHeight,
-        overflowY: "scroll"
-      }}
-    >
+    return (
       <div
         style={{
-          backgroundColor: '#ffffff',
-          height: '400px',
-          width:  '100%'
+          height: window.constants.pageHeight,
+          overflowY: "scroll"
         }}
       >
-        <Chart data={data} series={series} axes={axes} />
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            height: '400px',
+            width: '100%'
+          }}
+        >
+          <Chart data={this.stuff.data} series={this.stuff.series} axes={this.stuff.axes}
+          key={this.props.data.length}/>
+          {this.props.data.length}
+        </div>
+        <br/>
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            height: '400px',
+            width: '100%'
+          }}
+        >
+          <Chart data={this.state.data} series={this.state.series} axes={this.state.axes}/>
+        </div>
       </div>
-      <br/>
-      <div
-        style={{
-          backgroundColor: '#ffffff',
-          height: '400px',
-          width:  '100%'
-        }}
-      >
-        <Chart data={data} series={series} axes={axes} />
-      </div>
-    </div>
-  )
-
-  return (
-    <div >
-      {lineChart}
-    </div>
-  )
+    )
+  }
 }

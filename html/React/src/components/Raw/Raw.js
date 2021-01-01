@@ -87,7 +87,7 @@ export default class Raw extends React.Component {
 
     return(
       <form style={{
-        height: window.constants.pageHeight,
+        height: window.constants.pageHeight - 10,
         overflowY: "scroll"
       }}
       onSubmit={(e) => e.preventDefault()}

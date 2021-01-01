@@ -15,7 +15,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.setPage(2);
+    this.setPage(1);
   }
 
   setPage = (page) => {
@@ -58,13 +58,39 @@ export default class SwipeContainer extends React.Component {
     let x = page * window.constants.windowWidth;
     //console.log('SwipeContainer.scrollTo', viewPort, page, x)
     if (page !== this.state.page) {
-      this.setState({page: page})
+      this.setState({
+        page: page
+      })
+      this.requestPageData(page);
       viewPort.scrollTo(x, 0)
     } else {
       viewPort.scrollTo(x, 0)
     }
   }
 
+  requestPageData = (page) => {
+    switch(page) {
+      case 0:
+        this.props.api.send('l report');
+
+        this.props.api.send('s report 60');
+        break;
+      case 1:
+        this.props.api.send('s report 5');
+        break;
+      case 2:
+        this.props.api.send('t report');
+        this.props.api.send('t heater');
+        this.props.api.send('t water');
+        this.props.api.send('t leds');
+
+        this.props.api.send('s report 60');
+        break;
+      case 3:
+        // nothing to request
+        break;
+    }
+  }
 
   touchStart = (e) => {
     this.touching = true;
@@ -108,7 +134,7 @@ export default class SwipeContainer extends React.Component {
                display: "inline-block",
                position: "relative",
                padding: 0,
-               left: ((numPages * 2.75 - this.state.page * 4) + 'em')
+               left: ((-100/numPages * this.state.page / 3 + 30) + '%')
              }}
         >
           <span className={'paginator ' + (this.state.page === 0 ? 'bold' : '')}
@@ -126,7 +152,8 @@ export default class SwipeContainer extends React.Component {
             time&nbsp;
           </span>
           <span className={'paginator ' + (this.state.page === 3 ? 'bold' : '')}
-                onClick={() => this.setPage(3)}>
+                onClick={() => this.setPage(3)}
+          >
             raw
           </span>
         </div>

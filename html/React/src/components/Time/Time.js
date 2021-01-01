@@ -6,41 +6,38 @@ const INITIAL_STATE = {
   temp: 0,
   reportDelay: 0,
   leds: {
-    on: true,
-    forMin: 0,
-    alarm: {
-      active: true,
-      inMins: '10',
-      time: '10:11',
-      ts: 1234565,
-      repeat: true,
-      timerMins: 60
-    },
+    "on": false,
+    "alarm": {
+      "on": false,
+      "inHM": "",
+      "time": "",
+      "ts": 0,
+      "repeat": "once",
+      "timerMins": ""
+    }
   },
   heater: {
-    on: false,
-    forMin: 0,
-    alarm: {
-      active: true,
-      inMins: '0',
-      time: '10:10',
-      ts: 0,
-      repeat: false,
-      timerMins: 0
-    },
+    "on": false,
+    "alarm": {
+      "on": false,
+      "inHM": "",
+      "time": "",
+      "ts": 0,
+      "repeat": "once",
+      "timerMins": ""
+    }
   },
   water: {
-    on: false,
-    forMin: 0,
-    alarm: {
-      active: false,
-      inMins: '0',
-      time: '13:44',
-      ts: 0,
-      repeat: false,
-      timerMins: 0
+    "on": false,
+    "alarm": {
+      "on": false,
+      "inHM": "",
+      "time": "",
+      "ts": 0,
+      "repeat": "once",
+      "timerMins": ""
     }
-  }
+  },
 };
 
 export default class Time extends React.Component {
@@ -53,7 +50,7 @@ export default class Time extends React.Component {
   }
 
   handleTime = (data) => {
-    console.log(data);
+    //console.log(data);
       if (data.hasOwnProperty('heater')) {
         this.setState({
           heater: data.heater
@@ -66,7 +63,7 @@ export default class Time extends React.Component {
         this.setState({
           leds: data.leds
         })
-      } else if (data.hasOwnProperty('time')) {
+      } else if (data.hasOwnProperty('timeTs')) {
         this.setState({
           timeTs: data.timeTs,
           temp: data.temp,

@@ -4,6 +4,7 @@ import moment from 'moment';
 import Api from '../utils/Api.js'
 import Alert from "./Alert";
 import SwipeContainer from "./SwipeContainer";
+import ShowTime from "./ShowTime";
 
 const numPages = 4;
 const windowWidth = window.innerWidth;
@@ -38,7 +39,6 @@ export default class App extends React.Component{
     const time = moment();
 
     this.state = {
-      time: time,
       mode: 'status',
       users: 0,
       lastMessage: {type: '', payload: ''}
@@ -62,9 +62,6 @@ export default class App extends React.Component{
     window.addEventListener('resize', () => window.location.reload())
   }
 
-  componentDidMount() {
-    this.interval = setInterval(() => this.setState({time: moment()}), 1000);
-  }
 
   displayErrors(type, message) {
     console.log('App.displayError', type, message)
@@ -89,9 +86,7 @@ export default class App extends React.Component{
       }}>
         <p className='padded'>
 
-          <span>
-            {this.state.time.format('ddd Do MMM HH:mm:ss')}
-          </span>
+          <ShowTime/>
           <span className="right">
             Good {this.timeOfDay}
           </span>
