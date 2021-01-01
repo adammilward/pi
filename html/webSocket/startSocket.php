@@ -4,14 +4,14 @@
  * User: adam
  * Date: 16/12/2020
  */
-$configs = json_decode(file_get_contents('/var/www/html/config.json'), true);
+$configs = json_decode(file_get_contents('..//config.json'), true);
 header("Access-Control-Allow-Origin: http://localhost:3000");
 print_r($configs);
 
 $response = shell_exec ($configs['checkServer.py']);
 
 if (strpos($response, 'socket running') === false) {
-  shell_exec ($configs['server.py']);
+  shell_exec($configs['server.py']);
   error_log('socket check failed');
   error_log($response);
   echo 'socket check failed' . "\n";

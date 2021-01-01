@@ -39,7 +39,7 @@ export default class Api {
 
   receive = (event) => {
     let data = JSON.parse(event.data);
-    console.log('recieved data: ', data)
+    //console.log('recieved data: ', data)
     let errors = false;
 
     if (data.type === undefined) {
@@ -71,7 +71,7 @@ export default class Api {
   }
 
   sentHandler(request) {
-    console.log('sent request: ', request)
+    console.log('you should replace this with something, request: ', request)
   }
 
   messageHandler(type, data) {

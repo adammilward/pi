@@ -21,7 +21,7 @@ class ArduinoSerialCom:
         
         self.baudRate = baudRate if baudRate else self.baudRate
         self.timeout = timeout if timeout else self.timeout
-        self.serialPort = serialPort if serialPort else self.serialPort
+        self.serialPort = serialPort if len(serialPort) else self.serialPort
 
         self.arduino = serial.Serial(self.serialPort, self.baudRate, timeout = self.timeout)
 

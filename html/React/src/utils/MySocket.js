@@ -5,7 +5,7 @@ export default class MySocket {
   aliveTimeout
 
   // start assuming the websocket is dead
-  watchdogCount = 7
+  watchdogCount = 4
 
   constructor(receiveCallback) {
     this.receiveCallback = receiveCallback
@@ -24,7 +24,7 @@ export default class MySocket {
         resolve(this._websocket)
       } else {
         try {
-          this.buildSocket();
+          this._websocket = this.buildSocket();
           resolve(this._websocket);
         } catch (e) {
           console.warn('websocekt failed', e);
@@ -38,7 +38,7 @@ export default class MySocket {
   buildSocket() {
     let _this = this;
 
-    this._websocket = new WebSocket(
+    let websocket = new WebSocket(
       "ws://"
       + window.config.webSocket.host
       + ":"
@@ -46,17 +46,20 @@ export default class MySocket {
       + "/"
     )
 
-    this._websocket.onOpen = function () {
+    websocket.onOpen = function () {
       console.log('websocket Opened, this', this)
     };
 
-    this._websocket.onClose = function () {
+    websocket.onClose = function () {
+      console.log('MySocket._websocket.onClose', this)
       // todo this doesn't work
       _this._websocket = null;
       console.log('websocket closed, this', this)
     }
 
-    this._websocket.onmessage = this.onmessage
+    websocket.onmessage = this.onmessage
+
+    return websocket;
   }
 
   onmessage = (message) => {
@@ -65,6 +68,14 @@ export default class MySocket {
   }
 
   watchdog = () => {
+    if (this.watchdogCount > 10) {
+      console.log('destroying websocket')
+      if (this._websocket !== null) {
+        this._websocket.close();
+        this._websocket = null
+      }
+    }
+
     if (this.watchdogCount > 7) {
       console.log('sending websocket server start request')
       fetch(
@@ -78,19 +89,13 @@ export default class MySocket {
     }
 
     if (this.watchdogCount > 5) {
-      console.log('destroying websocket')
-      this._websocket = null
-      this.send('watchdogCheck', 'watchdogCheck')
-    } else if (this.watchdogCount > 4) {
       this.send('watchdogCheck', 'watchdogCheck')
     }
-
 
     this.watchdogCount ++
   }
 
   send(request, type = 'arduinoRequest') {
-    console.log('send: ', type, request)
     this.getSocket()
       .then((socket) => {
         socket.send(JSON.stringify({
