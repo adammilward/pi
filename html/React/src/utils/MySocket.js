@@ -40,9 +40,9 @@ export default class MySocket {
 
     let websocket = new WebSocket(
       "ws://"
-      + window.config.webSocket.host
+      + window.config.websocket.host
       + ":"
-      + window.config.webSocket.port
+      + window.config.websocket.port
       + "/"
     )
 
@@ -79,7 +79,7 @@ export default class MySocket {
     if (this.watchdogCount > 7) {
       console.log('sending websocket server start request')
       fetch(
-        window.config.apiUrl + '/webSocket/startSocket.php',
+        window.config.apiUrl + '/websocket/startSocket.php',
         {
           method: 'GET',
         })
