@@ -6,7 +6,7 @@ import Alert from "./Alert";
 import SwipeContainer from "./SwipeContainer";
 import ShowTime from "./ShowTime";
 
-const numPages = 4;
+const numPages = 5;
 const windowWidth = window.innerWidth;
 const padding = 20;
 

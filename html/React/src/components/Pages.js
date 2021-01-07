@@ -3,11 +3,12 @@ import Lights from './Lights/Lights';
 import Status from "./Status/Status";
 import Raw from "./Raw/Raw";
 import Time from "./Time/Time"
+import Records from "./Records/Records"
 
 export default class Pages extends React.Component {
 
   offset = -100;
-  pages = ['lights', 'status', 'time', 'raw']
+  pages = ['lights', 'records', 'status', 'time', 'raw']
 
   constructor(props) {
     super(props);
@@ -46,9 +47,22 @@ export default class Pages extends React.Component {
             width: cons.windowInnerWidth,
           }}
         >
-          <Status
+          <Records
             {...this.props}
             active={1 === this.props.page}
+          />
+        </div>
+        <div
+          id='status'
+          className='page padded'
+          style={{
+            overflow: "hidden",
+            width: cons.windowInnerWidth,
+          }}
+        >
+          <Status
+            {...this.props}
+            active={2 === this.props.page}
           />
         </div>
         <div
@@ -61,7 +75,7 @@ export default class Pages extends React.Component {
         >
           <Time
             {...this.props}
-            active={2 === this.props.page}
+            active={3 === this.props.page}
           />
         </div>
         <div
@@ -74,7 +88,7 @@ export default class Pages extends React.Component {
         >
           <Raw
             {...this.props}
-            active={3 === this.props.page}
+            active={4 === this.props.page}
           />
         </div>
       </div>

@@ -43,6 +43,12 @@ class ThxSocket:
     async def unregister(self, websocket):
         self.USERS.remove(websocket)
         await self.notify_users()
+        if not bool(len(self.USERS)):
+            await self.arduinoSend('s report 0')
+            await self.arduinoSend('t report 0')
+            await self.arduinoSend('l report 0')
+
+        
 
     async def notify_users(self):   
         if self.USERS:  # asyncio.wait doesn't accept an empty list

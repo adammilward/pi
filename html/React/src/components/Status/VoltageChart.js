@@ -19,7 +19,7 @@ const SERIES = {
     data: []
   },
   a2: {
-    label: 'a2',
+    label: '5v power',
     data: []
   },
   a3: {
@@ -32,147 +32,152 @@ const SERIES = {
   }
 }
 
-export default class MyChart extends React.Component {
+const AXIS = [
+  {primary: true, type: 'time', position: 'bottom'},
+  {type: 'linear', position: 'left'}
+];
+
+export default class LiveChart extends React.Component {
 
   constructor(props) {
     super(props);
-
-    let now = new Date(1604685600000);
-
-    const data = [
-      {
-        label: 'Series 1',
-        data: [
-          [now.getTime(), 12.3],
-          [new Date(now.getTime() + 10000), 12.4],
-          [new Date(now.getTime() + 20000), 12.7],
-          [new Date(now.getTime() + 30000), 12.1],
-          [new Date(now.getTime() + 40000), 12.2],
-          [new Date(now.getTime() + 50000), 12.2],
-          //new Date(now.getTime() + 1000) + 1000, 12.4
-        ]
-      },
-      {
-        label: 'Series 2',
-        data: [
-          [now.getTime(), 13.3],
-          [new Date(now.getTime() + 10000), 13.4],
-          [new Date(now.getTime() + 20000), 13.7],
-          [new Date(now.getTime() + 30000), 13.1],
-          [new Date(now.getTime() + 40000), 13.2],
-          [new Date(now.getTime() + 50000), 13.2],
-        ]
-      }
-    ];
 
     const series = {
       showPoints: true,
     };
 
-    const axes = [
-      {primary: true, type: 'time', position: 'bottom'},
-      {type: 'linear', position: 'left'}
-    ];
-
-    this.state = {
-      data: data,
-      series: series,
-      axes: axes
-    }
-
-    this.stuff = {
+    this.liveCharts = {
       data: [],
       series: series,
-      axes: axes
+      axes: AXIS
     }
+
+    this.liveCharts.data = [
+      SERIES.a0,
+      SERIES.a1,
+      SERIES.a2,
+      SERIES.a3,
+      SERIES.a4,
+      SERIES.temp,
+    ]
   }
 
   updateChart(data) {
     //console.log('updateChart data: ', data)
     let series = {}
+    let temp = [];
     let a0 = [];
     let a1 = [];
+    let a2 = [];
+    let a3 = [];
+    let a4 = [];
 
     data.map((datum) => {
       let time = new Date(datum.timestamp * 1000)
-
       a0 = a0.concat([[time, datum['a0']]])
       a1 = a1.concat([[time, datum['a1']]])
+      a2 = a2.concat([[time, datum['a2']]])
+      a3 = a3.concat([[time, datum['a3']]])
+      a4 = a4.concat([[time, datum['a4']]]);
+      temp= temp.concat([[time, datum['temp']]])
     })
 
-    this.stuff.data = [
-      SERIES.a0,
-      SERIES.a1,
-    ]
+    this.latestTs = (data[0] !== undefined) ? data.[0].timestamp : 0;
 
-    this.stuff.data[0].data = a0
-    this.stuff.data[1].data = a1
-
-    //console.log('charts: ', this.stuff);
-    //console.log('example chart: ', this.state);
-
-    // let series1 = data.map((datum) => {
-    //   let time = new Date(datum.timestamp * 1000)
-    //   return [time, datum['a1']]
-    // })
-    //
-    // let series2 = data.map((datum) => {
-    //   let time = new Date(datum.timestamp * 1000)
-    //   return [time, datum['a2']]
-    // })
-    //
-    // let series3 = data.map((datum) => {
-    //   let time = new Date(datum.timestamp * 1000)
-    //   return [time, datum['a3']]
-    // })
-    //
-    // let series4 = data.map((datum) => {
-    //   let time = new Date(datum.timestamp * 1000)
-    //   return [time, datum['a4']]
-    // })
-
-    //console.log(series0);
-    //console.log(series1);
-    //this.stuff.charts[2].data = series2;
-    //this.stuff.charts[3].data = series3;
-    //this.stuff.charts[4].data = series4;
-
-    //console.log(this.stuff.charts);
+    this.liveCharts.data[0].data = a0
+    this.liveCharts.data[1].data = a1
+    this.liveCharts.data[2].data = a2
+    this.liveCharts.data[3].data = a3
+    this.liveCharts.data[4].data = a4
+    this.liveCharts.data[5].data = temp
   }
 
   render() {
-    //console.log(this.props);
-    this.updateChart(this.props.data);
+    //console.log(this.stuff.data);
+    this.updateChart(this.props.liveData);
+
+    console.log(this.latestTs);
 
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically
+    let style = {
+      backgroundColor: '#ffffff',
+      height: '200px',
+      width: '100%',
+      marginBottom: 10
+    };
+
     return (
       <div
+        key={this.latestTs}
+        /*instruct the charts to raw the first two times*/
         style={{
           height: window.constants.pageHeight,
           overflowY: "scroll"
         }}
       >
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            height: '400px',
-            width: '100%'
-          }}
-        >
-          <Chart data={this.stuff.data} series={this.stuff.series} axes={this.stuff.axes}
-          key={this.props.data.length}/>
-          {this.props.data.length}
+        {this.props.liveData.length}
+        <div style={style}>
+          <Chart
+            data={[
+              this.liveCharts.data[0],
+              this.liveCharts.data[1],
+              this.liveCharts.data[2],
+              //this.charts.data[3],
+              //this.charts.data[4],
+              this.liveCharts.data[5]
+            ]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
         </div>
-        <br/>
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            height: '400px',
-            width: '100%'
-          }}
-        >
-          <Chart data={this.state.data} series={this.state.series} axes={this.state.axes}/>
+        {this.liveCharts.data[0].label} & {this.liveCharts.data[1].label} - A0, A1
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[0], this.liveCharts.data[1]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
+        </div>
+        {this.liveCharts.data[0].label} - A0
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[0]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
+        </div>
+        {this.liveCharts.data[1].label} - A1
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[1]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
+        </div>
+        {this.liveCharts.data[2].label} - A2
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[2]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
+        </div>
+        {this.liveCharts.data[3].label} & {this.liveCharts.data[4].label} - A3 A4
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[3], this.liveCharts.data[4]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
+        </div>
+        {this.liveCharts.data[5].label}
+        <div style={style}>
+          <Chart
+            data={[this.liveCharts.data[5]]}
+            series={this.liveCharts.series}
+            axes={this.liveCharts.axes}
+          />
         </div>
       </div>
     )

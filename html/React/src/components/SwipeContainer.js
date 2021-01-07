@@ -15,28 +15,32 @@ export default class SwipeContainer extends React.Component {
   }
 
   componentDidMount() {
+    console.log('SwipeContainer.compoenentDidMount()')
     this.setPage(1);
   }
 
   setPage = (page) => {
+    console.log('setPage', page)
     this.scrollTo(
       document.getElementById('viewPort'),
       page
     )
   }
 
-  handleScroll= (e) => {
+  handleScroll = (e) => {
+    console.log('handleScroll')
     window.clearTimeout(this.scrolling);
     this.scrolling = true;
     clearTimeout(this.scrollTimer);
     this.scrollTimer = setTimeout(() => {
       this.scrolling = false;
       this.scrollToNearest();
-    }, 80)
+    }, 500) // increase time out if dodgey scrolling occurs
   }
 
   scrollToNearest = () => {
-    if (! this.touching && !this.scrolling) {
+    console.log('swipeContainer.scrollToNarest')
+    if (!this.touching && !this.scrolling) {
       let viewPort = document.getElementById('viewPort');
       let x = viewPort.scrollLeft;
       let newPage = 0;
@@ -54,6 +58,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   scrollTo = (viewPort, page) => {
+    console.log('swipeContainer.scrollTo', viewPort, page)
     // todo request a page report here
     let x = page * window.constants.windowWidth;
     //console.log('SwipeContainer.scrollTo', viewPort, page, x)
@@ -76,9 +81,14 @@ export default class SwipeContainer extends React.Component {
         this.props.api.send('s report 60');
         break;
       case 1:
-        this.props.api.send('s report 5');
+        this.props.api.send('s report 60');
+        this.props.api.send('s records');
         break;
       case 2:
+        this.props.api.send('s report 5');
+        this.props.api.send('s records');
+        break;
+      case 3:
         this.props.api.send('t report');
         this.props.api.send('t heater');
         this.props.api.send('t water');
@@ -86,7 +96,7 @@ export default class SwipeContainer extends React.Component {
 
         this.props.api.send('s report 60');
         break;
-      case 3:
+      case 4:
         // nothing to request
         break;
     }
@@ -94,6 +104,7 @@ export default class SwipeContainer extends React.Component {
 
   touchStart = (e) => {
     this.touching = true;
+    this.wasTouched = true;
   }
 
   touchEnd = (e) => {
@@ -102,7 +113,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   render() {
-    //console.log('SwipeContainter.render', this.props, this.state);
+    console.log('SwipeContainter.render', this.props, this.state);
     let cons = window.constants;
     let {numPages, windowWidth} = {...cons};
     return (
@@ -144,15 +155,20 @@ export default class SwipeContainer extends React.Component {
           <span className={'paginator ' + (this.state.page === 1 ? 'bold' : '')}
                 onClick={() => this.setPage(1)}>
 
-            status&nbsp;
+            records&nbsp;
           </span>
           <span className={'paginator ' + (this.state.page === 2 ? 'bold' : '')}
                 onClick={() => this.setPage(2)}>
 
-            time&nbsp;
+            status&nbsp;
           </span>
           <span className={'paginator ' + (this.state.page === 3 ? 'bold' : '')}
-                onClick={() => this.setPage(3)}
+                onClick={() => this.setPage(3)}>
+
+            time&nbsp;
+          </span>
+          <span className={'paginator ' + (this.state.page === 4 ? 'bold' : '')}
+                onClick={() => this.setPage(4)}
           >
             raw
           </span>

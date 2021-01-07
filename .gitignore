@@ -8,3 +8,4 @@ html/ip/lastUpdate.txt
 node_modules
 html/config.json
 __pycache__
+React/build
