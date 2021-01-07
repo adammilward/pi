@@ -5,7 +5,7 @@
  * Date: 16/12/2020
  */
 $configs = json_decode(file_get_contents('..//config.json'), true);
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 print_r($configs);
 
 $response = shell_exec ($configs['checkServer.py']);
