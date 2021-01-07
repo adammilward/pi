@@ -10,26 +10,27 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
+/*pagination*/
+
+.viewPort {
     padding: 0;
     display: inline-block;
     position: relative;
 }
 
-.padded{
-    padding: 10px;
+.paginator {
+    /*width: 100px;*/
+    /*display: inline-block;*/
 }
 
 div.page {
     float: left;
 }
 
-.fade-type {
-
-}
+/*lights*/
 
 .lights {
-    margin: 30px 0px 60px;
+    margin: 30px 0 60px;
 }
 
 .lights-fade {
@@ -52,7 +53,7 @@ div.page {
     display: inline-block;
     height: 3em;
     width: 100%;
-    margin: 0px calc(100% / 10);
+    margin: 0 calc(100% / 10);
 }
 
 .fade-mode label {
@@ -130,16 +131,26 @@ input:checked + .switch-slider:before {
     border-radius: 50%;
 }
 
+
+/* general */
+p {
+    margin: 0;
+}
+
 .right {
     float: right;
 }
 
 .center {
-    position relative;
+    position: relative;
     margin: auto;
     padding: 10px;
 }
 
 .bold {
     font-weight: bold;
+}
+
+.padded{
+    padding: 10px;
 }
