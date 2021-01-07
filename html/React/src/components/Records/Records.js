@@ -9,11 +9,10 @@ export default class Records extends React.Component {
     this.state = {records: false}
 
     props.api.addHandler('records', this.handleRecords);
-    props.api.send('status report')
   }
 
   handleRecords = (data) => {
-    console.log('handleRecords', data)
+    //console.log('handleRecords', data)
     if (data.hasOwnProperty('records')) {
       this.setState({
         records: data.records

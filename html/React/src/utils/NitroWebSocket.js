@@ -48,7 +48,7 @@ export default class NitroWebSocket {
    * @return {Promise}
    */
   send(msg) {
-    console.log('NitroWebServer.send', msg);
+    //console.log('NitroWebServer.send', msg);
     return this.check()
       .then((ws) => {
         this.ws = ws;
@@ -154,7 +154,6 @@ export default class NitroWebSocket {
       console.log('Json.parse message failed - msg.payload: ', msgEvent.data);
       throw Error(e)
     }
-    console.log('NitroWebServer.onMessage', msg);
 
     if (undefined !== msg.connectorId) {
       this.onConnector(msg);
@@ -177,7 +176,6 @@ export default class NitroWebSocket {
    * and also ensures constant reconnection if connection closes
    */
   connect = () => {
-    console.log('connect');
     let _onMessage = this.onMessage;
     let _that = this;
     let connectInterval;

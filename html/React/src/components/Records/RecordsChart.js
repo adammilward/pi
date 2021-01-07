@@ -3,27 +3,27 @@ import { Chart } from 'react-charts'
 
 const SERIES = {
   tempOne: {
-    label: 'temp',
+    label: 'temp one min',
     data: []
   },
   a0One: {
-    label: 'solar panels',
+    label: 'V solar one min',
     data: []
   },
   tempFive: {
-    label: 'temp',
+    label: 'temp thirty mins',
     data: []
   },
   a0Five: {
-    label: 'solar panels',
+    label: 'V solar five mins',
     data: []
   },
   tempThirty: {
-    label: 'temp',
+    label: 'temp thirty mins',
     data: []
   },
   a0Thirty: {
-    label: 'solar panels',
+    label: 'V solar thirty mins',
     data: []
   },
 }
@@ -63,7 +63,7 @@ export default class RecordsChart extends React.Component {
   }
 
   updateChart(data) {
-    console.log('updateChart records: ', data)
+    //console.log('updateChart records: ', data)
     let series = {}
     let tempOne = [];
     let a0One = [];
@@ -95,8 +95,6 @@ export default class RecordsChart extends React.Component {
       if (data.thirtyMins.vA0[i])
         a0Thirty = a0Thirty.concat([[new Date(thirtyTs), data.thirtyMins.vA0[i]]]);
 
-      console.log(oneTs, fiveTs, thirtyTs)
-
       oneTs -= oneMin;
       fiveTs -= fiveMin;
       thirtyTs -= thirtyMin;
@@ -112,12 +110,10 @@ export default class RecordsChart extends React.Component {
   }
 
   render() {
-    console.log(this.props.records);
+    //console.log(this.props.records);
     if (typeof this.props.records === 'object') {
       this.updateChart(this.props.records);
     }
-
-    console.log(this.charts)
 
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically

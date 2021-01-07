@@ -10,7 +10,7 @@ export default class MySocket {
   constructor(receiveCallback) {
     this.receiveCallback = receiveCallback
     this.getSocket().then((socket) => {
-      console.log('got socket', socket);
+      //console.log('got socket', socket);
     })
       .catch(() => console.log('error socket', this._websocket))
 

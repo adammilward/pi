@@ -15,12 +15,12 @@ export default class SwipeContainer extends React.Component {
   }
 
   componentDidMount() {
-    console.log('SwipeContainer.compoenentDidMount()')
+    //console.log('SwipeContainer.compoenentDidMount()')
     this.setPage(1);
   }
 
   setPage = (page) => {
-    console.log('setPage', page)
+    //console.log('setPage', page)
     this.scrollTo(
       document.getElementById('viewPort'),
       page
@@ -28,7 +28,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   handleScroll = (e) => {
-    console.log('handleScroll')
+    //console.log('handleScroll')
     window.clearTimeout(this.scrolling);
     this.scrolling = true;
     clearTimeout(this.scrollTimer);
@@ -39,7 +39,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   scrollToNearest = () => {
-    console.log('swipeContainer.scrollToNarest')
+    //console.log('swipeContainer.scrollToNarest')
     if (!this.touching && !this.scrolling) {
       let viewPort = document.getElementById('viewPort');
       let x = viewPort.scrollLeft;
@@ -58,7 +58,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   scrollTo = (viewPort, page) => {
-    console.log('swipeContainer.scrollTo', viewPort, page)
+    //console.log('swipeContainer.scrollTo', viewPort, page)
     // todo request a page report here
     let x = page * window.constants.windowWidth;
     //console.log('SwipeContainer.scrollTo', viewPort, page, x)
@@ -113,7 +113,7 @@ export default class SwipeContainer extends React.Component {
   }
 
   render() {
-    console.log('SwipeContainter.render', this.props, this.state);
+    //console.log('SwipeContainter.render', this.props, this.state);
     let cons = window.constants;
     let {numPages, windowWidth} = {...cons};
     return (

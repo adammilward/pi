@@ -64,7 +64,7 @@ export default class App extends React.Component{
 
 
   displayErrors(type, message) {
-    console.log('App.displayError', type, message)
+    //console.log('App.displayError', type, message)
     if (typeof message !== 'string') {
       message = '';
     }

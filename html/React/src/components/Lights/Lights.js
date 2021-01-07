@@ -63,7 +63,6 @@ export default class Lights extends React.Component{
       return;
     }
 
-    console.log('lights received recieved: ', data);
 
     let newState = {
       r: data.r < 0 ? 0 : data.r > MAX_POW ? MAX_POW : data.r,
@@ -77,8 +76,6 @@ export default class Lights extends React.Component{
       reportDelay: data.reportDelay,
       count: this.state.count + 1
     };
-
-    console.log('lights setState: ', newState);
 
     this.setState({
       ...newState,

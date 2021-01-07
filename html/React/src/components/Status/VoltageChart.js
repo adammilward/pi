@@ -96,8 +96,6 @@ export default class LiveChart extends React.Component {
     //console.log(this.stuff.data);
     this.updateChart(this.props.liveData);
 
-    console.log(this.latestTs);
-
     // A react-chart hyper-responsively and continuously fills the available
     // space of its parent element automatically
     let style = {
@@ -116,7 +114,8 @@ export default class LiveChart extends React.Component {
           overflowY: "scroll"
         }}
       >
-        {this.props.liveData.length}
+        {this.props.liveData.length} data points
+        Everything
         <div style={style}>
           <Chart
             data={[

@@ -23,7 +23,6 @@ if (window.config === undefined) {
     }
   }
 }
-console.log(window.config);
 
 ReactDOM.render(
   <AlertProvider template={AlertTemplate} {...options}>
