@@ -76,28 +76,35 @@ export default class SwipeContainer extends React.Component {
   requestPageData = (page) => {
     switch(page) {
       case 0:
-        this.props.api.send('l report');
-
         this.props.api.send('s report 60');
+
+        this.props.api.send('l report');
         break;
       case 1:
         this.props.api.send('s report 60');
+        this.props.api.send('l report 0');
+
         this.props.api.send('s records');
         break;
       case 2:
+        this.props.api.send('l report 0');
+
         this.props.api.send('s report 5');
         this.props.api.send('s records');
         break;
       case 3:
+        this.props.api.send('l report 0');
+        this.props.api.send('s report 60');
+
         this.props.api.send('t report');
         this.props.api.send('t heater');
         this.props.api.send('t water');
         this.props.api.send('t leds');
 
-        this.props.api.send('s report 60');
         break;
       case 4:
-        // nothing to request
+        this.props.api.send('s report 0');
+        this.props.api.send('l report 0');
         break;
     }
   }
