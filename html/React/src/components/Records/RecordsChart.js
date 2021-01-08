@@ -160,6 +160,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[0].label} & {this.charts.data[1].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[0], this.charts.data[1]]}
             series={this.charts.series}
             axes={this.charts.axes}
@@ -168,6 +169,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[2].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[2]]}
             series={this.charts.series}
             axes={this.charts.axes}
@@ -177,6 +179,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[4].label} & {this.charts.data[5].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[4], this.charts.data[5]]}
             series={this.charts.series}
             axes={this.charts.axes}
@@ -185,6 +188,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[5].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[5]]}
             series={this.charts.series}
             axes={this.charts.axes}
@@ -194,6 +198,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[6].label} & {this.charts.data[7].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[6], this.charts.data[7]]}
             series={this.charts.series}
             axes={this.charts.axes}
@@ -202,6 +207,7 @@ export default class RecordsChart extends React.Component {
         {this.charts.data[8].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.charts.data[8]]}
             series={this.charts.series}
             axes={this.charts.axes}
