@@ -107,7 +107,6 @@ export default class LiveChart extends React.Component {
 
     return (
       <div
-        key={this.latestTs}
         /*instruct the charts to raw the first two times*/
         style={{
           height: window.constants.pageHeight,
@@ -118,6 +117,7 @@ export default class LiveChart extends React.Component {
         Everything
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[
               this.liveCharts.data[0],
               this.liveCharts.data[1],
@@ -133,6 +133,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[0].label} & {this.liveCharts.data[1].label} - A0, A1
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[0], this.liveCharts.data[1]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}
@@ -141,6 +142,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[0].label} - A0
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[0]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}
@@ -149,6 +151,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[1].label} - A1
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[1]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}
@@ -157,6 +160,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[2].label} - A2
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[2]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}
@@ -165,6 +169,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[3].label} & {this.liveCharts.data[4].label} - A3 A4
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[3], this.liveCharts.data[4]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}
@@ -173,6 +178,7 @@ export default class LiveChart extends React.Component {
         {this.liveCharts.data[5].label}
         <div style={style}>
           <Chart
+            key={this.latestTs}
             data={[this.liveCharts.data[5]]}
             series={this.liveCharts.series}
             axes={this.liveCharts.axes}

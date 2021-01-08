@@ -89,7 +89,7 @@ export default class SwipeContainer extends React.Component {
       case 2:
         this.props.api.send('l report 0');
 
-        this.props.api.send('s report 5');
+        this.props.api.send('s report 2');
         this.props.api.send('s records');
         break;
       case 3:
