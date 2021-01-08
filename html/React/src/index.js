@@ -18,7 +18,7 @@ if (window.config === undefined) {
   window.config = {
     "apiUrl": "http://thx1138",
     "websocket": {
-      "host": "thx1138",
+      "host": "192.168.1.6",
       "port": "1138"
     }
   }

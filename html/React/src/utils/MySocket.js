@@ -36,15 +36,25 @@ export default class MySocket {
   }
 
   buildSocket() {
+    console.log('buildSocket', window.location)
+
     let _this = this;
 
-    let websocket = new WebSocket(
-      "ws://"
-      + window.config.websocket.host
+    let host = window.location.hostname
+    if (host === 'localhost' || host === window.config.websocket.host) {
+      host = window.config.websocket.host
+    }
+
+    let url = "ws://"
+      + host
       + ":"
       + window.config.websocket.port
-      + "/"
+      + "/";
+    let websocket = new WebSocket(
+      url
     )
+
+    console.log(url)
 
     websocket.onOpen = function () {
       console.log('websocket Opened, this', this)
