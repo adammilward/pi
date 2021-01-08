@@ -157,7 +157,7 @@ export default class RecordsChart extends React.Component {
           overflowY: "scroll"
         }}
       >
-        V solar, consumer 1h x 60m
+        V solar, consumer - 1h/60m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -166,7 +166,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        temp &deg;C 1h x 60m
+        temp &deg;C - 1h/60m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -176,7 +176,7 @@ export default class RecordsChart extends React.Component {
           />
         </div>
 
-        V solar, consumer 5h x 5m
+        V solar, consumer - 5h/5m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -185,7 +185,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        temp &deg;C 5h x 5m
+        temp &deg;C - 5h/5m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -195,7 +195,7 @@ export default class RecordsChart extends React.Component {
           />
         </div>
 
-        V solar, consumer 30h x 30m
+        V solar, consumer - 30h/30m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -204,7 +204,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        temp &deg;C 30h x 30m
+        temp &deg;C  - 30h/30m
         <div style={style}>
           <Chart
             key={this.latestTs}
