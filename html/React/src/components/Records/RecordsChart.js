@@ -83,7 +83,7 @@ export default class RecordsChart extends React.Component {
   }
 
   updateChart(data) {
-    console.log('updateChart records: ', data)
+    //console.log('updateChart records: ', data)
     let series = {}
     let one = [[],[],[]];
     let five = [[],[],[]];
@@ -130,7 +130,7 @@ export default class RecordsChart extends React.Component {
     this.charts.data[7].data = thirty[1];
     this.charts.data[8].data = thirty[2];
 
-    console.log(this.charts);
+    //console.log(this.charts);
   }
 
   render() {
