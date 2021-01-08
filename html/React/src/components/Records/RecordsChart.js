@@ -3,11 +3,11 @@ import { Chart } from 'react-charts'
 
 const SERIES = {
   a0One: {
-    label: 'V solar 1min',
+    label: 'V solar 60min',
     data: []
   },
   a1One: {
-    label: 'V consumer 1min',
+    label: 'V consumer 60min',
     data: []
   },
   tempOne: {
@@ -15,27 +15,27 @@ const SERIES = {
     data: []
   },
   a0Five: {
-    label: 'V solar 5mins',
+    label: 'V solar 5h',
     data: []
   },
   a1Five: {
-    label: 'V consumer 5mins',
+    label: 'V consumer 5h',
     data: []
   },
   tempFive: {
-    label: 'temp 5mins',
+    label: 'temp 5h',
     data: []
   },
   a0Thirty: {
-    label: 'V solar 30mins',
+    label: 'V solar 30h',
     data: []
   },
   a1Thirty: {
-    label: 'V consumer 30mins',
+    label: 'V consumer 30h',
     data: []
   },
   tempThirty: {
-    label: 'temp 30mins',
+    label: 'temp 30h',
     data: []
   },
 }
@@ -157,7 +157,7 @@ export default class RecordsChart extends React.Component {
           overflowY: "scroll"
         }}
       >
-        {this.charts.data[0].label} & {this.charts.data[1].label}
+        V solar, consumer 1h x 60m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -166,7 +166,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        {this.charts.data[2].label}
+        temp &deg;C 1h x 60m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -176,7 +176,7 @@ export default class RecordsChart extends React.Component {
           />
         </div>
 
-        {this.charts.data[3].label} & {this.charts.data[4].label}
+        V solar, consumer 5h x 5m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -185,7 +185,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        {this.charts.data[5].label}
+        temp &deg;C 5h x 5m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -195,7 +195,7 @@ export default class RecordsChart extends React.Component {
           />
         </div>
 
-        {this.charts.data[6].label} & {this.charts.data[7].label}
+        V solar, consumer 30h x 30m
         <div style={style}>
           <Chart
             key={this.latestTs}
@@ -204,7 +204,7 @@ export default class RecordsChart extends React.Component {
             axes={this.charts.axes}
           />
         </div>
-        {this.charts.data[8].label}
+        temp &deg;C 30h x 30m
         <div style={style}>
           <Chart
             key={this.latestTs}

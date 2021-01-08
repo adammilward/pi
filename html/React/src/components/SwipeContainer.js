@@ -16,7 +16,7 @@ export default class SwipeContainer extends React.Component {
 
   componentDidMount() {
     //console.log('SwipeContainer.compoenentDidMount()')
-    this.setPage(1);
+    this.setPage(0);
   }
 
   setPage = (page) => {
