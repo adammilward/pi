@@ -11,6 +11,7 @@ class ThxSocket:
     arduinoCom = object
 
     def __init__(self, arduino, hostname = 'localhost', port = '1138'):
+        print(hostname)
         self.arduinoCom = arduino
         self.hostname = hostname
         self.port = port

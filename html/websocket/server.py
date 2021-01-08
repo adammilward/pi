@@ -11,7 +11,6 @@ import json
 configs = {}
 f =  open('/var/www/html/config.json')
 configs = json.loads(f.read())
-print(configs)
 f.close()
 hostname = configs["websocket"]["host"]
 port = configs["websocket"]["port"]

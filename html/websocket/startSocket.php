@@ -4,6 +4,7 @@
  * User: adam
  * Date: 16/12/2020
  */
+ exit();
 $configs = json_decode(file_get_contents('..//config.json'), true);
 header("Access-Control-Allow-Origin: *");
 print_r($configs);
