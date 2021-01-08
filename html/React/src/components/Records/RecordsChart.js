@@ -176,11 +176,11 @@ export default class RecordsChart extends React.Component {
           />
         </div>
 
-        {this.charts.data[4].label} & {this.charts.data[5].label}
+        {this.charts.data[3].label} & {this.charts.data[4].label}
         <div style={style}>
           <Chart
             key={this.latestTs}
-            data={[this.charts.data[4], this.charts.data[5]]}
+            data={[this.charts.data[3], this.charts.data[4]]}
             series={this.charts.series}
             axes={this.charts.axes}
           />
