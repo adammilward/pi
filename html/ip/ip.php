@@ -2,9 +2,9 @@
 
 // need a better solution than hard coding this
 if ($_SERVER['PHP_SELF'] === '/var/www/thx1138-dev/html/ip/ip.php') {
-  require_once '/var/www/thx1138-dev/html/config.php';
+  $configs = json_decode(file_get_contents('/var/www/thx1138-dev/html/config.json'), true);
 } else {
-  require_once '/var/www/html/config.php';
+  $configs = json_decode(file_get_contents('/var/www/html/config.json'), true);
 }
 
 $webRoute = $config['web_route'] ?? '/var/www/html';
