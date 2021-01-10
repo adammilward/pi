@@ -23,9 +23,12 @@ export default class SwipeContainer extends React.Component {
   }
 
   resizeHandler = () => {
+    clearTimeout(window.resizeTimeout) // was being called twice some how
+    window.resizeTimeout = setTimeout(() => {
       if (this.state.page !== window.constants.numPages - 1) {
         window.location.reload();
       }
+    }, 200);
   }
 
   setPage = (page) => {
