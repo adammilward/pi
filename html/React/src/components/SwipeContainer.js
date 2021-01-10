@@ -17,6 +17,15 @@ export default class SwipeContainer extends React.Component {
   componentDidMount() {
     //console.log('SwipeContainer.compoenentDidMount()')
     this.setPage(0);
+
+    window.removeEventListener('resize', this.resizeHandler);
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  resizeHandler = () => {
+      if (this.state.page !== window.constants.numPages - 1) {
+        window.location.reload();
+      }
   }
 
   setPage = (page) => {

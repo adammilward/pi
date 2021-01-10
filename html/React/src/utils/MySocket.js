@@ -47,6 +47,7 @@ export default class MySocket {
 
     let url = "ws://"
       + host
+      //+ "90.249.235.57"
       + ":"
       + window.config.websocket.port
       + "/";

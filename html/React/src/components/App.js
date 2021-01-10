@@ -58,8 +58,6 @@ export default class App extends React.Component{
 
     this.api = new Api(this.displayErrors)
     this.api.addHandler('users', this.handleUsers)
-
-    window.addEventListener('resize', () => window.location.reload())
   }
 
 
