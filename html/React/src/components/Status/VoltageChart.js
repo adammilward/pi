@@ -82,6 +82,8 @@ export default class LiveChart extends React.Component {
       temp= temp.concat([[time, datum['temp']]])
     })
 
+
+    console.log(this.latestTs - (data[0] !== undefined ? data.[0].timestamp : 0));
     this.latestTs = (data[0] !== undefined) ? data.[0].timestamp : 0;
 
     this.liveCharts.data[0].data = a0
