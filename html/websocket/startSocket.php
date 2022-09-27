@@ -7,6 +7,7 @@
 
 $configs = json_decode(file_get_contents('..//config.json'), true);
 header("Access-Control-Allow-Origin: *");
+echo "<pre>";
 print_r($configs);
 
 $response = shell_exec ($configs['checkServer.py']);
@@ -24,4 +25,4 @@ error_log('socket check finished');
 error_log($response);
 echo 'socket check finished' . "\n";
 echo $response . "\n";
-
+echo "</pre>";
