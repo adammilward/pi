@@ -2,6 +2,7 @@
 .idea
 html/config.php
 html/ip/lastUpdate.txt
+html/ip/myIP.txt
 /html/React/src/utils/config.json
 .venv
 .vscode
