@@ -8,7 +8,9 @@ import traceback
 class ArduinoSerialCom:
 
     baudRate = 115200
-
+    #baudRate = 38400
+    #baudRate = 9600
+    
     #timeout = 0.003 seems to work ok, so set it to 0.02 to be safe 0.5 for debug mode
     # for reading the volttages atleast 0.07 is needed use 0.1 to be safe
     timeout = 0.1
@@ -50,9 +52,10 @@ class ArduinoSerialCom:
 
         response = self.arduino.readlines()
         for line in response:
-            responseText += line.decode('utf-8')
+            responseText += line.decode('latin-1')
 
         if (responseText):
+            print('arduino.read', responseText)
             messages.append({
                     'type': 'raw',
                     'payload': responseText

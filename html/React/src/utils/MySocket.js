@@ -76,11 +76,13 @@ export default class MySocket {
   }
 
   onmessage = (message) => {
+    console.log('onmessage', message)
     this.watchdogCount = 0
     this.receiveCallback(message)
   }
 
   watchdog = () => {
+    
     if (this.watchdogCount > 10) {
       console.log('destroying websocket')
       if (this._websocket !== null) {
@@ -92,8 +94,8 @@ export default class MySocket {
     if (this.watchdogCount > 7) {
       console.log('sending websocket server start request')
       fetch(
-	"http://" + this.host + "/websocket/startSocket.php",
-	// not working becuse hostname thx1138 is not recognised
+        "http://" + this.host + "/websocket/startSocket.php",
+        // not working becuse hostname thx1138 is not recognised
         //window.config.apiUrl + '/websocket/startSocket.php',
         {
           method: 'GET',
@@ -111,6 +113,7 @@ export default class MySocket {
   }
 
   send(request, type = 'arduinoRequest') {
+    console.log("send", request, type);
     this.getSocket()
       .then((socket) => {
         socket.send(JSON.stringify({
@@ -124,6 +127,7 @@ export default class MySocket {
   }
 
   close() {
+    console.lwarn("close why are we cloasing?")
     this.getSocket().then((socket) => socket.close())
   }
 }

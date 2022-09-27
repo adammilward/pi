@@ -31,19 +31,19 @@ export default class Lights extends React.Component{
     };
 
     this.props.api.addHandler('lights', this.handleData)
-    this.sendRequest('lights report');
+    this.sendRequest('l report');
     this.dragHold = this.dragHold.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
   }
 
-  sendRequest(request = 'lights report') {
+  sendRequest(request = 'l report') {
     this.props.api.send(request);
   }
 
   toggle = () => {
     this.pendingOff = (this.state.on);
     this.sendRequest(
-      this.state.on ? 'lights off' : 'lights on',
+      this.state.on ? 'l off' : 'l on',
       this.receiveResponse,
       1
     );

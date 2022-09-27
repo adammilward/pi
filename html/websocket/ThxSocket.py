@@ -18,7 +18,10 @@ class ThxSocket:
 
     async def startArduinoReadLoop(self):
         while True:
-            await self.arduinoRead()            
+            try:
+                await self.arduinoRead()
+            except:
+                print('arduinoRead failed') 
             await asyncio.sleep(0.5)
 
     async def arduinoRead(self):
