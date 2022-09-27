@@ -82,7 +82,6 @@ export default class MySocket {
   }
 
   watchdog = () => {
-    
     if (this.watchdogCount > 10) {
       console.log('destroying websocket')
       if (this._websocket !== null) {
