@@ -7,7 +7,14 @@ export default class MySocket {
   // start assuming the websocket is dead
   watchdogCount = 4
 
+  host
+
   constructor(receiveCallback) {
+    this.host = window.location.hostname
+    if (this.host === 'localhost' || this.host === window.config.websocket.host) {
+      this.host = window.config.websocket.host
+    }
+    
     this.receiveCallback = receiveCallback
     this.getSocket().then((socket) => {
       //console.log('got socket', socket);
@@ -40,13 +47,8 @@ export default class MySocket {
 
     let _this = this;
 
-    let host = window.location.hostname
-    if (host === 'localhost' || host === window.config.websocket.host) {
-      host = window.config.websocket.host
-    }
-
     let url = "ws://"
-      + host
+      + this.host
       //+ "90.249.235.57"
       + ":"
       + window.config.websocket.port
@@ -90,7 +92,9 @@ export default class MySocket {
     if (this.watchdogCount > 7) {
       console.log('sending websocket server start request')
       fetch(
-        window.config.apiUrl + '/websocket/startSocket.php',
+	"http://" + this.host + "/websocket/startSocket.php",
+	// not working becuse hostname thx1138 is not recognised
+        //window.config.apiUrl + '/websocket/startSocket.php',
         {
           method: 'GET',
         })

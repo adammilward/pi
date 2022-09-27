@@ -10,6 +10,7 @@ header("Access-Control-Allow-Origin: *");
 echo "<pre>";
 print_r($configs);
 
+echo "attempting to contat checkServer.py \n";
 $response = shell_exec ($configs['checkServer.py']);
 
 if (strpos($response, 'socket running') === false) {
