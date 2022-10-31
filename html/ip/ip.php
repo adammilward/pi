@@ -39,7 +39,7 @@ if (stripos( $wifiMode, 'ap') !== false) {
   // between 7 and 5 past we shut down and attempt wifi mode
   // it will take more than 5 minutes to switch from wifi back to ap if we do not detect an ip
   if ((int)$time->format('H') === 7 && (int)$time->format('i') < 5) {
-    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - switch to wifi mode \n",
+    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - ap mode - switch to wifi mode \n",
       FILE_APPEND);
 
     shell_exec($webRoute . '/ip/wifi.sh');
@@ -55,7 +55,7 @@ if (stripos( $wifiMode, 'ap') !== false) {
 // wifi mode processes
 if (! $newIP) {
     $ipData['failed_attempts'] += 1;
-    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - no ip \n", FILE_APPEND);
+    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - wifi mode - no ip \n", FILE_APPEND);
 } else {
 
   $ipData['failed_attempts'] = 0;
@@ -63,9 +63,9 @@ if (! $newIP) {
 
   if ($oldIP !== $newIP) {
     echo file_get_contents($config['remoteAddress'] . "?new-ip=$newIP");
-    file_put_contents($lastUpdateFile, $timeString . " | arg  $arg - newIP: $newIP \n", FILE_APPEND);
+    file_put_contents($lastUpdateFile, $timeString . " | arg  $arg - wifi mode - newIP: $newIP \n", FILE_APPEND);
   } else {
-    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - no change \n", FILE_APPEND);
+    file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - wifi mode - no change \n", FILE_APPEND);
   }
 }
 
@@ -73,8 +73,8 @@ if (! $newIP) {
 if ($ipData['failed_attempts'] > 5 && stripos( $wifiMode, 'wifi') !== false) {
   $ipData['failed_attempts'] = 0;
   file_put_contents($myIPFile, json_encode($ipData));
-  file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - switch to ap mode \n", FILE_APPEND);
-  shell_exec($webRoute . '/ip/ap.sh');
+  file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - wifi mode - switch to ap mode \n", FILE_APPEND);
+  //shell_exec($webRoute . '/ip/ap.sh');
   exit(); // unnecessary as the above command will reboot the computer
 }
 
