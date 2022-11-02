@@ -14,11 +14,12 @@ const options = {
   transition: transitions.SCALE
 };
 
+// this should only be used in development build
 if (window.config === undefined) {
   window.config = {
     "apiUrl": "http://thx1138",
     "websocket": {
-      "host": "192.168.1.6",
+      "host": "thx1138",
       "port": "1138"
     }
   }
