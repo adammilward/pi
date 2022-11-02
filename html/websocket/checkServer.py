@@ -2,8 +2,16 @@ import json
 import asyncio
 import websockets
 
+configs = {}
+f =  open('/var/www/html/config.json')
+configs = json.loads(f.read())
+f.close()
+hostname = configs["websocket"]["host"]
+port = configs["websocket"]["port"]
+uri = "ws://" + hostname + ":" + port
+# uri = "ws://thx1138:1138"
+
 async def hello():
-    uri = "ws://thx1138-dev:1138"
     try:
         async with websockets.connect(uri) as websocket:
             response = await websocket.recv()

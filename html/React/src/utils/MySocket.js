@@ -11,9 +11,12 @@ export default class MySocket {
 
   constructor(receiveCallback) {
     this.host = window.location.hostname
+    console.log(this.host);
+    console.log(window.config);
     if (this.host === 'localhost' || this.host === window.config.websocket.host) {
       this.host = window.config.websocket.host
     }
+    console.log(this.host);
     
     this.receiveCallback = receiveCallback
     this.getSocket().then((socket) => {
