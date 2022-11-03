@@ -10,7 +10,8 @@ f.close()
 hostname = configs["websocket"]["host"]
 port = configs["websocket"]["port"]
 uri = "ws://" + hostname + ":" + port
-# uri = "ws://thx1138:1138"
+# uri = "ws://192.168.0.22:1138"
+print ("uri = " + uri)
 
 try:
     hostname = sys.argv[1]

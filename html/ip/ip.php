@@ -74,7 +74,7 @@ if ($ipData['failed_attempts'] > 5 && stripos( $wifiMode, 'wifi') !== false) {
   $ipData['failed_attempts'] = 0;
   file_put_contents($myIPFile, json_encode($ipData));
   file_put_contents($lastUpdateFile, $timeString . " | arg: $arg - wifi mode - switch to ap mode \n", FILE_APPEND);
-  //shell_exec($webRoute . '/ip/ap.sh');
+  shell_exec($webRoute . '/ip/ap.sh');
   exit(); // unnecessary as the above command will reboot the computer
 }
 
