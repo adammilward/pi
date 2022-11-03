@@ -1,15 +1,24 @@
 import json
 import asyncio
 import websockets
+import sys
 
 configs = {}
-f =  open('/var/www/html/config.json')
+f =  open('../config.json')
 configs = json.loads(f.read())
 f.close()
 hostname = configs["websocket"]["host"]
 port = configs["websocket"]["port"]
 uri = "ws://" + hostname + ":" + port
 # uri = "ws://thx1138:1138"
+
+try:
+    hostname = sys.argv[1]
+except IndexError:
+    print ("No host name arugumet provided")
+    
+print ("Host name is " + hostname)
+
 
 async def hello():
     try:
